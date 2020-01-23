@@ -16,8 +16,6 @@ class CreateRestaurantsTable extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('class');
-            $table->string('logo')->nullable();
             $table->string('image')->nullable();
             $table->string('coordinate');
             $table->time('operating_time');

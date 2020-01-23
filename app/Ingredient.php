@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RestFood extends Model
+class Ingredient extends Model
 {
     protected $fillable = [
-        'restaurant_id', 'food_id'
+        'name', 'type'
     ];
     protected $hidden = [
         'created_time', 'updated_time'

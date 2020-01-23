@@ -4,12 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RestFood extends Model
+class Owner extends Model
 {
     protected $fillable = [
-        'restaurant_id', 'food_id'
+        'name', 'email', 'password', 'api_token',
     ];
+
     protected $hidden = [
-        'created_time', 'updated_time'
+        'password', 'api_token',
     ];
 }
