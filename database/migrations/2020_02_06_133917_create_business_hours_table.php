@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOwnersTable extends Migration
+class CreateBusinessHoursTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateOwnersTable extends Migration
      */
     public function up()
     {
-        Schema::create('owners', function (Blueprint $table) {
+        Schema::create('business_hours', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('account')->unique(); //email
-            $table->timestamp('account_verified_at')->nullable();
-            $table->string('password');
-            $table->string('api_token');
+            $table->integer('restaurant_id');
+            $table->string('week_day');
+            $table->string('period');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateOwnersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('owners');
+        Schema::dropIfExists('business_hours');
     }
 }

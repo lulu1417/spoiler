@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Food;
 use App\Restaurant;
+use App\RestFood;
 use Illuminate\Http\Request;
 
 class FoodController extends Controller
@@ -11,14 +12,15 @@ class FoodController extends Controller
     function store(Request $request){
         $request->validate([
             'name' => ['required', 'unique:restaurants'],
-            'remaining' => 'required', 'integer',
-            'original_price' => 'required', 'integer',
-            'discounted_price' => 'required', 'integer',
+            'remaining' => ['required', 'integer'],
+            'original_price' => ['required', 'integer'],
+            'discounted_price' => ['required', 'integer'],
             'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
+            'restaurant_id' => ['required', 'exists:restaurant'],
         ]);
 
         if (request()->hasFile('image')) {
-            $upload = new uploadImage();
+            $upload = new UploadImage();
             $parameters['image'] = $upload->trim($request->all());
 
         } else {
@@ -32,6 +34,12 @@ class FoodController extends Controller
             'discounted_price' => $request->discounted_price,
             'image' => $parameters['image'],
         ]);
+
+        RestFood::create([
+            'restaurant_id' => $request->restaurant_id,
+            'food_id' => $create->id,
+        ]);
+
         return response()->json($create, 200);
 
     }

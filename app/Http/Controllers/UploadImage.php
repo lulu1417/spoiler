@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use http\Env\Request;
 
-class uploadImage
+class UploadImage
 {
     function trim(Request $request){
 

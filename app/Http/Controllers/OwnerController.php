@@ -17,12 +17,12 @@ class OwnerController extends Controller
         date_default_timezone_set('Asia/Taipei');
         $request->validate([
             'name' => 'required',
-            'email' => ['required', 'unique:users'],
+            'account' => ['required', 'unique:users'],
             'password' => ['required', 'min:6', 'max:12'],
         ]);
         $create = Owner::create([
             'name' => $request->name,
-            'email' => $request->email,
+            'account' => $request->account,
             'password' => Hash::make($request->password),
             'api_token' => 'logout',
         ]);
@@ -35,7 +35,7 @@ class OwnerController extends Controller
 
     }
     function login(Request $request){
-        $user = Owner::where('email', $request->email)->first();
+        $user = Owner::where('account', $request->account)->first();
         if(Hash::check($request->password, $user->password)){
             $user = $user->update([
                 'api_token' => Str::random(10),

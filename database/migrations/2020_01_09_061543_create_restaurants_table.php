@@ -18,7 +18,10 @@ class CreateRestaurantsTable extends Migration
             $table->string('name');
             $table->string('image')->nullable();
             $table->string('coordinate');
-            $table->time('operating_time');
+            $table->time('first_start_operating');
+            $table->time('first_end_operating');
+            $table->time('second_start_operating')->nullable();
+            $table->time('second_end_operating')->nullable();
             $table->string('address');
             $table->string('link');
             $table->integer('assessment');

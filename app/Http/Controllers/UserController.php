@@ -15,21 +15,21 @@ use Mail; //寄信
 
 class UserController extends Controller
 {
-    //Facebook登入
-
-
     function store(Request $request){
         date_default_timezone_set('Asia/Taipei');
         $request->validate([
                 'name' => 'required',
-                'email' => ['required', 'unique:users'],
+                'account' => ['required', 'unique:users'],
+                'email' => ['sometimes', 'email'],
                 'password' => ['required', 'min:6', 'max:12'],
             ]);
         $create = User::create([
             'name' => $request->name,
+            'account' => $request->account,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'api_token' => 'logout',
+            'point' => 0,
         ]);
 
         if($create){
@@ -40,75 +40,15 @@ class UserController extends Controller
 
     }
     function login(Request $request){
-        $user = User::where('email', $request->email)->first();
+        date_default_timezone_set('Asia/Taipei');
+        $user = User::where('account', $request->account)->first();
         if(Hash::check($request->password, $user->password)){
             $user = $user->update([
-               'api_token' => Str::random(10),
+               'api_token' => Str::random(20),
             ]);
             return response()->json($user,200);
         }else{
             return response()->json('wrong password',400);
         }
-    }
-
-    function test(){
-
-        //row
-
-        $layer = 8;
-        $length = 9;
-
-        $star = 5;
-        $row = 0;
-        while($row < 3) {
-
-            //middle
-            if($row == 1){
-                $arr[$row][$length/2] = '*';
-            }else{
-                $arr[$row][$length/2] = ' ';
-            }
-
-            //col
-            for ($add = 1; $add < $star/2; $add++) {
-                $arr[$row][4 + $add] = '*';
-                $arr[$row][4 - $add] = '*';
-            }
-
-            while($add < $length/2){
-                $arr[$row][$length/2+$add] = ' ';
-                $arr[$row][$length/2-$add] = ' ';
-                $add++;
-            }
-
-            $row ++;
-            $star += 2;
-
-        }
-        $star = 9;
-        while($row < $layer) {
-
-            //middle
-            $arr[$row][$length/2] = '*';
-
-            //col
-            for ($add = 1; $add < $star/2; $add++) {
-                $arr[$row][4 + $add] = '*';
-                $arr[$row][4 - $add] = '*';
-            }
-
-            while($add < $length/2){
-                $arr[$row][$length/2+$add] = ' ';
-                $arr[$row][$length/2-$add] = ' ';
-                $add++;
-            }
-
-            $row ++;
-            $star -= 2;
-
-        }
-
-        return response()->json($arr);
-
     }
 }

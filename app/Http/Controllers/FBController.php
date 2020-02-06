@@ -2,40 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Facebook\Exceptions\FacebookSDKException;
+use Facebook\Facebook;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class FBController extends Controller
 {
-    function getFacebookResource(){
-        require_once __DIR__ . '/vendor/autoload.php'; // change path as needed
-
-        $fb = new \Facebook\Facebook([
-            'app_id' => env('FB_CLIENT_ID'),
-            'app_secret' => env('FB_CLIENT_SECRET'),
-            'default_graph_version' => 'v5.7',
-        ]);
-
-// Use one of the helper classes to get a Facebook\Authentication\AccessToken entity.
-//   $helper = $fb->getRedirectLoginHelper();
-//   $helper = $fb->getJavaScriptHelper();
-//   $helper = $fb->getCanvasHelper();
-//   $helper = $fb->getPageTabHelper();
+    public static function store(Request $request)
+    {
 
         try {
-            // Get the \Facebook\GraphNodes\GraphUser object for the current user.
-            // If you provided a 'default_access_token', the '{access-token}' is optional.
-            $response = $fb->get('/me', '{access-token}');
-        } catch(\Facebook\Exceptions\FacebookResponseException $e) {
-            // When Graph returns an error
-            echo 'Graph returned an error: ' . $e->getMessage();
-            exit;
-        } catch(\Facebook\Exceptions\FacebookSDKException $e) {
-            // When validation fails or other local issues
-            echo 'Facebook SDK returned an error: ' . $e->getMessage();
-            exit;
+            $fb = new facebookResource();
+            $resource = $fb->getFacebookResource($request->token);
+            $create = User::create([
+                'name' => $resource['name'],
+                'account' => $resource['id'],
+                'password' => 'facebook',
+                'api_token' => 'logout',
+                'point' => 0,
+            ]);
+            return response()->json($create);
+        } catch (FacebookSDKException $e) {
+            return response()->json(' Failed to Get Facebook Resources',400);
         }
-
-        $me = $response->getGraphUser();
-        echo 'Logged in as ' . $me->getName();
     }
+
+    public static function login(Request $request)
+    {
+        try {
+            $fb = new facebookResource($request->token);
+            $resource = $fb->getFacebookResource($request->token);
+            $user = User::where('account', $resource['id'])->first();
+            $user->update([
+                    'api_token' => Str::random(20),
+            ]);
+                return response()->json($user,200);
+
+        } catch (FacebookSDKException $e) {
+            return response()->json(' Failed to Get Facebook Resources',400);
+        }
+    }
+
+
 }
