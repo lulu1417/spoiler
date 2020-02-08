@@ -10,6 +10,6 @@ class AllergyFood extends Model
         'food_id', 'ingredient_id'
     ];
     protected $hidden = [
-        'created_time', 'updated_time'
+        'created_at', 'updated_at'
     ];
 }

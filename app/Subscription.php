@@ -10,6 +10,6 @@ class Subscription extends Model
         'restaurant_id', 'user_id',
     ];
     protected $hidden = [
-        'created_time', 'updated_time'
+        'created_at', 'updated_at'
     ];
 }

@@ -16,8 +16,8 @@ class CreateBusinessHoursTable extends Migration
         Schema::create('business_hours', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('restaurant_id');
-            $table->string('week_day');
-            $table->string('period');
+            $table->integer('week_day');
+            $table->string('period')->nullable();
             $table->time('start_time');
             $table->time('end_time');
             $table->timestamps();

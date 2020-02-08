@@ -15,16 +15,20 @@ class OwnerController extends Controller
 {
     function store(Request $request){
         date_default_timezone_set('Asia/Taipei');
+
         $request->validate([
             'name' => 'required',
-            'account' => ['required', 'unique:users'],
-            'password' => ['required', 'min:6', 'max:12'],
+            'account' => ['required', 'unique:owners'],
+            'password' => ['required', 'between:4,12'],
+            'phone' => ['required', 'between:9,12'],
         ]);
         $create = Owner::create([
             'name' => $request->name,
             'account' => $request->account,
             'password' => Hash::make($request->password),
             'api_token' => 'logout',
+            'phone' => $request->phone,
+
         ]);
 
         if($create){
@@ -35,12 +39,12 @@ class OwnerController extends Controller
 
     }
     function login(Request $request){
-        $user = Owner::where('account', $request->account)->first();
-        if(Hash::check($request->password, $user->password)){
-            $user = $user->update([
-                'api_token' => Str::random(10),
+        $owner = Owner::where('account', $request->account)->first();
+        if(Hash::check($request->password, $owner->password)){
+            $owner->update([
+                'api_token' => Str::random(20),
             ]);
-            return response()->json($user,200);
+            return response()->json($owner,200);
         }else{
             return response()->json('wrong password',400);
         }

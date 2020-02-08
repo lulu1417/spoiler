@@ -4,19 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Food;
 use App\Restaurant;
-use App\RestFood;
 use Illuminate\Http\Request;
 
 class FoodController extends Controller
 {
     function store(Request $request){
         $request->validate([
-            'name' => ['required', 'unique:restaurants'],
+            'name' => ['required', 'unique:foods'],
             'remaining' => ['required', 'integer'],
             'original_price' => ['required', 'integer'],
             'discounted_price' => ['required', 'integer'],
             'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
-            'restaurant_id' => ['required', 'exists:restaurant'],
+            'restaurant_id' => ['required', 'exists:restaurants'],
         ]);
 
         if (request()->hasFile('image')) {
@@ -33,11 +32,7 @@ class FoodController extends Controller
             'original_price' => $request->original_price,
             'discounted_price' => $request->discounted_price,
             'image' => $parameters['image'],
-        ]);
-
-        RestFood::create([
             'restaurant_id' => $request->restaurant_id,
-            'food_id' => $create->id,
         ]);
 
         return response()->json($create, 200);
@@ -45,6 +40,7 @@ class FoodController extends Controller
     }
 
     function search(Request $request){
+
         if($request->restaurant){
             $result = Restaurant::like('name', $request->restaurant)->get();
         }elseif ($request->food){

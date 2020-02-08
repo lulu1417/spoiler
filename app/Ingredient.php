@@ -10,6 +10,6 @@ class Ingredient extends Model
         'name', 'type'
     ];
     protected $hidden = [
-        'created_time', 'updated_time'
+        'created_at', 'updated_at'
     ];
 }

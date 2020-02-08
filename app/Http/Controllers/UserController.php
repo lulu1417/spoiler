@@ -21,15 +21,17 @@ class UserController extends Controller
                 'name' => 'required',
                 'account' => ['required', 'unique:users'],
                 'email' => ['sometimes', 'email'],
-                'password' => ['required', 'min:6', 'max:12'],
+                'password' => ['required', 'between:6,12'],
+                'phone' => ['required', 'digits:10']
             ]);
         $create = User::create([
             'name' => $request->name,
             'account' => $request->account,
-            'email' => $request->email,
+            'email' => $request->account,
             'password' => Hash::make($request->password),
             'api_token' => 'logout',
             'point' => 0,
+            'phone' => $request->phone,
         ]);
 
         if($create){
@@ -43,7 +45,7 @@ class UserController extends Controller
         date_default_timezone_set('Asia/Taipei');
         $user = User::where('account', $request->account)->first();
         if(Hash::check($request->password, $user->password)){
-            $user = $user->update([
+            $user->update([
                'api_token' => Str::random(20),
             ]);
             return response()->json($user,200);

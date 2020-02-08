@@ -20,6 +20,7 @@ class CreateOwnersTable extends Migration
             $table->timestamp('account_verified_at')->nullable();
             $table->string('password');
             $table->string('api_token');
+            $table->string('phone');
             $table->timestamps();
         });
     }

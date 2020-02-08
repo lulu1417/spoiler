@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Order;
 use App\Restaurant;
-use Cassandra\ExecutionOptions;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -49,6 +48,10 @@ class OrderController extends Controller
     }
 
     function index($id){
-        return response()->json(Order::find($id)->first());
+        $data['order'] = Order::find($id)->first();
+//        $data['food'] =
+//        $data['restaurant'] = ;
+
+        return response()->json();
     }
 }

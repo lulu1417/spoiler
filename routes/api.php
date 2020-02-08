@@ -19,8 +19,9 @@ Route::group(['prefix' => 'user'], function(){
     Route::post('/logout', 'UserController@logout');
     Route::put('update/{id}', 'UserController@update');
     //facebook login
-    Route::post('/facebook/register', 'FBController@register');
     Route::post('/facebook/login', 'FBController@login');
+    Route::post('/information', 'UserController@information');
+
 
 });
 
@@ -32,27 +33,34 @@ Route::group(['prefix' => 'owner'], function(){
 });
 
 Route::group(['prefix' => 'restaurant'], function(){
-    Route::post('/create', 'RestaurantController@store');
+    Route::middleware('auth:admin_api')->post('/create', 'RestaurantController@store');
     Route::put('update/{id}', 'RestaurantController@update');
+
     Route::post('/search', 'RestaurantController@search');
     Route::get('/all', 'RestaurantController@index');
+    Route::get('look/{id}', 'RestaurantController@look');
+    Route::post('scoreUser', 'RestaurantController@scoreUser');
 
 });
 
 Route::group(['prefix' => 'food'], function(){
     Route::post('create', 'FoodController@store');
     Route::put('update/{id}', 'FoodController@update');
+
     Route::post('search', 'FoodController@search');
     Route::get('all', 'FoodController@index');
+    Route::get('look/{id}', 'FoodController@look');
 
 });
 
 Route::group(['prefix' => 'order'], function(){
     Route::post('create', 'OrderController@store');
+
     Route::post('search', 'OrderController@search');
+
     Route::put('complete/{id}', 'OrderController@complete');
     Route::delete('cancel/{id}', 'OrderController@destroy');
-    Route::get('look/{id}', 'OrderController@index');
+    Route::get('look/{id}', 'OrderController@look');
 });
 
 Route::group(['prefix' => 'subscript'], function(){

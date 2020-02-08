@@ -9,4 +9,8 @@ class BusinessHour extends Model
     protected $fillable = [
       'restaurant_id', 'week_day', 'period', 'start_time', 'end_time'
     ];
+
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
 }

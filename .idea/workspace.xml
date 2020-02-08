@@ -2,30 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01e33162-0430-41f4-b300-98e87ef70613" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/BusinessHour.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/FacebookResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/SubscriptController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_02_06_133917_create_business_hours_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/AllergyFood.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/AllergyFood.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/BusinessHour.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/BusinessHour.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Food.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Food.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FBController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FBController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FoodController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FoodController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OwnerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OwnerController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RestaurantController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RestaurantController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserAuthController.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/question.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/test.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/uploadImage.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UploadImage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ingredient.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ingredient.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Order.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Owner.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Owner.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Restaurant.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Restaurant.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Subscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Subscription.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/auth.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/2020_01_09_061543_create_restaurants_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_01_09_061543_create_restaurants_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_01_09_104537_create_orders_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_01_09_104537_create_orders_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_01_18_112229_create_ingredients_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_01_18_112229_create_ingredients_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/2020_01_20_084852_create_owners_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_01_20_084852_create_owners_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_02_06_133917_create_business_hours_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_02_06_133917_create_business_hours_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -217,7 +214,9 @@
       <workItem from="1580867005675" duration="3642000" />
       <workItem from="1580905516538" duration="795000" />
       <workItem from="1580954478199" duration="1553000" />
-      <workItem from="1580965731784" duration="14835000" />
+      <workItem from="1580965731784" duration="15960000" />
+      <workItem from="1581041321819" duration="16129000" />
+      <workItem from="1581151737004" duration="1263000" />
     </task>
     <servers />
   </component>
@@ -237,11 +236,11 @@
     </state>
     <state x="384" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1440.797@0.23.1440.797" timestamp="1579510271975" />
     <state x="384" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1440.801@0.23.1440.801" timestamp="1580989205358" />
-    <state x="458" y="183" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1580993349323">
+    <state x="458" y="183" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1580998188692">
       <screen x="0" y="23" width="1440" height="798" />
     </state>
     <state x="458" y="183" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1440.797@0.23.1440.797" timestamp="1579510422643" />
-    <state x="458" y="183" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1440.798@0.23.1440.798" timestamp="1580993349323" />
+    <state x="458" y="183" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1440.798@0.23.1440.798" timestamp="1580998188692" />
     <state x="458" y="184" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1440.801@0.23.1440.801" timestamp="1580988980008" />
     <state x="458" y="185" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1440.804@0.23.1440.804" timestamp="1580978768326" />
     <state x="378" y="83" key="#phpunit.xml" timestamp="1580451079296">
@@ -305,13 +304,14 @@
     <state x="229" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1579352246273" />
     <state x="229" y="98" key="SettingsEditor/0.23.1440.797@0.23.1440.797" timestamp="1579677396372" />
     <state x="229" y="98" key="SettingsEditor/0.23.1440.801@0.23.1440.801" timestamp="1580988258569" />
-    <state x="399" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1580965734407">
-      <screen x="0" y="23" width="1440" height="798" />
+    <state x="399" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1581153960404">
+      <screen x="0" y="23" width="1440" height="804" />
     </state>
     <state x="399" y="261" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1579351742143" />
-    <state x="399" y="254" key="com.intellij.ide.util.TipDialog/0.23.1440.797@0.23.1440.797" timestamp="1580954515434" />
+    <state x="399" y="254" key="com.intellij.ide.util.TipDialog/0.23.1440.797@0.23.1440.797" timestamp="1581041323045" />
     <state x="399" y="254" key="com.intellij.ide.util.TipDialog/0.23.1440.798@0.23.1440.798" timestamp="1580965734407" />
     <state x="399" y="255" key="com.intellij.ide.util.TipDialog/0.23.1440.801@0.23.1440.801" timestamp="1580905516564" />
+    <state x="399" y="254" key="com.intellij.ide.util.TipDialog/0.23.1440.804@0.23.1440.804" timestamp="1581153960404" />
     <state x="389" y="76" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579350994836">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

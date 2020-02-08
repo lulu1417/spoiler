@@ -10,6 +10,6 @@ class Order extends Model
         'user_id', 'food_id', 'order_number', 'complete'
     ];
     protected $hidden = [
-        'created_time', 'updated_time'
+        'created_at', 'updated_at'
     ];
 }

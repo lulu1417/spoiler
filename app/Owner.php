@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Owner extends Model
 {
     protected $fillable = [
-        'name', 'account', 'password', 'api_token',
+        'name', 'account', 'password', 'api_token', 'phone',
     ];
 
     protected $hidden = [
-        'password', 'api_token',
+        'password', 'created_at', 'updated_at', 'account_verified_at'
     ];
 }
