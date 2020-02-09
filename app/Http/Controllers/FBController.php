@@ -14,7 +14,7 @@ class FBController extends Controller
     public static function login(Request $request)
     {
         try {
-            $fb = new facebookResource();
+            $fb = new FacebookResource();
             $resource = $fb->getFacebookResource($request->token);
             if(count(User::where('account', $resource['id'])->get()->toArray()) == 0){
                 $create = User::create([
