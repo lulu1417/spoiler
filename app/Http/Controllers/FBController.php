@@ -14,9 +14,6 @@ class FBController extends Controller
     public static function login(Request $request)
     {
             $base = new BaseController();
-            if(!$request->token){
-              return $base->sendError("You must provide an access token", 1, 400);
-            }
             date_default_timezone_set('Asia/Taipei');
             $fb = new Facebook([
                 'app_id'                => env('FB_CLIENT_ID'),
