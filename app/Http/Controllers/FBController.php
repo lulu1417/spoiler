@@ -13,14 +13,20 @@ class FBController extends Controller
 {
     public static function login(Request $request)
     {
-        try {
             $base = new BaseController();
-            $fb = new FacebookResource();
             if(!$request->token){
               return $base->sendError("You must provide an access token", 1, 400);
             }
+            date_default_timezone_set('Asia/Taipei');
+            $fb = new Facebook([
+                'app_id'                => env('FB_CLIENT_ID'),
+                'app_secret'            => env('FB_CLIENT_SECRET'),
+                'default_graph_version' => 'v3.2',
+            ]);
 
-            $resource = $fb->getFacebookResource($request->token);
+            $endpoint = env('FBEndpoint');
+            $response = $fb->get($endpoint, $request->token);
+            $resource = $response->getGraphUser();
             if(count(User::where('account', $resource['id'])->get()->toArray()) == 0){
                 if($resource){
                     $create = User::create([
@@ -45,9 +51,6 @@ class FBController extends Controller
             }
 
             return response()->json($resource);
-        } catch (FacebookSDKException $e) {
-            return response()->json(' Failed to Get Facebook Resources',400);
         }
-    }
 
 }

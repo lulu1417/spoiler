@@ -11,9 +11,8 @@ use Illuminate\Http\Request;
 
 class FacebookResource
 {
-    function getFacebookResource(Request $request){
+    function getFacebookResource($token){
 
-        $token = $request->token;
         date_default_timezone_set('Asia/Taipei');
         $fb = new Facebook([
             'app_id'                => env('FB_CLIENT_ID'),
