@@ -19,6 +19,7 @@ class FBController extends Controller
             if(!$request->token){
               return $base->sendError("You must provide an access token", 1, 400);
             }
+
             $resource = $fb->getFacebookResource($request->token);
             if(count(User::where('account', $resource['id'])->get()->toArray()) == 0){
                 if($resource){

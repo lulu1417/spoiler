@@ -70,7 +70,7 @@ Route::group(['prefix' => 'subscript'], function(){
     Route::delete('cancel/{id}', 'SubscriptController@destroy');
 });
 
-
+Route::post('facebook', 'FacebookResource@getFacebookResource');
 
 //Route::post('user/register', 'UserController@store');
 //Route::post('user/login', 'UserController@login');
