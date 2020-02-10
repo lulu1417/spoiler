@@ -21,11 +21,13 @@ class FBController extends Controller
             ]);
 
             $endpoint = env('FBEndpoint');
+
             $response = $fb->get($endpoint, $request->token);
+
+
 
             $resource = $response->getGraphUser();
             if(count(User::where('account', $resource['id'])->get()->toArray()) == 0){
-                if($resource){
                     $create = User::create([
                         'name' => $resource['name'],
                         'account' => $resource['id'],
@@ -35,9 +37,6 @@ class FBController extends Controller
                         'point' => 0,
                     ]);
                     return response()->json($create);
-                }else{
-                    return ErrorResponse::sendError("wrong token", 4, 400);
-                }
 
             }else{
                 $user = User::where('account', $resource['id'])->first();

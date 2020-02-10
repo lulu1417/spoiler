@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="01e33162-0430-41f4-b300-98e87ef70613" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ErrorResponse.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FBController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FBController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FacebookResource.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
@@ -209,7 +208,7 @@
       <workItem from="1581254669151" duration="499000" />
       <workItem from="1581255771932" duration="182000" />
       <workItem from="1581299906818" duration="578000" />
-      <workItem from="1581307790284" duration="1191000" />
+      <workItem from="1581307790284" duration="7246000" />
     </task>
     <servers />
   </component>
@@ -310,13 +309,14 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="389" y="76" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1440.900@0.0.1440.900" timestamp="1579350994836" />
-    <state x="385" y="197" width="670" height="601" key="search.everywhere.popup" timestamp="1581253430415">
-      <screen x="0" y="23" width="1440" height="798" />
+    <state x="385" y="199" width="670" height="606" key="search.everywhere.popup" timestamp="1581313603724">
+      <screen x="0" y="23" width="1440" height="804" />
     </state>
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1579353010868" />
     <state x="385" y="197" width="670" height="599" key="search.everywhere.popup/0.23.1440.797@0.23.1440.797" timestamp="1579423963614" />
     <state x="385" y="197" width="670" height="601" key="search.everywhere.popup/0.23.1440.798@0.23.1440.798" timestamp="1581253430415" />
-    <state x="385" y="198" width="670" height="603" key="search.everywhere.popup/0.23.1440.801@0.23.1440.801" timestamp="1580974238030" />
+    <state x="385" y="198" width="670" height="603" key="search.everywhere.popup/0.23.1440.801@0.23.1440.801" timestamp="1581312170756" />
+    <state x="385" y="199" width="670" height="606" key="search.everywhere.popup/0.23.1440.804@0.23.1440.804" timestamp="1581313603724" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

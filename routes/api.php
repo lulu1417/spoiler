@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'user'], function(){
     Route::post('/register', 'UserController@store');
     Route::post('/login', 'UserController@login');
-    Route::post('/logout', 'UserController@logout');
+    Route::put('/logout/{id}', 'UserController@logout');
     Route::put('update/{id}', 'UserController@update');
     //facebook login
     Route::post('/facebook/login', 'FBController@login');

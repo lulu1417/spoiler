@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Validator; //驗證器
 use Mail; //寄信
-use App\Http\Controllers\ErrorResponse;
 
 class UserController extends Controller
 {
@@ -40,7 +39,7 @@ class UserController extends Controller
         if($create){
             return response()->json($create,200);
         }else{
-            return ErrorResponse::sendError('register failed',1 , 400);
+            return response()->json( ['message' => 'register failed'],400);
         }
 
     }
@@ -54,25 +53,44 @@ class UserController extends Controller
                 ]);
                 return response()->json($user,200);
             }else{
-                return ErrorResponse::sendError('wrong password',3 , 400);
+                return response()->json( ['message' => 'wrong password'] ,400);
             }
         }else{
-            return ErrorResponse::sendError('account not found',2, 400);
+            return response()->json(['message' => 'account not found'],400);
         }
     }
 
     function update(Request $request, $id){
         date_default_timezone_set('Asia/Taipei');
-        $request->validate([
-            'phone' => 'digits:10',
-        ]);
 
-        $user = User::find($id)->first();
-        $user->update([
-           $request->all(),
-        ]);
+        if(count(User::where('id',$id)->get()->toArray()) > 0){
+            $request->validate([
+                'phone' => 'digits:10',
+                'account' => ['unique:users'],
+                'email' => ['email'],
+                'password' => ['between:6,12'],
+            ]);
+            $user = User::find($id);
+            $user->update(
+                $request->all()
+            );
+            return response()->json($user);
+        }else{
+            return response()->json(['message' => 'user id not found'],400);
+        }
 
-        return response()->json($user);
+    }
+    function logout($id){
+        if(count(User::where('id',$id)->get()->toArray()) > 0) {
+            $user = User::find($id);
+            $user->update([
+                'api_token' => 'logout'
+            ]);
 
+            return response()->json($user);
+
+        }else {
+            return response()->json(['message' => 'user id not found'],400);
+        }
     }
 }
