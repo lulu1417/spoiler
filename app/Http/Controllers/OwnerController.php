@@ -54,7 +54,7 @@ class OwnerController extends Controller
                 return response()->json(['message' => 'wrong password'], 400);
             }
         } else {
-            return response()->json(['message' => 'owner id not found'], 400);
+            return response()->json(['message' => 'account not found'], 400);
         }
 
     }
