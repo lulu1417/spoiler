@@ -13,15 +13,17 @@ use Illuminate\Support\Str;
 
 class OwnerController extends Controller
 {
-    function store(Request $request){
+    function store(Request $request)
+    {
         date_default_timezone_set('Asia/Taipei');
 
         $request->validate([
             'name' => 'required',
             'account' => ['required', 'unique:owners'],
             'password' => ['required', 'between:4,12'],
-            'phone' => ['required', 'between:9,12'],
+            'phone' => ['required', 'digits:10'],
         ]);
+
         $create = Owner::create([
             'name' => $request->name,
             'account' => $request->account,
@@ -31,22 +33,29 @@ class OwnerController extends Controller
 
         ]);
 
-        if($create){
-            return response()->json($create,200);
-        }else{
-            return response()->json('register failed',400);
+        if ($create) {
+            return response()->json($create, 200);
+        } else {
+            return response()->json(['message' => 'register failed'], 400);
         }
 
     }
-    function login(Request $request){
-        $owner = Owner::where('account', $request->account)->first();
-        if(Hash::check($request->password, $owner->password)){
-            $owner->update([
-                'api_token' => Str::random(20),
-            ]);
-            return response()->json($owner,200);
-        }else{
-            return response()->json('wrong password',400);
+
+    function login(Request $request)
+    {
+        if (count(Owner::where('account', $request->account)->get()->toArray()) > 0) {
+            $owner = Owner::where('account', $request->account)->first();
+            if (Hash::check($request->password, $owner->password)) {
+                $owner->update([
+                    'api_token' => Str::random(20),
+                ]);
+                return response()->json($owner, 200);
+            } else {
+                return response()->json(['message' => 'wrong password'], 400);
+            }
+        } else {
+            return response()->json(['message' => 'owner id not found'], 400);
         }
+
     }
 }
