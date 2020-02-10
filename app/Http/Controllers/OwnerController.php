@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Food;
 use App\Owner;
-use App\Restaurant;
-use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\uploadImage;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +17,7 @@ class OwnerController extends Controller
         $request->validate([
             'name' => 'required',
             'account' => ['required', 'unique:owners'],
-            'password' => ['required', 'between:4,12'],
+            'password' => ['required', 'between:6,12'],
             'phone' => ['required', 'digits:10'],
         ]);
 

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01e33162-0430-41f4-b300-98e87ef70613" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OwnerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OwnerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,7 +206,7 @@
       <workItem from="1581255771932" duration="182000" />
       <workItem from="1581299906818" duration="578000" />
       <workItem from="1581307790284" duration="7246000" />
-      <workItem from="1581320463081" duration="560000" />
+      <workItem from="1581320463081" duration="931000" />
     </task>
     <servers />
   </component>
@@ -326,7 +326,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/app/Http/Controllers/UserController.php</url>
-          <line>60</line>
+          <line>57</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
