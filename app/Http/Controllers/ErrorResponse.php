@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class BaseController extends Controller
+class ErrorResponse extends Controller
 {
 
-    public function sendError($error, $number ,$code)
+    static function sendError($error, $number ,$code)
     {
         $response = [
             'success' => false,

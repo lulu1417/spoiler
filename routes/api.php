@@ -20,7 +20,6 @@ Route::group(['prefix' => 'user'], function(){
     Route::put('update/{id}', 'UserController@update');
     //facebook login
     Route::post('/facebook/login', 'FBController@login');
-    Route::post('/information', 'UserController@information');
 
 
 });
@@ -70,32 +69,7 @@ Route::group(['prefix' => 'subscript'], function(){
     Route::delete('cancel/{id}', 'SubscriptController@destroy');
 });
 
-Route::post('facebook', 'FacebookResource@getFacebookResource');
 
-//Route::post('user/register', 'UserController@store');
-//Route::post('user/login', 'UserController@login');
-//Route::post('user/logout', 'UserController@logout');
-//Route::put('user/update/{id}', 'UserController@update');
-//facebook login
-//Route::post('user/login/facebook', 'FBController@getFacebookResources');
-
-//owner
-//Route::post('owner/register', 'OwnerController@store');
-//Route::post('owner/login', 'OwnerController@login');
-//Route::post('owner/logout', 'OwnerController@logout');
-//Route::put('owner/update/{id}', 'OwnerController@update');
-
-//restaurant
-//Route::post('restaurant/create', 'RestaurantController@store');
-//Route::put('restaurant/update', 'RestaurantController@update');
-//Route::post('restaurant/search', 'RestaurantController@search');
-//Route::get('restaurant/all', 'RestaurantController@index');
-
-//food
-//Route::post('food/create', 'FoodController@store');
-//Route::put('food/update', 'FoodController@update');
-//Route::post('food/search', 'FoodController@search');
-//Route::get('food/all', 'FoodController@index');
 
 
 

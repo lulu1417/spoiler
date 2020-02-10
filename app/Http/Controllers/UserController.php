@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Validator; //驗證器
 use Mail; //寄信
+use App\Http\Controllers\ErrorResponse;
 
 class UserController extends Controller
 {
+
     function store(Request $request){
         date_default_timezone_set('Asia/Taipei');
         $request->validate([
@@ -24,6 +26,7 @@ class UserController extends Controller
                 'password' => ['required', 'between:6,12'],
                 'phone' => ['required', 'digits:10']
             ]);
+
         $create = User::create([
             'name' => $request->name,
             'account' => $request->account,
@@ -37,20 +40,39 @@ class UserController extends Controller
         if($create){
             return response()->json($create,200);
         }else{
-            return response()->json('register failed',400);
+            return ErrorResponse::sendError('register failed',1 , 400);
         }
 
     }
     function login(Request $request){
         date_default_timezone_set('Asia/Taipei');
-        $user = User::where('account', $request->account)->first();
-        if(Hash::check($request->password, $user->password)){
-            $user->update([
-               'api_token' => Str::random(20),
-            ]);
-            return response()->json($user,200);
+        if(count(User::where('account', $request->account)->get()->toArray()) > 0){
+            $user = User::where('account', $request->account)->first();
+            if(Hash::check($request->password, $user->password)){
+                $user->update([
+                    'api_token' => Str::random(20),
+                ]);
+                return response()->json($user,200);
+            }else{
+                return ErrorResponse::sendError('wrong password',3 , 400);
+            }
         }else{
-            return response()->json('wrong password',400);
+            return ErrorResponse::sendError('account not found',2, 400);
         }
+    }
+
+    function update(Request $request, $id){
+        date_default_timezone_set('Asia/Taipei');
+        $request->validate([
+            'phone' => 'digits:10',
+        ]);
+
+        $user = User::find($id)->first();
+        $user->update([
+           $request->all(),
+        ]);
+
+        return response()->json($user);
+
     }
 }

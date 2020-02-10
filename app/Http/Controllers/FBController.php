@@ -13,7 +13,6 @@ class FBController extends Controller
 {
     public static function login(Request $request)
     {
-            $base = new BaseController();
             date_default_timezone_set('Asia/Taipei');
             $fb = new Facebook([
                 'app_id'                => env('FB_CLIENT_ID'),
@@ -23,6 +22,7 @@ class FBController extends Controller
 
             $endpoint = env('FBEndpoint');
             $response = $fb->get($endpoint, $request->token);
+
             $resource = $response->getGraphUser();
             if(count(User::where('account', $resource['id'])->get()->toArray()) == 0){
                 if($resource){
@@ -36,7 +36,7 @@ class FBController extends Controller
                     ]);
                     return response()->json($create);
                 }else{
-                    return $base->sendError("wrong token", 2, 400);
+                    return ErrorResponse::sendError("wrong token", 4, 400);
                 }
 
             }else{
