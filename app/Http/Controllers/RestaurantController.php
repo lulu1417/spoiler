@@ -19,6 +19,7 @@ class RestaurantController extends Controller
             DB::beginTransaction();
             $request->validate([
                 'name' => ['required', 'unique:restaurants'],
+                'class' => 'required',
                 'coordinate' => 'required',
                 'start_time' => ['required', 'digits:6'],
                 'end_time' => ['required', 'digits:6'],
@@ -38,6 +39,7 @@ class RestaurantController extends Controller
 
             $data['restaurant'] = Restaurant::create([
                 'name' => $request->name,
+                'class' => $request->class,
                 'coordinate' => $request->coordinate,
                 'link' => $request->link,
                 'address' => $request->address,
