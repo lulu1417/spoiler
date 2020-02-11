@@ -11,6 +11,7 @@ class FoodController extends Controller
     function store(Request $request){
         $request->validate([
             'name' => ['required', 'unique:foods'],
+            'class' => 'required',
             'remaining' => ['required', 'integer'],
             'original_price' => ['required', 'integer'],
             'discounted_price' => ['required', 'integer'],
@@ -28,6 +29,7 @@ class FoodController extends Controller
 
         $create = Food::create([
             'name' => $request->name,
+            'class' => $request->class,
             'remaining' => $request->remaining,
             'original_price' => $request->original_price,
             'discounted_price' => $request->discounted_price,
