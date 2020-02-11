@@ -68,6 +68,9 @@ class RestaurantController extends Controller
         if ($request->search) {
             $result['restaurant'] = Restaurant::where('name', "like", "%".$request->search."%")->get();
             $result['food'] = Food::where('name', "like", "%".$request->search."%")->get();
+            return response()->json($result);
+        }else{
+            return response()->json(["message" =>'You must provide an keyword for searching'], 400);
         }
 
         //distance
@@ -80,7 +83,7 @@ class RestaurantController extends Controller
 //            }
 //        }
 
-        return response()->json($result);
+
 
     }
 
