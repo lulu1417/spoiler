@@ -18,6 +18,8 @@ class CreateRestaurantsTable extends Migration
             $table->string('name');
             $table->string('class')->nullable();
             $table->string('image')->nullable();
+            $table->time('start_time');
+            $table->time('end_time');
             $table->string('coordinate');
             $table->string('address');
             $table->string('link');

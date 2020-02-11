@@ -8,8 +8,6 @@ use App\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use function MongoDB\BSON\toJSON;
 
 class RestaurantController extends Controller
 {
@@ -19,14 +17,14 @@ class RestaurantController extends Controller
             DB::beginTransaction();
             $request->validate([
                 'name' => ['required', 'unique:restaurants'],
-                'class' => 'required',
+                'class' => ['required','unique:restaurants'],
                 'coordinate' => 'required',
                 'start_time' => ['required', 'digits:6'],
                 'end_time' => ['required', 'digits:6'],
-                'link' => 'required',
-                'address' => 'required',
+                'link' => ['required','unique:restaurants'],
+                'address' => ['required','unique:restaurants'],
                 'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
-                'phone' => ['required', 'digits:9'],
+                'phone' => ['required', 'digits:9', 'unique:restaurants'],
             ]);
 
             if (request()->hasFile('image')) {
