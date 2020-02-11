@@ -90,4 +90,11 @@ class UserController extends Controller
             return response()->json(['message' => 'user id not found'],400);
         }
     }
+    function look($id){
+        if(count(User::where('id',$id)->get()->toArray()) > 0) {
+            return response()->json(User::find($id)->first());
+        }else {
+            return response()->json(['message' => 'user id not found'],400);
+        }
+    }
 }

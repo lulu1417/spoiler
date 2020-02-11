@@ -55,4 +55,8 @@ class OwnerController extends Controller
         }
 
     }
+    function all(){
+        return response()->json(Owner::all());
+    }
+
 }

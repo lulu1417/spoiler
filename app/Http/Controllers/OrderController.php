@@ -20,6 +20,7 @@ class OrderController extends Controller
             'food_id' => $request->food_id,
             'order_number' => rand(1000000000000, 9999999999999),
             'complete' => false,
+            'send' => false,
         ]);
 
         return response()->json($create);
@@ -42,7 +43,7 @@ class OrderController extends Controller
 
     }
 
-    function destroy($id){
+    function cancel($id){
         $order = Order::find($id)->first();
         return response()->json($order->delete());
     }

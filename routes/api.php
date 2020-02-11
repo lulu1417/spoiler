@@ -20,7 +20,7 @@ Route::group(['prefix' => 'user'], function(){
     Route::put('update/{id}', 'UserController@update');
     //facebook login
     Route::post('/facebook/login', 'FBController@login');
-
+    Route::get('/look/{id}', 'UserController@look');
 
 });
 
@@ -29,10 +29,11 @@ Route::group(['prefix' => 'owner'], function(){
     Route::post('/login', 'OwnerController@login');
     Route::post('/logout', 'OwnerController@logout');
     Route::put('update/{id}', 'OwnerController@update');
+    Route::get('all', 'OwnerController@all');
 });
 
 Route::group(['prefix' => 'restaurant'], function(){
-    Route::middleware('auth:admin_api')->post('/create', 'RestaurantController@store');
+    Route::middleware('auth:owner_api')->post('/create', 'RestaurantController@store');
     Route::put('update/{id}', 'RestaurantController@update');
 
     Route::post('/search', 'RestaurantController@search');
@@ -58,7 +59,7 @@ Route::group(['prefix' => 'order'], function(){
     Route::post('search', 'OrderController@search');
 
     Route::put('complete/{id}', 'OrderController@complete');
-    Route::delete('cancel/{id}', 'OrderController@destroy');
+    Route::delete('cancel/{id}', 'OrderController@cancel');
     Route::get('look/{id}', 'OrderController@look');
 });
 

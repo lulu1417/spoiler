@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->integer('food_id');
             $table->integer('order_number');
             $table->boolean('complete');
+            $table->boolean('send');
             $table->timestamps();
         });
     }

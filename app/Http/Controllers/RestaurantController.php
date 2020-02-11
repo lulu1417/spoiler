@@ -6,6 +6,7 @@ use App\BusinessHour;
 use App\Food;
 use App\Restaurant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use function MongoDB\BSON\toJSON;
@@ -16,13 +17,13 @@ class RestaurantController extends Controller
 
         try {
             DB::beginTransaction();
-
             $request->validate([
-                'owner_id' => ['required', 'exists:owners,id'],
                 'name' => ['required', 'unique:restaurants'],
                 'coordinate' => 'required',
-                'business_hours' => ['required'],
+                'start_time' => ['required', 'digits:6'],
+                'end_time' => ['required', 'digits:6'],
                 'link' => 'required',
+                'address' => 'required',
                 'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
                 'phone' => ['required', 'digits:9'],
             ]);
@@ -41,22 +42,13 @@ class RestaurantController extends Controller
                 'link' => $request->link,
                 'address' => $request->address,
                 'image' => $parameters['image'],
+                'start_time' => $request->start_time,
+                'end_time' => $request->end_time,
                 'assessment' => 0,
                 'phone' => $request->phone,
-                'owner_id' => $request->owner_id,
+                'owner_id' => Auth::user()->id,
             ]);
 
-            $data['distance'] = 'calculated_distance';
-
-            foreach ($request->business_hours as $business_hour) {
-                 $data['business_hour'] = BusinessHour::create([
-                    'restaurant_id' => $data['restaurant']->id,
-                    'week_day' => $business_hour['week_day'],
-                    'period' => $business_hour['period'],
-                    'start_time' => $business_hour['start_time'],
-                    'end_time' => $business_hour['end_time'],
-                ]);
-            }
             DB::commit();
             return response()->json($data, 200);
 
@@ -72,8 +64,10 @@ class RestaurantController extends Controller
     {
 
         if ($request->search) {
-            $result['restaurant'] = Restaurant::like('name', $request->restaurant)->get();
-            $result['food'] = Food::like('name', $request->food)->get();
+            $result['restaurant'] = Restaurant::like('name', $request->search)->get();
+            $TheResult = MyModel::where("myFieldOfMyModel", "like", "%" . $name . "%")->get();
+            dd(Restaurant::like('name', $request->search)->get());
+            $result['food'] = Food::like('name', $request->search)->get();
         }
 
         //distance
