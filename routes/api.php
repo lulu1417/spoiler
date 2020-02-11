@@ -34,7 +34,7 @@ Route::group(['prefix' => 'owner'], function(){
 
 Route::group(['prefix' => 'restaurant'], function(){
     Route::middleware('auth:owner_api')->post('/create', 'RestaurantController@store');
-    Route::put('update/{id}', 'RestaurantController@update');
+    Route::middleware('auth:owner_api')->put('update/{id}', 'RestaurantController@update');
 
     Route::post('/search', 'RestaurantController@search');
     Route::get('/all', 'RestaurantController@index');
@@ -44,9 +44,8 @@ Route::group(['prefix' => 'restaurant'], function(){
 });
 
 Route::group(['prefix' => 'food'], function(){
-    Route::post('create', 'FoodController@store');
-    Route::put('update/{id}', 'FoodController@update');
-
+    Route::middleware('auth:owner_api')->post('create', 'FoodController@store');
+    Route::middleware('auth:owner_api')->put('update/{id}', 'FoodController@update');
     Route::post('search', 'FoodController@search');
     Route::get('all', 'FoodController@index');
     Route::get('look/{id}', 'FoodController@look');
@@ -54,12 +53,11 @@ Route::group(['prefix' => 'food'], function(){
 });
 
 Route::group(['prefix' => 'order'], function(){
-    Route::post('create', 'OrderController@store');
-
+    Route::middleware('auth:user_api')->post('create', 'OrderController@store');
     Route::post('search', 'OrderController@search');
 
-    Route::put('complete/{id}', 'OrderController@complete');
-    Route::delete('cancel/{id}', 'OrderController@cancel');
+    Route::middleware('auth:user_api')->put('complete/{id}', 'OrderController@complete');
+    Route::middleware('auth:user_api')->delete('cancel/{id}', 'OrderController@cancel');
     Route::get('look/{id}', 'OrderController@look');
 });
 
