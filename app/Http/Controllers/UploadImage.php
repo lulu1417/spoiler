@@ -8,9 +8,8 @@ use http\Env\Request;
 
 class UploadImage
 {
-    function trim(Request $request){
-
-        $imageURL = request()->file('image')->store('public');
+    function trim($imageURL){
+        
         $parameters['image'] = substr($imageURL, 7);
         $result['imageURL'] = asset('storage/' . $parameters['image']);
 
