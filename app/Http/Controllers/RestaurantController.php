@@ -64,10 +64,8 @@ class RestaurantController extends Controller
     {
 
         if ($request->search) {
-            $result['restaurant'] = Restaurant::like('name', $request->search)->get();
-            $TheResult = MyModel::where("myFieldOfMyModel", "like", "%" . $name . "%")->get();
-            dd(Restaurant::like('name', $request->search)->get());
-            $result['food'] = Food::like('name', $request->search)->get();
+            $result['restaurant'] = Restaurant::where('name', "like", "%".$request->search."%")->get();
+            $result['food'] = Food::where('name', "like", "%".$request->search."%")->get();
         }
 
         //distance
