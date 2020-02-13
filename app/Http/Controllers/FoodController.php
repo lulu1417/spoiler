@@ -53,15 +53,16 @@ class FoodController extends Controller
         return response()->json($create, 200);
 
     }
+    function search(Request $request)
+    {
 
-    function search(Request $request){
-
-        if($request->restaurant){
-            $result = Restaurant::like('name', $request->restaurant)->get();
-        }elseif ($request->food){
-            $result = Food::like('name', $request->food)->get();
+        if ($request->search) {
+            $result['restaurant'] = Restaurant::where('name', "like", "%".$request->search."%")->get();
+            $result['food'] = Food::where('name', "like", "%".$request->search."%")->get();
+            return response()->json($result);
+        }else{
+            return response()->json(["message" =>'You must provide an keyword for searching'], 400);
         }
-        return response()->json($result);
 
     }
 }

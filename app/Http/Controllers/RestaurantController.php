@@ -60,16 +60,8 @@ class RestaurantController extends Controller
 
     }
 
-    function search(Request $request)
+    function distanceCalculate(Request $request)
     {
-
-        if ($request->search) {
-            $result['restaurant'] = Restaurant::where('name', "like", "%".$request->search."%")->get();
-            $result['food'] = Food::where('name', "like", "%".$request->search."%")->get();
-            return response()->json($result);
-        }else{
-            return response()->json(["message" =>'You must provide an keyword for searching'], 400);
-        }
 
         //distance
         //$user_coordinate = getGoogleMapCoordinate;
