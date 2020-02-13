@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Food;
 use App\Restaurant;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class FoodController extends Controller
 {
@@ -20,13 +21,17 @@ class FoodController extends Controller
 
     function store(Request $request){
         $request->validate([
-            'name' => ['required', 'unique:foods'],
+            'name' => Rule::unique('foods')->where(function ($query) use ($request) {
+                return $query->where('restaurant_id', $request->restaurant_id);
+            }),
             'remaining' => ['required', 'integer'],
             'original_price' => ['required', 'integer'],
             'discounted_price' => ['required', 'integer'],
             'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
             'restaurant_id' => ['required', 'exists:restaurants,id'],
         ]);
+
+
 
         if (request()->hasFile('image')) {
             $upload = new UploadImage();
