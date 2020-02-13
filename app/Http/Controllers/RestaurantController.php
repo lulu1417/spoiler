@@ -16,7 +16,7 @@ class RestaurantController extends Controller
             DB::beginTransaction();
             $request->validate([
                 'name' => ['required', 'unique:restaurants'],
-                'class' => ['required','unique:restaurants'],
+                'class' => 'required',
                 'coordinate' => 'required',
                 'start_time' => ['required', 'digits:6'],
                 'end_time' => ['required', 'digits:6'],
