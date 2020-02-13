@@ -48,7 +48,7 @@ Route::group(['prefix' => 'food'], function(){
     Route::middleware('auth:owner_api')->put('/{id}', 'FoodController@update');
     Route::post('search', 'FoodController@search');
     Route::get('', 'FoodController@index');
-    Route::get('/{id}', 'FoodController@look');
+    Route::get('{id}', 'FoodController@look');
 
 });
 

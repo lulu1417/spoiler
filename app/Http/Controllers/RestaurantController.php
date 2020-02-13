@@ -81,12 +81,18 @@ class RestaurantController extends Controller
 //            }
 //        }
 
-
-
     }
 
     function index(){
-        return response()->json(Restaurant::all());
+        $restaurants = Restaurant::all()->toArray();
+        $data = array_map(function ($restaurant) {
+            $restaurant['number'] = count($restaurant['food'] = Restaurant::find($restaurant['id'])->foods);
+//            $restaurant['food'] = Restaurant::find($restaurant['id'])->foods;
+            return $restaurant;
+        }, $restaurants);
+
+        return response()->json($data);
+
     }
 
     function look($id){

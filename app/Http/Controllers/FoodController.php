@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 
 class FoodController extends Controller
 {
+    function index(){
+
+        $foods = Food::all()->toArray();
+        $data = array_map(function ($food) {
+            $food['restaurant'] = Food::find($food['id'])->restaurant;
+            return $food;
+        }, $foods);
+        return response()->json($data);
+    }
+
     function store(Request $request){
         $request->validate([
             'name' => ['required', 'unique:foods'],

@@ -15,15 +15,11 @@ class Restaurant extends Model
 
     public function foods()
     {
-        return $this->hasMany('App\Food');
+        return $this->hasMany(Food::class);
     }
 
-    public function businessHours()
-    {
-        return $this->hasMany('App\BusinessHour');
-    }
 
-    public function owners()
+    public function owner()
     {
         return $this->belongsTo('App\Owner');
     }
