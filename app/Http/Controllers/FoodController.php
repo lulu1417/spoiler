@@ -15,7 +15,7 @@ class FoodController extends Controller
             'original_price' => ['required', 'integer'],
             'discounted_price' => ['required', 'integer'],
             'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
-            'restaurant_id' => ['required', 'exists:restaurants'],
+            'restaurant_id' => ['required', 'exists:restaurants,id'],
         ]);
 
         if (request()->hasFile('image')) {

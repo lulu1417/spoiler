@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TestEvent;
 use App\Order;
 use App\Subscription;
 use Illuminate\Http\Request;
@@ -37,6 +38,6 @@ class SubscriptController extends Controller
     }
 
     function notice(){
-
+        event(new TestEvent());
     }
 }

@@ -2,10 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01e33162-0430-41f4-b300-98e87ef70613" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Events/TestEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Listeners/TestListen.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2020_02_12_055111_create_jobs_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/spoiler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/spoiler.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FoodController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FoodController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RestaurantController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RestaurantController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Restaurant.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Restaurant.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_01_09_061543_create_restaurants_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_01_09_061543_create_restaurants_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SubscriptController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SubscriptController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_01_09_061554_create_foods_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_01_09_061554_create_foods_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +129,7 @@
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
       <path value="$PROJECT_DIR$/vendor/facebook/graph-sdk" />
       <path value="$PROJECT_DIR$/vendor/intervention/image" />
+      <path value="$PROJECT_DIR$/vendor/predis/predis" />
     </include_path>
   </component>
   <component name="ProjectId" id="1W8vgT7j5MbnLPbBpgtAxv2Ldvs" />
@@ -212,7 +223,10 @@
       <workItem from="1581320463081" duration="931000" />
       <workItem from="1581322035046" duration="219000" />
       <workItem from="1581335764124" duration="7209000" />
-      <workItem from="1581412744339" duration="1627000" />
+      <workItem from="1581412744339" duration="2040000" />
+      <workItem from="1581474904574" duration="1793000" />
+      <workItem from="1581481064061" duration="1086000" />
+      <workItem from="1581501939515" duration="989000" />
     </task>
     <servers />
   </component>
@@ -295,18 +309,19 @@
     <state x="541" y="352" key="NewPhpFileDialog/0.23.1440.797@0.23.1440.797" timestamp="1580460772939" />
     <state x="541" y="353" key="NewPhpFileDialog/0.23.1440.798@0.23.1440.798" timestamp="1581252192731" />
     <state x="541" y="354" key="NewPhpFileDialog/0.23.1440.801@0.23.1440.801" timestamp="1580988832163" />
-    <state x="229" y="98" key="SettingsEditor" timestamp="1580988258569">
-      <screen x="0" y="23" width="1440" height="801" />
+    <state x="229" y="98" key="SettingsEditor" timestamp="1581480125164">
+      <screen x="0" y="23" width="1440" height="798" />
     </state>
     <state x="229" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1579352246273" />
     <state x="229" y="98" key="SettingsEditor/0.23.1440.797@0.23.1440.797" timestamp="1579677396372" />
+    <state x="229" y="98" key="SettingsEditor/0.23.1440.798@0.23.1440.798" timestamp="1581480125164" />
     <state x="229" y="98" key="SettingsEditor/0.23.1440.801@0.23.1440.801" timestamp="1580988258569" />
-    <state x="399" y="255" key="com.intellij.ide.util.TipDialog" timestamp="1581412745585">
-      <screen x="0" y="23" width="1440" height="801" />
+    <state x="399" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1581474920280">
+      <screen x="0" y="23" width="1440" height="798" />
     </state>
     <state x="399" y="261" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1579351742143" />
     <state x="399" y="254" key="com.intellij.ide.util.TipDialog/0.23.1440.797@0.23.1440.797" timestamp="1581255772763" />
-    <state x="399" y="254" key="com.intellij.ide.util.TipDialog/0.23.1440.798@0.23.1440.798" timestamp="1581300378146" />
+    <state x="399" y="254" key="com.intellij.ide.util.TipDialog/0.23.1440.798@0.23.1440.798" timestamp="1581474920280" />
     <state x="399" y="255" key="com.intellij.ide.util.TipDialog/0.23.1440.801@0.23.1440.801" timestamp="1581412745585" />
     <state x="399" y="254" key="com.intellij.ide.util.TipDialog/0.23.1440.804@0.23.1440.804" timestamp="1581153960404" />
     <state x="389" y="76" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579350994836">

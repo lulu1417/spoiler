@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\BusinessHour;
 use App\Food;
 use App\Restaurant;
 use Illuminate\Http\Request;

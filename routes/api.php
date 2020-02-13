@@ -33,22 +33,22 @@ Route::group(['prefix' => 'owner'], function(){
 });
 
 Route::group(['prefix' => 'restaurant'], function(){
-    Route::middleware('auth:owner_api')->post('/create', 'RestaurantController@store');
-    Route::middleware('auth:owner_api')->put('update/{id}', 'RestaurantController@update');
+    Route::middleware('auth:owner_api')->post('', 'RestaurantController@store');
+    Route::middleware('auth:owner_api')->put('/{id}', 'RestaurantController@update');
 
     Route::post('/search', 'RestaurantController@search');
-    Route::get('/all', 'RestaurantController@index');
-    Route::get('look/{id}', 'RestaurantController@look');
+    Route::get('', 'RestaurantController@index');
+    Route::get('{id}', 'RestaurantController@look');
     Route::post('scoreUser', 'RestaurantController@scoreUser');
 
 });
 
 Route::group(['prefix' => 'food'], function(){
-    Route::middleware('auth:owner_api')->post('create', 'FoodController@store');
-    Route::middleware('auth:owner_api')->put('update/{id}', 'FoodController@update');
+    Route::middleware('auth:owner_api')->post('', 'FoodController@store');
+    Route::middleware('auth:owner_api')->put('/{id}', 'FoodController@update');
     Route::post('search', 'FoodController@search');
-    Route::get('all', 'FoodController@index');
-    Route::get('look/{id}', 'FoodController@look');
+    Route::get('', 'FoodController@index');
+    Route::get('/{id}', 'FoodController@look');
 
 });
 
