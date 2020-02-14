@@ -19,14 +19,9 @@ class RestaurantController extends Controller
 //
 //        return $response;
 
-        $restaurants = Restaurant::all()->toArray();
+        $restaurants = Restaurant::with('foods')->withCount('foods')->get();
 
-        $data = array_map(function ($restaurant) {
-            $restaurant['number'] = count($restaurant['food'] = Restaurant::find($restaurant['id'])->foods);
-            return $restaurant;
-        }, $restaurants);
-
-        return response()->json($data);
+        return response()->json($restaurants);
 
     }
 
