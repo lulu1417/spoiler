@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\TestEvent;
 use Illuminate\Database\Eloquent\Model;
 
 class Food extends Model
@@ -17,6 +18,8 @@ class Food extends Model
     {
         return $this->belongsTo(Restaurant::class, 'restaurant_id', 'id');
     }
-
+    protected $dispatchesEvents = [
+        'saving' => TestEvent::class,
+    ];
 
 }

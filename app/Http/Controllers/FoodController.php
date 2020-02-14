@@ -40,7 +40,7 @@ class FoodController extends Controller
             $parameters['image'] = null;
         }
 
-        $create = Food::create([
+        $food = Food::create([
             'name' => $request->name,
             'remaining' => $request->remaining,
             'original_price' => $request->original_price,
@@ -49,12 +49,11 @@ class FoodController extends Controller
             'restaurant_id' => $request->restaurant_id,
         ]);
 
-        return response()->json($create, 200);
+        return response()->json($food, 200);
 
     }
     function search(Request $request)
     {
-
         if ($request->search) {
             $result['restaurant'] = Restaurant::where('name', "like", "%".$request->search."%")->get();
             $result['food'] = Food::where('name', "like", "%".$request->search."%")->get();

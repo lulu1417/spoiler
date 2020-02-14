@@ -37,7 +37,8 @@ class SubscriptController extends Controller
         return response()->json($subscription->delete());
     }
 
-    function notice(){
-        event(new TestEvent());
+    public function handle(TestEvent $event)
+    {
+
     }
 }

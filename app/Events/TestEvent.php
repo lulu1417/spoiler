@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
+
+use App\Food;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -12,6 +14,7 @@ use Illuminate\Queue\SerializesModels;
 
 class TestEvent
 {
+    public $food;
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -19,9 +22,9 @@ class TestEvent
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Food $food)
     {
-        //
+        $this->food = $food;
     }
 
     /**
