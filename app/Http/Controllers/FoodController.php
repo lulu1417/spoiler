@@ -5,18 +5,19 @@ namespace App\Http\Controllers;
 use App\Food;
 use App\Restaurant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class FoodController extends Controller
 {
     function index(){
 
-        $foods = Food::all()->toArray();
-        $data = array_map(function ($food) {
-            $food['restaurant'] = Food::find($food['id'])->restaurant;
-            return $food;
-        }, $foods);
-        return response()->json($data);
+        $response = DB::table('restaurants')
+            ->rightJoin('foods', 'restaurants.id', '=', 'foods.restaurant_id')
+            ->select( 'foods.id as food_id','foods.name as food_name', 'foods.discounted_price', 'foods.remaining',
+                'restaurants.id as restaurant_id', 'restaurants.name as restaurant_name', 'restaurants.address')->get();
+
+        return $response;
     }
 
     function store(Request $request){
@@ -30,8 +31,6 @@ class FoodController extends Controller
             'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
             'restaurant_id' => ['required', 'exists:restaurants,id'],
         ]);
-
-
 
         if (request()->hasFile('image')) {
             $upload = new UploadImage();

@@ -10,6 +10,26 @@ use Illuminate\Support\Facades\DB;
 
 class RestaurantController extends Controller
 {
+
+    function index(){
+
+//        $response = DB::table('restaurants')
+//            ->leftJoin('foods', 'restaurants.id', '=', 'foods.restaurant_id')
+//            ->select( 'restaurants.*', 'foods.name as food_name', 'foods.original_price')->get();
+//
+//        return $response;
+
+        $restaurants = Restaurant::all()->toArray();
+
+        $data = array_map(function ($restaurant) {
+            $restaurant['number'] = count($restaurant['food'] = Restaurant::find($restaurant['id'])->foods);
+            return $restaurant;
+        }, $restaurants);
+
+        return response()->json($data);
+
+    }
+
     function store(Request $request){
 
         try {
@@ -60,31 +80,27 @@ class RestaurantController extends Controller
 
     }
 
-    function distanceCalculate(Request $request)
+    function distanceCalculate($userCoordinate, $distanceScope)
     {
 
         //distance
-        //$user_coordinate = getGoogleMapCoordinate;
-//        $restaurants = Restaurant::all();
-//        foreach($restaurants as $restaurant){
-//            //calculate distance
-//            if($restaurant['distance'] < 1){
-//                $result[] = $restaurant;
-//            }
-//        }
+        $restaurants = Restaurant::all();
+        foreach($restaurants as $restaurant){
+            //calculate distance
+            $restaurant['distance'] = calculateDistance($restaurant->coordinate, $userCoordinate);
+            if($restaurant['distance'] < $distanceScope){
+                $result[] = $restaurant;
+            }
+        }
+
+        return response()->json($result);
 
     }
 
-    function index(){
-        $restaurants = Restaurant::all()->toArray();
-        $data = array_map(function ($restaurant) {
-            $restaurant['number'] = count($restaurant['food'] = Restaurant::find($restaurant['id'])->foods);
-            return $restaurant;
-        }, $restaurants);
-
-        return response()->json($data);
+    function calculateOverlappedTime($userStartTime, $userEndTime){
 
     }
+
 
     function look($id){
         return response()->json(Restaurant::find($id)->food()->get());
