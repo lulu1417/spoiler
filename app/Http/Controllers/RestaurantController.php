@@ -55,7 +55,7 @@ class RestaurantController extends Controller
                 $parameters['image'] = null;
             }
 
-            $data['restaurant'] = Restaurant::create([
+            $create = Restaurant::create([
                 'name' => $request->name,
                 'class' => $request->class,
                 'coordinate' => $request->coordinate,
@@ -70,7 +70,7 @@ class RestaurantController extends Controller
             ]);
 
             DB::commit();
-            return response()->json($data, 200);
+            return response()->json($create, 200);
 
         }catch (Exception $error) {
 
