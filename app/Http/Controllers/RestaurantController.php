@@ -32,7 +32,8 @@ class RestaurantController extends Controller
             $request->validate([
                 'name' => ['required', 'unique:restaurants'],
                 'class' => 'required',
-                'coordinate' => 'required',
+                'east_longitude' => 'required',
+                'north_latitude' => 'required',
                 'start_time' => ['required', 'digits:6'],
                 'end_time' => ['required', 'digits:6'],
                 'link' => ['required','unique:restaurants'],
@@ -53,7 +54,8 @@ class RestaurantController extends Controller
             $create = Restaurant::create([
                 'name' => $request->name,
                 'class' => $request->class,
-                'coordinate' => $request->coordinate,
+                'east_longitude' => $request->east_longitude,
+                'north_latitude' => $request->north_latitude,
                 'link' => $request->link,
                 'address' => $request->address,
                 'image' => $parameters['image'],
