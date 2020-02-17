@@ -12,8 +12,8 @@ class SubscriptController extends Controller
     function store(Request $request){
 
         $request->validate([
-            'user_id' => ['required', 'exists:users'],
-            'restaurant_id' => ['required', 'exists:restaurants'],
+            'user_id' => ['required', 'exists:users,id'],
+            'restaurant_id' => ['required', 'exists:restaurants,id'],
         ]);
 
         $create = Subscription::create([

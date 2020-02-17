@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Restaurant;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
@@ -96,5 +97,9 @@ class UserController extends Controller
         }else {
             return response()->json(['message' => 'user id not found'],400);
         }
+    }
+    function getSubscription(){
+        $subrestaurants = User::with('subscriptRestaurant')->get();
+        return response()->json($subrestaurants);
     }
 }

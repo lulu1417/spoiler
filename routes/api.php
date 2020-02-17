@@ -21,6 +21,8 @@ Route::group(['prefix' => 'user'], function(){
     //facebook login
     Route::post('/facebook/login', 'FBController@login');
     Route::get('/look/{id}', 'UserController@look');
+    Route::get('/subscript', 'UserController@getSubscription');
+
 
 });
 
@@ -60,7 +62,7 @@ Route::group(['prefix' => 'order'], function(){
 });
 
 Route::group(['prefix' => 'subscript'], function(){
-    Route::post('create', 'SubscriptController@store');
+    Route::post('', 'SubscriptController@store');
     Route::post('search', 'SunscriptController@search');
     Route::get('notice', 'SubscriptController@notice');
     Route::delete('cancel/{id}', 'SubscriptController@destroy');

@@ -36,4 +36,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function subscriptRestaurant()
+    {
+        return $this->belongsToMany(Restaurant::class, 'subscriptions', 'user_id' ,'restaurant_id');
+    }
 }

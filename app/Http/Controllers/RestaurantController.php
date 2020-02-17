@@ -19,10 +19,14 @@ class RestaurantController extends Controller
 //
 //        return $response;
 
-        $restaurants = Restaurant::with('foods')->withCount('foods')->get();
 
+        $restaurants = Restaurant::with('foods')->withCount('foods')->get();
         return response()->json($restaurants);
 
+    }
+    function getSubscriptUser(){
+        $subUser = Restaurant::with('subscriptUser')->get();
+        return response()->json($subUser);
     }
 
     function store(Request $request){

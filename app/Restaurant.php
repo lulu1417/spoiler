@@ -23,4 +23,9 @@ class Restaurant extends Model
         return $this->belongsTo(Owner::class);
     }
 
+    public function subscriptUser()
+    {
+        return $this->belongsToMany(User::class, 'subscriptions', 'restaurant_id', 'user_id');
+    }
+
 }
