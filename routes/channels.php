@@ -11,6 +11,18 @@
 |
 */
 
-Broadcast::channel('App.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+use App\Food;
+use App\Subscription;
+use Illuminate\Support\Facades\Broadcast;
+
+//Broadcast::channel('App.User.{id}', function ($user, $id) {
+//    return (int) $user->id === (int) $id;
+//});
+
+Broadcast::channel('food', function () {
+    return true;
+});
+
+Broadcast::channel('subscript.{restaurantId}', function ($user, $restaurantId) {
+    return $user->id === Subscription::with('restaurant')->findOrNew($restaurantId)->user_id;
 });

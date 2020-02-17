@@ -12,9 +12,10 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TestEvent
+class TestEvent implements ShouldBroadcast
 {
     public $food;
+    public $restaurant;
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -34,6 +35,7 @@ class TestEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('food');
+//        return new PrivateChannel('subscript.'.$this->restaurant->id);
     }
 }

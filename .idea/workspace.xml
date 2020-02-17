@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01e33162-0430-41f4-b300-98e87ef70613" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/laravel-echo-server.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/laravel-echo-server.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/spoiler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/spoiler.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Events/TestEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/TestEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Restaurant.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Restaurant.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Subscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Subscription.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laravel-echo-server.json" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-echo-server.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/channels.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/channels.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,6 +224,7 @@
       <workItem from="1581598455778" duration="733000" />
       <workItem from="1581647352595" duration="8781000" />
       <workItem from="1581756193409" duration="284000" />
+      <workItem from="1581924194613" duration="2094000" />
     </task>
     <servers />
   </component>
@@ -325,14 +330,15 @@
     <state x="229" y="98" key="SettingsEditor/0.23.1440.797@0.23.1440.797" timestamp="1579677396372" />
     <state x="229" y="98" key="SettingsEditor/0.23.1440.798@0.23.1440.798" timestamp="1581480125164" />
     <state x="229" y="98" key="SettingsEditor/0.23.1440.801@0.23.1440.801" timestamp="1580988258569" />
-    <state x="399" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1581647354276">
-      <screen x="0" y="23" width="1440" height="797" />
+    <state x="399" y="257" key="com.intellij.ide.util.TipDialog" timestamp="1581925048377">
+      <screen x="0" y="23" width="1440" height="811" />
     </state>
     <state x="399" y="261" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1579351742143" />
     <state x="399" y="254" key="com.intellij.ide.util.TipDialog/0.23.1440.797@0.23.1440.797" timestamp="1581647354276" />
     <state x="399" y="254" key="com.intellij.ide.util.TipDialog/0.23.1440.798@0.23.1440.798" timestamp="1581474920280" />
     <state x="399" y="255" key="com.intellij.ide.util.TipDialog/0.23.1440.801@0.23.1440.801" timestamp="1581412745585" />
     <state x="399" y="254" key="com.intellij.ide.util.TipDialog/0.23.1440.804@0.23.1440.804" timestamp="1581153960404" />
+    <state x="399" y="257" key="com.intellij.ide.util.TipDialog/0.23.1440.811@0.23.1440.811" timestamp="1581925048377" />
     <state x="389" y="76" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579350994836">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

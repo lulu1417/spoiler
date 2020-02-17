@@ -4,7 +4,7 @@
 	"clients": [
 		{
 			"appId": "354bcc93ff4e0b57",
-			"key": "a475abe0d37d16909f27ead3a9b5f260"
+			"key": "d4692a627d13c633985ab983d2280ab4"
 		}
 	],
 	"database": "redis",

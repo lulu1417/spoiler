@@ -20,7 +20,7 @@ class Restaurant extends Model
 
     public function owner()
     {
-        return $this->belongsTo('App\Owner');
+        return $this->belongsTo(Owner::class);
     }
 
 }
