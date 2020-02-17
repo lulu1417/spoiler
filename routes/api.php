@@ -19,9 +19,15 @@ Route::group(['prefix' => 'user'], function(){
     Route::put('logout/{id}', 'UserController@logout');
     Route::put('update/{id}', 'UserController@update');
     //facebook login
+<<<<<<< HEAD
     Route::post('facebook/login', 'FBController@login');
     Route::get('look/{id}', 'UserController@look');
     Route::get('subscript', 'UserController@getSubscription');
+=======
+    Route::post('/facebook/login', 'FBController@login');
+    Route::get('/look/{id}', 'UserController@look');
+    Route::get('/subscript', 'UserController@getSubscription');
+>>>>>>> c0b613a4f951fa0d9b07908eee381dfcf5326ffc
 
 
 });

@@ -24,7 +24,11 @@ class RestaurantController extends Controller
         return response()->json($restaurants);
 
     }
+<<<<<<< HEAD
     function getSubscriptUsers(){
+=======
+    function getSubscriptUser(){
+>>>>>>> c0b613a4f951fa0d9b07908eee381dfcf5326ffc
         $subUser = Restaurant::with('subscriptUser')->get();
         return response()->json($subUser);
     }
