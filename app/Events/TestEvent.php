@@ -15,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
 class TestEvent implements ShouldBroadcast
 {
     public $food;
-    public $restaurant;
+    public $restaurantId;
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -26,6 +26,8 @@ class TestEvent implements ShouldBroadcast
     public function __construct(Food $food)
     {
         $this->food = $food;
+        $this->restaurantId = $food->restaurant_id;
+
     }
 
     /**
@@ -35,7 +37,7 @@ class TestEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('food');
-//        return new PrivateChannel('subscript.'.$this->restaurant->id);
+        return new PrivateChannel('subscript.'.$this->restaurantId);
     }
+
 }

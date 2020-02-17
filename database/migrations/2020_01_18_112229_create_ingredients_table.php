@@ -16,7 +16,7 @@ class CreateIngredientsTable extends Migration
         Schema::create('ingredients', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('type'); //葷素 麩質...
+            $table->string('type');
             $table->timestamps();
         });
     }

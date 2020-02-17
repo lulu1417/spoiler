@@ -12,7 +12,7 @@
 */
 
 use App\Food;
-use App\Subscription;
+use App\Restaurant;
 use Illuminate\Support\Facades\Broadcast;
 
 //Broadcast::channel('App.User.{id}', function ($user, $id) {
@@ -24,5 +24,5 @@ Broadcast::channel('food', function () {
 });
 
 Broadcast::channel('subscript.{restaurantId}', function ($user, $restaurantId) {
-    return $user->id === Subscription::with('restaurant')->findOrNew($restaurantId)->user_id;
+    return $user->id === Restaurant::with('subscriptUser')->findOrNew($restaurantId)->user_id;
 });
