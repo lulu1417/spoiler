@@ -14,13 +14,15 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => 'user'], function(){
-    Route::post('/register', 'UserController@store');
-    Route::post('/login', 'UserController@login');
-    Route::put('/logout/{id}', 'UserController@logout');
+    Route::post('register', 'UserController@store');
+    Route::post('login', 'UserController@login');
+    Route::put('logout/{id}', 'UserController@logout');
     Route::put('update/{id}', 'UserController@update');
     //facebook login
-    Route::post('/facebook/login', 'FBController@login');
-    Route::get('/look/{id}', 'UserController@look');
+    Route::post('facebook/login', 'FBController@login');
+    Route::get('look/{id}', 'UserController@look');
+    Route::get('subscript', 'UserController@getSubscription');
+
 
 });
 
@@ -37,8 +39,9 @@ Route::group(['prefix' => 'restaurant'], function(){
     Route::middleware('auth:owner_api')->put('/{id}', 'RestaurantController@update');
     Route::post('distance', 'RestaurantController@distanceCalculate');
     Route::get('', 'RestaurantController@index');
-    Route::get('{id}', 'RestaurantController@look');
+    Route::get('look/{id}', 'RestaurantController@look');
     Route::post('scoreUser', 'RestaurantController@scoreUser');
+    Route::get('subscript', 'RestaurantController@getSubscriptUsers');
 
 });
 
@@ -46,7 +49,7 @@ Route::group(['prefix' => 'food'], function(){
     Route::middleware('auth:owner_api')->post('', 'FoodController@store');
     Route::middleware('auth:owner_api')->put('/{id}', 'FoodController@update');
     Route::get('', 'FoodController@index');
-    Route::get('{id}', 'FoodController@look');
+    Route::get('look/{id}', 'FoodController@look');
 
 });
 
@@ -60,7 +63,7 @@ Route::group(['prefix' => 'order'], function(){
 });
 
 Route::group(['prefix' => 'subscript'], function(){
-    Route::post('create', 'SubscriptController@store');
+    Route::post('', 'SubscriptController@store');
     Route::post('search', 'SunscriptController@search');
     Route::get('notice', 'SubscriptController@notice');
     Route::delete('cancel/{id}', 'SubscriptController@destroy');

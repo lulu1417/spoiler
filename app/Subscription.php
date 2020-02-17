@@ -13,8 +13,4 @@ class Subscription extends Model
         'created_at', 'updated_at'
     ];
 
-    public function restaurant()
-    {
-        return $this->hasMany(Restaurant::class);
-    }
 }
