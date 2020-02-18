@@ -60,7 +60,7 @@ Route::group(['prefix' => 'order'], function(){
 
     Route::middleware('auth:api')->put('complete/{id}', 'OrderController@complete');
     Route::middleware('auth:api')->delete('cancel/{id}', 'OrderController@cancel');
-    Route::get('look/{id}', 'OrderController@look');
+    Route::get('/{id}', 'OrderController@look');
 });
 
 Route::group(['prefix' => 'subscript'], function(){

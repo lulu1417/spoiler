@@ -16,12 +16,14 @@ class OrderController extends Controller
             $request->validate([
                 'user_id' => ['required', 'exists:users,id'],
                 'food_id' => ['required', 'exists:foods,id'],
+                'food_number' => ['required', 'lte:10']
             ]);
 
             $create = Order::create([
                 'user_id' => $request->user_id,
                 'food_id' => $request->food_id,
                 'order_number' => strval(rand(1000000000000, 9999999999999)),
+                'food_number' => $request->food_number,
                 'complete' => false,
                 'send' => true,
             ]);
@@ -57,8 +59,9 @@ class OrderController extends Controller
         ]));
     }
 
-    function index($id){
-        $data = Order::with('food', 'user')->find($id)->first();
+    function look($id){
+        $order = Order::find($id);
+        $data = $order->with('food', 'user')->first();
         return response()->json($data);
     }
 }

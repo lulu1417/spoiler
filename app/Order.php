@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'user_id', 'food_id', 'order_number', 'complete', 'send'
+        'user_id', 'food_id', 'order_number', 'food_number', 'complete', 'send'
     ];
     protected $hidden = [
         'created_at', 'updated_at'
@@ -15,11 +15,11 @@ class Order extends Model
 
     public function food()
     {
-        return $this->hasOne(Food::class, 'food_id', 'id');
+        return $this->belongsTo(Food::class, 'id');
     }
 
     public function user()
     {
-        return $this->hasOne(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'id');
     }
 }
