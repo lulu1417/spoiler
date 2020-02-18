@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Broadcast;
 //    return (int) $user->id === (int) $id;
 //});
 
-Broadcast::channel('food', function () {
-    return true;
-});
+//Broadcast::channel('food', function () {
+//    return true;
+//});
 
 Broadcast::channel('subscript.{restaurantId}', function ($user, $restaurantId) {
     return $user->id === Restaurant::with('subscriptUser')->findOrNew($restaurantId)->user_id;

@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('food_id');
-            $table->integer('order_number');
+            $table->string('order_number');
             $table->boolean('complete');
             $table->boolean('send');
             $table->timestamps();

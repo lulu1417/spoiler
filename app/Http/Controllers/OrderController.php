@@ -21,7 +21,7 @@ class OrderController extends Controller
             $create = Order::create([
                 'user_id' => $request->user_id,
                 'food_id' => $request->food_id,
-                'order_number' => rand(1000000000000, 9999999999999),
+                'order_number' => strval(rand(1000000000000, 9999999999999)),
                 'complete' => false,
                 'send' => true,
             ]);
