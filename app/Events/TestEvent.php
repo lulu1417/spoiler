@@ -37,6 +37,7 @@ class TestEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+//       return new PrivateChannel('channel-name');
         return new PrivateChannel('subscript.'.$this->restaurantId);
     }
 

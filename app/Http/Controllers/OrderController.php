@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Food;
 use App\Order;
-use App\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
 {
@@ -43,13 +41,6 @@ class OrderController extends Controller
 
     }
 
-    function search(Request $request){
-
-        $subscription = Order::where('user_id', $request->user_id)->where('food_id', $request->food_id);
-        return response()->json($subscription);
-
-    }
-
     function complete($id){
         if($order = Order::find($id)){
 
@@ -60,7 +51,6 @@ class OrderController extends Controller
            'complete' => true,
         ]);
         return response()->json($order);
-
     }
 
     function cancel($id){

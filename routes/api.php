@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\FoodAdded;
+use http\Client\Response;
 use Illuminate\Http\Request;
 
 /*
@@ -70,6 +72,15 @@ Route::group(['prefix' => 'subscript'], function(){
 });
 
 Route::post('search', 'FoodController@search');
+
+
+//broadcast
+Route::get('ship', function (Request $request)
+{
+    $id = $request->input('id');
+    event(new FoodAdded($id));
+    return response()->json('Shipped!');
+});
 
 
 

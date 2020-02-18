@@ -3,7 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
         <title>Laravel</title>
 
         <!-- Fonts -->
@@ -81,7 +82,6 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
                 </div>
 
                 <div class="links">
@@ -96,5 +96,6 @@
                 </div>
             </div>
         </div>
+        <script src="{{ asset('/js/app.js') }}"></script>
     </body>
 </html>

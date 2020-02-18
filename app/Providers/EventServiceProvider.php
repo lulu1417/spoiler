@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TestEvent' => [
             'App\Listeners\TestListener',
         ],
+        'App\Events\FoodAdded' => [
+            'App\Listeners\FoodListener',
+        ],
     ];
 
     /**
