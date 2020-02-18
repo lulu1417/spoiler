@@ -60,16 +60,17 @@ class OrderController extends Controller
     }
 
     function cancel($id){
+
         $order = Order::find($id);
-        $order->update([
-            'send' => false,
-        ]);
-
-        $food = Food::find($order->food_id);
-
-        $food->update([
-            'remaining' => $food->remaining + $order->food_number,
-        ]);
+        if($order->send){
+            $order->update([
+                'send' => false,
+            ]);
+            $food = Food::find($order->food_id);
+            $food->update([
+                'remaining' => $food->remaining + $order->food_number,
+            ]);
+        }
 
         return response()->json($order);
     }
