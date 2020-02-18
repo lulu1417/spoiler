@@ -51,7 +51,11 @@ class OrderController extends Controller
     }
 
     function complete($id){
-        $order = Order::find($id)->first();
+        if($order = Order::find($id)){
+
+        }else{
+            return response()->json('order not found',400);
+        }
         $order->update([
            'complete' => true,
         ]);
@@ -61,7 +65,11 @@ class OrderController extends Controller
 
     function cancel($id){
 
-        $order = Order::find($id);
+        if($order = Order::find($id)){
+
+        }else{
+            return response()->json('order not found',400);
+        }
         if($order->send){
             $order->update([
                 'send' => false,
