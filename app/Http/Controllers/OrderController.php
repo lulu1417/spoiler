@@ -5,25 +5,32 @@ namespace App\Http\Controllers;
 use App\Order;
 use App\Restaurant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
     function store(Request $request){
 
-        $request->validate([
-            'user_id' => ['required', 'exists:users'],
-            'food_id' => ['required', 'exists:foods'],
-        ]);
+        try{
+            DB::beginTransaction();
+            $request->validate([
+                'user_id' => ['required', 'exists:users,id'],
+                'food_id' => ['required', 'exists:foods,id'],
+            ]);
 
-        $create = Order::create([
-            'user_id' => $request->user_id,
-            'food_id' => $request->food_id,
-            'order_number' => rand(1000000000000, 9999999999999),
-            'complete' => false,
-            'send' => false,
-        ]);
-
-        return response()->json($create);
+            $create = Order::create([
+                'user_id' => $request->user_id,
+                'food_id' => $request->food_id,
+                'order_number' => rand(1000000000000, 9999999999999),
+                'complete' => false,
+                'send' => true,
+            ]);
+            DB::commit();
+            return response()->json($create);
+        }catch (Exception $e){
+            DB::rollBack();
+            return response()->json($e, 400);
+        }
 
     }
 
@@ -45,14 +52,13 @@ class OrderController extends Controller
 
     function cancel($id){
         $order = Order::find($id)->first();
-        return response()->json($order->delete());
+        return response()->json($order->update([
+            'send' => false,
+        ]));
     }
 
     function index($id){
-        $data['order'] = Order::find($id)->first();
-//        $data['food'] =
-//        $data['restaurant'] = ;
-
-        return response()->json();
+        $data = Order::with('food', 'user')->find($id)->first();
+        return response()->json($data);
     }
 }

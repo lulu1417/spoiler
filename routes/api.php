@@ -22,6 +22,7 @@ Route::group(['prefix' => 'user'], function(){
     Route::post('facebook/login', 'FBController@login');
     Route::get('look/{id}', 'UserController@look');
     Route::get('subscript', 'UserController@getSubscription');
+    Route::get('', 'UserController@all');
 
 
 });
@@ -46,19 +47,19 @@ Route::group(['prefix' => 'restaurant'], function(){
 });
 
 Route::group(['prefix' => 'food'], function(){
-    Route::middleware('auth:owner_api')->post('', 'FoodController@store');
-    Route::middleware('auth:owner_api')->put('/{id}', 'FoodController@update');
-    Route::get('', 'FoodController@index');
-    Route::get('look/{id}', 'FoodController@look');
+//    Route::middleware('auth:owner_api')->put('/{id}', 'FoodController@update');
+//    Route::get('', 'FoodController@index');
+//    Route::get('look/{id}', 'FoodController@look');
+    Route::post('', 'FoodController@store');
 
 });
 
 Route::group(['prefix' => 'order'], function(){
-    Route::middleware('auth:user_api')->post('create', 'OrderController@store');
+    Route::middleware('auth:api')->post('', 'OrderController@store');
     Route::post('search', 'OrderController@search');
 
-    Route::middleware('auth:user_api')->put('complete/{id}', 'OrderController@complete');
-    Route::middleware('auth:user_api')->delete('cancel/{id}', 'OrderController@cancel');
+    Route::middleware('auth:api')->put('complete/{id}', 'OrderController@complete');
+    Route::middleware('auth:api')->delete('cancel/{id}', 'OrderController@cancel');
     Route::get('look/{id}', 'OrderController@look');
 });
 

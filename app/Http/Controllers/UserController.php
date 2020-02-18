@@ -102,4 +102,8 @@ class UserController extends Controller
         $subrestaurants = User::with('subscriptRestaurant')->get();
         return response()->json($subrestaurants);
     }
+
+    function all(){
+        return response()->json(User::all());
+    }
 }

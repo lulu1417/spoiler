@@ -18,8 +18,9 @@ class Food extends Model
     {
         return $this->belongsTo(Restaurant::class, 'restaurant_id', 'id');
     }
-    protected $dispatchesEvents = [
-        'saving' => TestEvent::class,
-    ];
+
+//    protected $dispatchesEvents = [
+//        'saving' => TestEvent::class,
+//    ];
 
 }

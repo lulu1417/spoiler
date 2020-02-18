@@ -12,4 +12,14 @@ class Order extends Model
     protected $hidden = [
         'created_at', 'updated_at'
     ];
+
+    public function food()
+    {
+        return $this->hasOne(Food::class, 'food_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'user_id', 'id');
+    }
 }

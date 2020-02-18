@@ -18,7 +18,7 @@ class FoodController extends Controller
     function store(Request $request){
         try {
             DB::beginTransaction();
-            $request->validate([
+           $validate =  $request->validate([
                 'name' => Rule::unique('foods')->where(function ($query) use ($request) {
                     return $query->where('restaurant_id', $request->restaurant_id);
                 }),
@@ -45,13 +45,12 @@ class FoodController extends Controller
                 'image' => $parameters['image'],
                 'restaurant_id' => $request->restaurant_id,
             ]);
+
             DB::commit();
             return response()->json($food, 200);
         }catch (Exception $e){
             DB::rollBack();
         }
-
-
 
     }
     function search(Request $request)

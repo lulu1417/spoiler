@@ -46,6 +46,7 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
         'owner_api' => [
             'driver' => 'token',
             'provider' => 'owners',
