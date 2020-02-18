@@ -13,13 +13,11 @@ class Order extends Model
         'created_at', 'updated_at'
     ];
 
-    public function food()
-    {
-        return $this->belongsTo(Food::class, 'id');
+    function food(){
+        return $this->belongsTo(Food::class);
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id');
+    function user(){
+        return $this->belongsTo(User::class);
     }
 }

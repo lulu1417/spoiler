@@ -32,9 +32,10 @@ class SubscriptController extends Controller
 
     }
 
-    function destroy($id){
+    function cancel($id){
         $subscription = Subscription::find($id);
-        return response()->json($subscription->delete());
+        $subscription->delete();
+        return response()->json($subscription);
     }
 
     public function handle(TestEvent $event)

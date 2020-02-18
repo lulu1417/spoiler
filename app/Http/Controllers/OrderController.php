@@ -15,13 +15,13 @@ class OrderController extends Controller
 
         try{
             DB::beginTransaction();
-            $remaining  = Food::find($request->food_id)->remaining;
+            $food = Food::find($request->food_id);
             $request->validate([
                 'user_id' => ['required', 'exists:users,id'],
                 'food_id' => ['required', 'exists:foods,id'],
-                'food_number' => ['required','lte:'.$remaining],
+                'food_number' => ['required','lte:'.$food->remaining],
             ]);
-            
+
             $create = Order::create([
                 'user_id' => $request->user_id,
                 'food_id' => $request->food_id,
@@ -30,6 +30,10 @@ class OrderController extends Controller
                 'complete' => false,
                 'send' => true,
             ]);
+            $food->update([
+                'remaining' => $food->remaining - $request->food_number,
+            ]);
+
             DB::commit();
             return response()->json($create);
         }catch (Exception $e){
@@ -48,7 +52,7 @@ class OrderController extends Controller
 
     function complete($id){
         $order = Order::find($id)->first();
-        $order = $order->update([
+        $order->update([
            'complete' => true,
         ]);
         return response()->json($order);
@@ -56,15 +60,26 @@ class OrderController extends Controller
     }
 
     function cancel($id){
-        $order = Order::find($id)->first();
-        return response()->json($order->update([
+        $order = Order::find($id);
+        $order->update([
             'send' => false,
-        ]));
+        ]);
+
+        $food = Food::find($order->food_id);
+
+        $food->update([
+            'remaining' => $food->remaining + $order->food_number,
+        ]);
+
+        return response()->json($order);
     }
 
     function look($id){
-        $order = Order::find($id);
-        $data = $order->with('food', 'user')->first();
-        return response()->json($data);
+        $order = Order::with('food', 'user')->find($id);
+        return response()->json($order);
+    }
+
+    function index(){
+        return response()->json(Order::all());
     }
 }

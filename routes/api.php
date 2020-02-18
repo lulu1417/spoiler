@@ -47,27 +47,26 @@ Route::group(['prefix' => 'restaurant'], function(){
 });
 
 Route::group(['prefix' => 'food'], function(){
-//    Route::middleware('auth:owner_api')->put('/{id}', 'FoodController@update');
-//    Route::get('', 'FoodController@index');
-//    Route::get('look/{id}', 'FoodController@look');
+    Route::middleware('auth:owner_api')->put('/{id}', 'FoodController@update');
+    Route::get('', 'FoodController@index');
+    Route::get('look/{id}', 'FoodController@look');
     Route::post('', 'FoodController@store');
 
 });
 
 Route::group(['prefix' => 'order'], function(){
     Route::middleware('auth:api')->post('', 'OrderController@store');
-    Route::post('search', 'OrderController@search');
-
-    Route::middleware('auth:api')->put('complete/{id}', 'OrderController@complete');
-    Route::middleware('auth:api')->delete('cancel/{id}', 'OrderController@cancel');
-    Route::get('/{id}', 'OrderController@look');
+    Route::middleware('auth:api')->put('{id}', 'OrderController@complete');
+    Route::middleware('auth:api')->delete('{id}', 'OrderController@cancel');
+    Route::get('{id}', 'OrderController@look');
+    Route::get('', 'OrderController@index');
 });
 
 Route::group(['prefix' => 'subscript'], function(){
     Route::post('', 'SubscriptController@store');
     Route::post('search', 'SunscriptController@search');
     Route::get('notice', 'SubscriptController@notice');
-    Route::delete('cancel/{id}', 'SubscriptController@destroy');
+    Route::delete('{id}', 'SubscriptController@cancel');
 });
 
 Route::post('search', 'FoodController@search');

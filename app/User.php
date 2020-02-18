@@ -41,4 +41,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Restaurant::class, 'subscriptions', 'user_id' ,'restaurant_id');
     }
+    public function orderFood()
+    {
+        return $this->belongsToMany(Food::class, 'orders', 'user_id', 'food_id');
+    }
 }

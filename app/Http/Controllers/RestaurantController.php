@@ -19,7 +19,6 @@ class RestaurantController extends Controller
 //
 //        return $response;
 
-
         $restaurants = Restaurant::with('foods')->withCount('foods')->get();
         return response()->json($restaurants);
 

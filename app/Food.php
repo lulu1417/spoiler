@@ -16,9 +16,13 @@ class Food extends Model
 
     public function restaurant()
     {
-        return $this->belongsTo(Restaurant::class, 'restaurant_id', 'id');
+        return $this->belongsTo(Restaurant::class);
     }
 
+    public function orderUser()
+    {
+        return $this->belongsToMany(User::class, 'orders', 'food_id', 'user_id');
+    }
 //    protected $dispatchesEvents = [
 //        'saving' => TestEvent::class,
 //    ];
