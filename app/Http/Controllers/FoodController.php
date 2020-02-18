@@ -18,7 +18,7 @@ class FoodController extends Controller
     function store(Request $request){
         try {
             DB::beginTransaction();
-           $validate =  $request->validate([
+            $request->validate([
                 'name' => Rule::unique('foods')->where(function ($query) use ($request) {
                     return $query->where('restaurant_id', $request->restaurant_id);
                 }),
