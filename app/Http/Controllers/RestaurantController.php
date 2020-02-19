@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\DB;
 class RestaurantController extends Controller
 {
 
-    function index(){
+    function index()
+    {
 
 //        $response = DB::table('restaurants')
 //            ->leftJoin('foods', 'restaurants.id', '=', 'foods.restaurant_id')
@@ -24,24 +25,27 @@ class RestaurantController extends Controller
         return response()->json($restaurants);
 
     }
-    function getSubscriptUsers(){
+
+    function getSubscriptUsers()
+    {
         $subUser = Restaurant::with('subscriptUser')->get();
         return response()->json($subUser);
     }
 
-    function store(Request $request){
+    function store(Request $request)
+    {
 
         try {
             DB::beginTransaction();
             $request->validate([
                 'name' => ['required', 'unique:restaurants'],
                 'class' => 'required',
-                'east_longitude' => ['required','numeric'],
-                'north_latitude' => ['required','numeric'],
+                'east_longitude' => ['required', 'numeric'],
+                'north_latitude' => ['required', 'numeric'],
                 'start_time' => ['required', 'digits:6'],
-                'end_time' => ['required', 'digits:6', 'gte:'.$request->start_time],
-                'link' => ['required','unique:restaurants'],
-                'address' => ['required','unique:restaurants'],
+                'end_time' => ['required', 'digits:6', 'gte:' . $request->start_time],
+                'link' => ['required', 'unique:restaurants'],
+                'address' => ['required', 'unique:restaurants'],
                 'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
                 'phone' => ['required', 'digits:9', 'unique:restaurants'],
             ]);
@@ -73,7 +77,7 @@ class RestaurantController extends Controller
             DB::commit();
             return response()->json($create, 200);
 
-        }catch (Exception $error) {
+        } catch (Exception $error) {
 
             DB::rollback();
             return response()->json("create restaurant failed", 400);
@@ -85,110 +89,112 @@ class RestaurantController extends Controller
     {
         $calculateDistance = new calculateDistance();
         $result = array();
-        foreach($filted as $restaurant){
+        foreach ($filted as $restaurant) {
             $restaurant['distance'] = $calculateDistance->getDistance($user_north_latitude, $user_east_longitude, $restaurant->north_latitude, $restaurant->east_longitude);
-            if($restaurant['distance'] < $search_range ){
+            if ($restaurant['distance'] < $search_range) {
                 $result[] = $restaurant;
             }
         }
-        if($result){
+        if ($result) {
             return $result;
-        }else{
+        } else {
             return false;
         }
 
     }
 
-    function calculateOverlappedTime($user_start_time, $user_end_time, $filted){
+    function calculateOverlappedTime($user_start_time, $user_end_time, $filted)
+    {
         $result = array();
-        foreach($filted as $restaurant){
-            if($user_start_time < $restaurant->start_time){
-                if($user_end_time > $restaurant->start_time){
+        foreach ($filted as $restaurant) {
+            if ($user_start_time < $restaurant->start_time) {
+                if ($user_end_time > $restaurant->start_time) {
                     $result[] = $restaurant;
                 }
-            }elseif($user_start_time < $restaurant->end_time){
+            } elseif ($user_start_time < $restaurant->end_time) {
                 $result[] = $restaurant;
             }
         }
-        if($result){
+        if ($result) {
             return $result;
-        }else{
+        } else {
             return false;
 //            return response()->json('no restaurant found within the specified time', 400);
         }
 
     }
 
-    function filtClass($arrClass, $filted){
-        if($arrClass){
-            $result = array();
-            foreach($filted as $restaurant){
-                foreach ($arrClass as $class){
-                    if($restaurant->class == $class){
-                        $result[] = $restaurant;
-                    }
-                }
-            }
-            if($result){
-                return $result;
-            }else{
-                return false;
-//            return response()->json('no restaurant found within the specified class', 400);
-            }
-        }else{
-            return $filted;
-        }
 
-
-    }
-
-    function filter(Request $request){
+    function filter(Request $request)
+    {
         $request->validate([
             'start_time' => 'digits:6',
-            'end_time' => ['digits:6', 'gte:'.$request->start_time],
-            'only_remianing' => 'boolean',
+            'end_time' => ['digits:6', 'gte:' . $request->start_time],
+            'only_remaining' => 'boolean',
             'user_north_latitude' => 'numeric',
             'user_east_longitude' => 'numeric',
             'search_range' => 'numeric',
+            //TODO check array is valid
+//            'class' => ''
         ]);
-        $filted = Restaurant::withCount('foods')->get();
-        if($request->user_north_latitude){
-            $distance = $this->distanceCalculate($request->user_north_latitude, $request->user_east_longitude, $request->search_range, $filted);
-        }else{
-            $distance = $filted;
-        }
-        if($request->start_time && $distance){
-            $time = $this->calculateOverlappedTime($request->start_time, $request->end_time, $distance);
-        }else{
-            $time = $distance;
-        }
-        if($request->class && $time){
-            $filtClass = $this->filtClass($request->class, $time);
-        }else{
-            $filtClass = $time;
-        }
 
-        if($request->only_remaining && $filtClass){
-            $only_remaining = array();
-            foreach ($filtClass as $restaurant){
-                if($restaurant->foods_count > 0) {
-                    $only_remaining = $restaurant;
-                }
+        $conditions = [
+            "start_time" => 0000000,
+            "end_time" => 240000,
+            "only_remaining" => false,
+            "user_north_latitude" => 23,
+            "user_east_longitude" => 120,
+            "search_range" => 100000,
+            "class" => []
+        ];
+
+        foreach ($conditions as $key => $value) {
+            if (isset($request->{$key})) {
+                $conditions[$key] = $request[$key];
             }
-        }else{
-            $only_remaining = $filtClass;
         }
 
-        if($only_remaining){
-            return $only_remaining;
-        }else{
+        $filted = Restaurant::with(array('foods' =>
+
+            function ($query) use ($conditions) {
+                $minimal = $conditions['only_remaining'] ? 1 : 0;
+                $query->where('remaining', '>=', $minimal);
+            }, 'owner'))
+            //Todo, should check value is not null
+            ->when(!empty($conditions['class']), function ($query) use ($conditions) {
+                $classes = $conditions['class'];
+                $query->whereIn('class', $classes);
+            })
+            ->get()
+            ->toArray();
+
+        $filted = array_filter($filted, function ($restaurant) use($conditions) {
+            $calculateDistance = new calculateDistance();
+            $restaurant['distance'] =
+                $calculateDistance->getDistance(
+                    $conditions['user_north_latitude'],
+                    $conditions['user_east_longitude'],
+                    $restaurant['north_latitude'],
+                    $restaurant['east_longitude']
+                );
+            return ($restaurant['distance'] < $conditions['search_range']);
+        });
+
+        $filted = array_filter($filted, function ($restaurant) use($conditions) {
+            //Todo....
+        });
+        
+        if (!isEmpty($filted)) {
+            return response()->json($filted);
+        } else {
             return response()->json('no restaurant found within the specified conditions', 400);
         }
 
 
     }
 
-    function look($id){
+    function look($id)
+    {
         return response()->json(Restaurant::with('foods')->find($id)->get());
     }
 
