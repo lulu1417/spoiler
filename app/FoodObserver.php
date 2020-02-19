@@ -3,6 +3,7 @@
 
 namespace App;
 
+use App\Events\FoodAdded;
 use App\Food;
 use Illuminate\Support\Facades\Log;
 
@@ -22,6 +23,7 @@ class FoodObserver
         info($food);
     }
     public function saved(Food $food) {
+        event(new FoodAdded($food));
         info('saved');
         info($food);
     }

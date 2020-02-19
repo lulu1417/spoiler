@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+
 class RestaurantController extends Controller
 {
 
@@ -35,10 +36,10 @@ class RestaurantController extends Controller
             $request->validate([
                 'name' => ['required', 'unique:restaurants'],
                 'class' => 'required',
-                'east_longitude' => 'required',
-                'north_latitude' => 'required',
+                'east_longitude' => ['required','numeric'],
+                'north_latitude' => ['required','numeric'],
                 'start_time' => ['required', 'digits:6'],
-                'end_time' => ['required', 'digits:6'],
+                'end_time' => ['required', 'digits:6', 'gte:'.$request->start_time],
                 'link' => ['required','unique:restaurants'],
                 'address' => ['required','unique:restaurants'],
                 'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
@@ -80,28 +81,105 @@ class RestaurantController extends Controller
 
     }
 
-    function distanceCalculate($userCoordinate, $distanceScope)
+    function distanceCalculate($user_north_latitude, $user_east_longitude, $search_range, $filted)
     {
-
-        //distance
-        $restaurants = Restaurant::all();
-        foreach($restaurants as $restaurant){
-            //calculate distance
-            $restaurant['distance'] = calculateDistance($restaurant->coordinate, $userCoordinate);
-            if($restaurant['distance'] < $distanceScope){
+        $calculateDistance = new calculateDistance();
+        $result = array();
+        foreach($filted as $restaurant){
+            $restaurant['distance'] = $calculateDistance->getDistance($user_north_latitude, $user_east_longitude, $restaurant->north_latitude, $restaurant->east_longitude);
+            if($restaurant['distance'] < $search_range ){
                 $result[] = $restaurant;
             }
         }
-
-        return response()->json($result);
+        if($result){
+            return $result;
+        }else{
+            return false;
+        }
 
     }
 
-    function calculateOverlappedTime($userStartTime, $userEndTime){
+    function calculateOverlappedTime($user_start_time, $user_end_time, $filted){
+        $result = array();
+        foreach($filted as $restaurant){
+            if($user_start_time < $restaurant->start_time){
+                if($user_end_time > $restaurant->start_time){
+                    $result[] = $restaurant;
+                }
+            }elseif($user_start_time < $restaurant->end_time){
+                $result[] = $restaurant;
+            }
+        }
+        if($result){
+            return $result;
+        }else{
+            return false;
+//            return response()->json('no restaurant found within the specified time', 400);
+        }
+
+    }
+
+    function filtClass($arrClass, $filted){
+        if($arrClass){
+            $result = array();
+            foreach($filted as $restaurant){
+                foreach ($arrClass as $class){
+                    if($restaurant->class == $class){
+                        $result[] = $restaurant;
+                    }
+                }
+            }
+            if($result){
+                return $result;
+            }else{
+                return false;
+//            return response()->json('no restaurant found within the specified class', 400);
+            }
+        }else{
+            return $filted;
+        }
+
+
+    }
+
+    function filter(Request $request){
+        $request->validate([
+            'start_time' => 'digits:6',
+            'end_time' => ['digits:6', 'gte:'.$request->start_time],
+            'only_remianing' => 'boolean',
+            'user_north_latitude' => 'numeric',
+            'user_east_longitude' => 'numeric',
+            'search_range' => 'numeric',
+        ]);
+        $filted = Restaurant::all();
+        if($request->user_north_latitude){
+            $distance = $this->distanceCalculate($request->user_north_latitude, $request->user_east_longitude, $request->search_range, $filted);
+        }else{
+            $distance = Restaurant::all();
+        }
+        if($request->start_time && $distance){
+            $time = $this->calculateOverlappedTime($request->start_time, $request->end_time, $distance);
+        }else{
+            $time = Restaurant::all();
+        }
+        if($request->class && $time){
+            $filtClass = $this->filtClass($request->class, $time);
+        }else{
+            $filtClass = Restaurant::all();
+        }
+
+        if($filtClass){
+            return $filtClass;
+        }else{
+            return response()->json('no restaurant found within the specified conditions', 400);
+        }
+
 
     }
 
     function look($id){
         return response()->json(Restaurant::with('foods')->find($id)->get());
     }
+
+
 }

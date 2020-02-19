@@ -15,15 +15,16 @@ class FoodAdded implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $food;
+    public $restaurant;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Food $food)
     {
-
+        $this->restaurant = $food->restaurant_id;
     }
 
     /**
@@ -33,7 +34,7 @@ class FoodAdded implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('foodStatus');
+        return new PrivateChannel('foodStatus'.$this->restaurant);
     }
     public function broadcastAs()
     {

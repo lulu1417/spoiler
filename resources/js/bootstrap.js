@@ -31,7 +31,8 @@ window.Echo = new Echo({
     host: window.location.hostname + ':6001'
 });
 
-Echo.private(`orderStatus`)
-    .listen('OrderShipped', (e) => {
+
+Echo.private(`foodStatus.${restaurantId}`)
+    .listen('FoodAdded', (e) => {
         console.log(e);
     });

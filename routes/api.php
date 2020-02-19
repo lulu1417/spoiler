@@ -40,11 +40,13 @@ Route::group(['prefix' => 'owner'], function(){
 Route::group(['prefix' => 'restaurant'], function(){
     Route::middleware('auth:owner_api')->post('', 'RestaurantController@store');
     Route::middleware('auth:owner_api')->put('/{id}', 'RestaurantController@update');
-    Route::post('distance', 'RestaurantController@distanceCalculate');
+    Route::post('filter', 'RestaurantController@filter');
     Route::get('', 'RestaurantController@index');
     Route::get('look/{id}', 'RestaurantController@look');
     Route::post('scoreUser', 'RestaurantController@scoreUser');
     Route::get('subscript', 'RestaurantController@getSubscriptUsers');
+    Route::post('time', 'RestaurantController@calculateOverlappedTime');
+    Route::post('class', 'RestaurantController@filtClass');
 
 });
 
