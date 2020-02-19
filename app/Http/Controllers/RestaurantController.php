@@ -151,25 +151,36 @@ class RestaurantController extends Controller
             'user_east_longitude' => 'numeric',
             'search_range' => 'numeric',
         ]);
-        $filted = Restaurant::all();
+        $filted = Restaurant::withCount('foods')->get();
         if($request->user_north_latitude){
             $distance = $this->distanceCalculate($request->user_north_latitude, $request->user_east_longitude, $request->search_range, $filted);
         }else{
-            $distance = Restaurant::all();
+            $distance = $filted;
         }
         if($request->start_time && $distance){
             $time = $this->calculateOverlappedTime($request->start_time, $request->end_time, $distance);
         }else{
-            $time = Restaurant::all();
+            $time = $distance;
         }
         if($request->class && $time){
             $filtClass = $this->filtClass($request->class, $time);
         }else{
-            $filtClass = Restaurant::all();
+            $filtClass = $time;
         }
 
-        if($filtClass){
-            return $filtClass;
+        if($request->only_remaining && $filtClass){
+            $only_remaining = array();
+            foreach ($filtClass as $restaurant){
+                if($restaurant->foods_count > 0) {
+                    $only_remaining = $restaurant;
+                }
+            }
+        }else{
+            $only_remaining = $filtClass;
+        }
+
+        if($only_remaining){
+            return $only_remaining;
         }else{
             return response()->json('no restaurant found within the specified conditions', 400);
         }
