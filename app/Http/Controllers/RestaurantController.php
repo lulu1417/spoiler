@@ -135,7 +135,6 @@ class RestaurantController extends Controller
             'user_east_longitude' => 'numeric',
             'search_range' => 'numeric',
             //TODO check array is valid
-//            'class' => ''
         ]);
 
         $conditions = [
@@ -159,9 +158,9 @@ class RestaurantController extends Controller
             function ($query) use ($conditions) {
                 $minimal = $conditions['only_remaining'] ? 1 : 0;
                 $query->where('remaining', '>=', $minimal);
-            }, 'owner'))
+            }))
             //Todo, should check value is not null
-            ->when(!empty($conditions['class']), function ($query) use ($conditions) {
+            ->when(!isset($conditions['class']), function ($query) use ($conditions) {
                 $classes = $conditions['class'];
                 $query->whereIn('class', $classes);
             })
@@ -180,11 +179,16 @@ class RestaurantController extends Controller
             return ($restaurant['distance'] < $conditions['search_range']);
         });
 
-        $filted = array_filter($filted, function ($restaurant) use($conditions) {
-            //Todo....
+        $filted = array_filter($filted, function ($restaurant) use($conditions){
+            if ($conditions['start_time'] < $restaurant['start_time']) {
+                return ($conditions['end_time'] > $restaurant['start_time']);
+            } else{
+                return ($conditions['start_time'] < $restaurant['end_time']);
+            }
         });
-        
-        if (!isEmpty($filted)) {
+
+
+        if (!empty($filted)) {
             return response()->json($filted);
         } else {
             return response()->json('no restaurant found within the specified conditions', 400);
