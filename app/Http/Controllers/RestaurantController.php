@@ -15,11 +15,6 @@ class RestaurantController extends Controller
     function index()
     {
 
-//        $response = DB::table('restaurants')
-//            ->leftJoin('foods', 'restaurants.id', '=', 'foods.restaurant_id')
-//            ->select( 'restaurants.*', 'foods.name as food_name', 'foods.original_price')->get();
-//
-//        return $response;
 
         $restaurants = Restaurant::with('foods')->withCount('foods')->get();
         return response()->json($restaurants);
@@ -85,44 +80,6 @@ class RestaurantController extends Controller
 
     }
 
-    function distanceCalculate($user_north_latitude, $user_east_longitude, $search_range, $filted)
-    {
-        $calculateDistance = new calculateDistance();
-        $result = array();
-        foreach ($filted as $restaurant) {
-            $restaurant['distance'] = $calculateDistance->getDistance($user_north_latitude, $user_east_longitude, $restaurant->north_latitude, $restaurant->east_longitude);
-            if ($restaurant['distance'] < $search_range) {
-                $result[] = $restaurant;
-            }
-        }
-        if ($result) {
-            return $result;
-        } else {
-            return false;
-        }
-
-    }
-
-    function calculateOverlappedTime($user_start_time, $user_end_time, $filted)
-    {
-        $result = array();
-        foreach ($filted as $restaurant) {
-            if ($user_start_time < $restaurant->start_time) {
-                if ($user_end_time > $restaurant->start_time) {
-                    $result[] = $restaurant;
-                }
-            } elseif ($user_start_time < $restaurant->end_time) {
-                $result[] = $restaurant;
-            }
-        }
-        if ($result) {
-            return $result;
-        } else {
-            return false;
-//            return response()->json('no restaurant found within the specified time', 400);
-        }
-
-    }
 
 
     function filter(Request $request)
@@ -152,7 +109,7 @@ class RestaurantController extends Controller
                 $conditions[$key] = $request[$key];
             }
         }
-        
+
 
         $filted  = Restaurant::
             with('foods')
@@ -168,7 +125,7 @@ class RestaurantController extends Controller
         ->toArray();
 
 
-        $filted = array_filter((array)$filted, function ($restaurant) use ($conditions) {
+        $filted = array_map(function ($restaurant) use ($conditions) {
             $calculateDistance = new calculateDistance();
             $restaurant['distance'] =
                 $calculateDistance->getDistance(
@@ -177,8 +134,10 @@ class RestaurantController extends Controller
                     $restaurant['north_latitude'],
                     $restaurant['east_longitude']
                 );
-            return ($restaurant['distance'] < $conditions['search_range']);
-        });
+            if($restaurant['distance'] < $conditions['search_range'])
+            return $restaurant;
+        }, (array)$filted);
+        
 
         $filted = array_filter($filted, function ($restaurant) use ($conditions) {
             if ($conditions['start_time'] < $restaurant['start_time']) {
