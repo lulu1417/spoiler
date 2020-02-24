@@ -152,18 +152,7 @@ class RestaurantController extends Controller
                 $conditions[$key] = $request[$key];
             }
         }
-
-//        $filted = Restaurant::with(array('foods' =>
-//            function ($query) use ($conditions) {
-//                $minimal = $conditions['only_remaining'] ? 19 : 0;
-//                $query->where('remaining', '>=', $minimal);
-//            }))
-//            ->when(!empty($conditions['class']), function ($query) use ($conditions) {
-//                $classes = $conditions['class'];
-//                $query->whereIn('class', $classes);
-//            })
-//            ->get()
-//            ->toArray();
+        
 
         $filted  = Restaurant::
             with('foods')
