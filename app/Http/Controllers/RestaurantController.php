@@ -182,7 +182,7 @@ class RestaurantController extends Controller
             ]);
             return response()->json($restaurant, 200);
         } else {
-            return response()->json('the given id not found', 400);
+            return response()->json('the given restaurant id not found', 400);
         }
 
     }
