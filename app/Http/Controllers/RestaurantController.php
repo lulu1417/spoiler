@@ -91,8 +91,22 @@ class RestaurantController extends Controller
             'user_north_latitude' => 'numeric',
             'user_east_longitude' => 'numeric',
             'search_range' => 'numeric',
+            'class' => 'array',
             //TODO check array is valid
         ]);
+
+        if(isset($request['class'])){
+            foreach ($request['class'] as $class) {
+                if($class == null){
+                    $request['class'] = [];
+                }
+            }
+        }
+
+
+//        if(empty($request['class'][0])){
+//            return response()->json('array class cannot be null', 400);
+//        }
 
         $conditions = [
             "start_time" => 0000000,
@@ -125,6 +139,7 @@ class RestaurantController extends Controller
         ->toArray();
 
 
+
         $filted = array_map(function ($restaurant) use ($conditions) {
             $calculateDistance = new calculateDistance();
             $restaurant['distance'] =
@@ -136,17 +151,29 @@ class RestaurantController extends Controller
                 );
             if($restaurant['distance'] < $conditions['search_range'])
             return $restaurant;
-        }, (array)$filted);
-        
+        }, $filted);
 
         $filted = array_filter($filted, function ($restaurant) use ($conditions) {
-            if ($conditions['start_time'] < $restaurant['start_time']) {
-                return ($conditions['end_time'] > $restaurant['start_time']);
-            } else {
-                return ($conditions['start_time'] < $restaurant['end_time']);
-            }
+            $calculateDistance = new calculateDistance();
+            $restaurant['distance'] =
+                $calculateDistance->getDistance(
+                    $conditions['user_north_latitude'],
+                    $conditions['user_east_longitude'],
+                    $restaurant['north_latitude'],
+                    $restaurant['east_longitude']
+                );
+            return $restaurant['distance'] < $conditions['search_range'];
         });
 
+
+
+        $filted = array_filter($filted, function ($restaurant) use ($conditions) {
+            if ($conditions['start_time'] < $restaurant['start_time'] && $conditions['end_time'] > $restaurant['start_time']) {
+                return true;
+            } elseif($conditions['start_time'] < $restaurant['end_time']) {
+                return true;
+            }
+        });
 
         if (!empty($filted)) {
             return response()->json($filted);
