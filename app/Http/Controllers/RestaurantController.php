@@ -152,11 +152,19 @@ class RestaurantController extends Controller
         }, $filted);
 
 
+//        $filted = array_filter($filted, function ($restaurant) use ($conditions) {
+//            if ($conditions['start_time'] < $restaurant['start_time'] && $conditions['end_time'] > $restaurant['start_time']) {
+//                return true;
+//            } elseif ($conditions['start_time'] < $restaurant['end_time']) {
+//                return true;
+//            }
+//        });
+
         $filted = array_filter($filted, function ($restaurant) use ($conditions) {
-            if ($conditions['start_time'] < $restaurant['start_time'] && $conditions['end_time'] > $restaurant['start_time']) {
-                return true;
-            } elseif ($conditions['start_time'] < $restaurant['end_time']) {
-                return true;
+            if ($conditions['start_time'] < $restaurant['start_time']) {
+                return ($conditions['end_time'] > $restaurant['start_time']);
+            } else  {
+                return ($conditions['start_time'] < $restaurant['end_time']);
             }
         });
 
@@ -171,7 +179,7 @@ class RestaurantController extends Controller
 
     function look($id)
     {
-        return response()->json(Restaurant::with('foods')->find($id)->get());
+        return response()->json(Restaurant::with('foods')->find($id));
     }
 
     function score($id)

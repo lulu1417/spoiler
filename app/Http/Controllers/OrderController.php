@@ -63,7 +63,6 @@ class OrderController extends Controller
 
     function cancel($id)
     {
-
         if (count(Order::where('id', $id)->get()) > 0) {
             $order = Order::find($id);
             if ($order->send) {
@@ -82,7 +81,6 @@ class OrderController extends Controller
         } else {
             return response()->json('the given order id not found', 400);
         }
-
     }
 
     function look($id)
