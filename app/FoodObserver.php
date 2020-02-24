@@ -23,7 +23,7 @@ class FoodObserver
         info($food);
     }
     public function saved(Food $food) {
-        event(new FoodAdded($food));
+//        event(new FoodAdded($food));
         info('saved');
         info($food);
     }
