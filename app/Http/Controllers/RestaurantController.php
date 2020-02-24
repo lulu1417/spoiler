@@ -81,12 +81,11 @@ class RestaurantController extends Controller
     }
 
 
-
     function filter(Request $request)
     {
         $request->validate([
             'start_time' => 'digits:6',
-            'end_time' => ['digits:6','gte:' . $request->start_time],
+            'end_time' => ['digits:6', 'gte:' . $request->start_time],
             'only_remaining' => 'boolean',
             'user_north_latitude' => 'numeric',
             'user_east_longitude' => 'numeric',
@@ -95,9 +94,9 @@ class RestaurantController extends Controller
             //TODO check array is valid
         ]);
 
-        if(isset($request['class'])){
+        if (isset($request['class'])) {
             foreach ($request['class'] as $class) {
-                if($class == null){
+                if ($class == null) {
                     $request['class'] = [];
                 }
             }
@@ -125,19 +124,18 @@ class RestaurantController extends Controller
         }
 
 
-        $filted  = Restaurant::
-            with('foods')
-        ->whereHas('foods', function ($query) use ($conditions) {
-            $minimal = $conditions['only_remaining'] ? 1 : 0;
-            $query->where('remaining', '>=', $minimal);
-        })
+        $filted = Restaurant::
+        with('foods')
+            ->whereHas('foods', function ($query) use ($conditions) {
+                $minimal = $conditions['only_remaining'] ? 1 : 0;
+                $query->where('remaining', '>=', $minimal);
+            })
             ->when(!empty($conditions['class']), function ($query) use ($conditions) {
                 $classes = $conditions['class'];
                 $query->whereIn('class', $classes);
             })
             ->get()
-        ->toArray();
-
+            ->toArray();
 
 
         $filted = array_map(function ($restaurant) use ($conditions) {
@@ -149,15 +147,15 @@ class RestaurantController extends Controller
                     $restaurant['north_latitude'],
                     $restaurant['east_longitude']
                 );
-            if($restaurant['distance'] < $conditions['search_range'])
-            return $restaurant;
+            if ($restaurant['distance'] < $conditions['search_range'])
+                return $restaurant;
         }, $filted);
 
 
         $filted = array_filter($filted, function ($restaurant) use ($conditions) {
             if ($conditions['start_time'] < $restaurant['start_time'] && $conditions['end_time'] > $restaurant['start_time']) {
                 return true;
-            } elseif($conditions['start_time'] < $restaurant['end_time']) {
+            } elseif ($conditions['start_time'] < $restaurant['end_time']) {
                 return true;
             }
         });
@@ -176,5 +174,17 @@ class RestaurantController extends Controller
         return response()->json(Restaurant::with('foods')->find($id)->get());
     }
 
+    function score($id)
+    {
+        if ($restaurant = Restaurant::where('id', $id)->count() > 0) {
+            $restaurant->update([
+                'assessment' => $restaurant->assessment + 1,
+            ]);
+            return response()->json($restaurant, 200);
+        } else {
+            return response()->json('the given id not found', 400);
+        }
+
+    }
 
 }

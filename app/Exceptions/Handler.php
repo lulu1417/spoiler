@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Facebook\Exceptions\FacebookSDKException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -58,6 +59,7 @@ class Handler extends ExceptionHandler
             ], 400);
             return $response;
         }
+
         return parent::render($request, $exception);
     }
 }
