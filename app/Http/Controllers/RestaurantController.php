@@ -177,6 +177,7 @@ class RestaurantController extends Controller
     function score($id)
     {
         if ($restaurant = Restaurant::where('id', $id)->count() > 0) {
+            $restaurant = Restaurant::find($id);
             $restaurant->update([
                 'assessment' => $restaurant->assessment + 1,
             ]);
