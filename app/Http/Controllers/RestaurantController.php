@@ -86,7 +86,7 @@ class RestaurantController extends Controller
     {
         $request->validate([
             'start_time' => 'digits:6',
-            'end_time' => ['digits:6', 'gte:' . $request->start_time],
+            'end_time' => ['digits:6','gte:' . $request->start_time],
             'only_remaining' => 'boolean',
             'user_north_latitude' => 'numeric',
             'user_east_longitude' => 'numeric',
@@ -152,19 +152,6 @@ class RestaurantController extends Controller
             if($restaurant['distance'] < $conditions['search_range'])
             return $restaurant;
         }, $filted);
-
-        $filted = array_filter($filted, function ($restaurant) use ($conditions) {
-            $calculateDistance = new calculateDistance();
-            $restaurant['distance'] =
-                $calculateDistance->getDistance(
-                    $conditions['user_north_latitude'],
-                    $conditions['user_east_longitude'],
-                    $restaurant['north_latitude'],
-                    $restaurant['east_longitude']
-                );
-            return $restaurant['distance'] < $conditions['search_range'];
-        });
-
 
 
         $filted = array_filter($filted, function ($restaurant) use ($conditions) {
