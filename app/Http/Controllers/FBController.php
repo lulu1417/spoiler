@@ -60,12 +60,11 @@ class FBController extends Controller
         $endpoint = env('FBEndpoint');
 
         $response = $fb->get($endpoint, $token);
-
         $resource = $response->getGraphUser();
         if (count(User::where('account', $resource['id'])->get()->toArray()) == 0) {
             $create = User::create([
                 'name' => $resource['name'],
-                'access_token' => $token,
+                'access_token' => $token->getValue(),
                 'account' => $resource['id'],
                 'password' => 'facebook',
                 'api_token' => Str::random(20),
@@ -78,7 +77,10 @@ class FBController extends Controller
         } else {
             $user = User::where('account', $resource['id'])->first();
             $user->update([
+                'name' => $resource['name'],
                 'api_token' => Str::random(20),
+                'access_token' => $token->getValue(),
+                'image' => $resource['picture']['url'],
             ]);
             return $user;
         }
