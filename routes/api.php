@@ -25,7 +25,7 @@ Route::group(['prefix' => 'user'], function(){
     Route::get('look/{id}', 'UserController@look');
     Route::get('subscript', 'UserController@getSubscription');
     Route::get('', 'UserController@all');
-
+    Route::post('report', 'UserController@reportUser');
 
 });
 
@@ -75,6 +75,10 @@ Route::group(['prefix' => 'subscript'], function(){
 
 Route::post('search', 'FoodController@search');
 
+Route::group(['prefix' => 'report'], function(){
+    Route::post('', 'ReportController@report');
+
+});
 
 //broadcast
 Route::get('ship', function (Request $request)

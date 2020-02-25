@@ -102,7 +102,6 @@ class RestaurantController extends Controller
             }
         }
 
-
 //        if(empty($request['class'][0])){
 //            return response()->json('array class cannot be null', 400);
 //        }

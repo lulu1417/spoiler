@@ -19,10 +19,12 @@ class OrderController extends Controller
                 'user_id' => ['required', 'exists:users,id'],
                 'food_id' => ['required', 'exists:foods,id'],
                 'food_number' => ['required', 'lte:' . $food->remaining],
+                'phone' => 'required'|'digits'
             ]);
 
             $create = Order::create([
                 'user_id' => $request->user_id,
+                'phone' => $request->phone,
                 'food_id' => $request->food_id,
                 'order_number' => strval(rand(1000000000000, 9999999999999)),
                 'food_number' => $request->food_number,
@@ -93,7 +95,6 @@ class OrderController extends Controller
         }
 
     }
-
     function index()
     {
         return response()->json(Order::all());

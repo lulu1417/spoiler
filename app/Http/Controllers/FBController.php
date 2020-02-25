@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\User;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class FBController extends Controller
@@ -72,6 +70,7 @@ class FBController extends Controller
                 'api_token' => Str::random(20),
                 'image' => $resource['picture']['url'],
                 'point' => 0,
+                'bad_record' => 0,
             ]);
             return $create;
 

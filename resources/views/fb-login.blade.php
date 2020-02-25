@@ -7,10 +7,9 @@
 <body>
 <?php
 use Facebook\Facebook as Facebook;
-
 session_start();
 $fb = new Facebook([
-'app_id' => env('FB_CLIENT_ID'), // Replace {app-id} with your app id
+'app_id' => env('FB_CLIENT_ID'),
 'app_secret' => env('FB_CLIENT_SECRET'),
 'default_graph_version' => 'v3.2',
 ]);
@@ -18,8 +17,8 @@ $fb = new Facebook([
 $helper = $fb->getRedirectLoginHelper();
 
 $permissions = ['email']; // Optional permissions
-//$loginUrl = $helper->getLoginUrl('http://localhost:8000/api/user/facebook/call-back', $permissions);
-$loginUrl = $helper->getLoginUrl('https://wasteless.bboa14171205.nctu.me/api/user/facebook/call-back', $permissions);
+$loginUrl = $helper->getLoginUrl(env('FB_REDIRECT'), $permissions);
+//$loginUrl = $helper->getLoginUrl('https://wasteless.bboa14171205.nctu.me/api/user/facebook/call-back', $permissions);
 
 echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
 ?>

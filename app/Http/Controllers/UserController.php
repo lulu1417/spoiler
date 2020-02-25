@@ -21,7 +21,6 @@ class UserController extends Controller
                 'account' => ['required', 'unique:users'],
                 'email' => ['sometimes', 'email'],
                 'password' => ['required', 'between:6,12'],
-                'phone' => ['required', 'digits:10']
             ]);
 
         $create = User::create([
@@ -31,7 +30,6 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'api_token' => 'logout',
             'point' => 0,
-            'phone' => $request->phone,
         ]);
 
         if($create){
@@ -63,7 +61,6 @@ class UserController extends Controller
 
         if(count(User::where('id',$id)->get()->toArray()) > 0){
             $request->validate([
-                'phone' => 'digits:10',
                 'account' => ['unique:users'],
                 'email' => ['email'],
                 'password' => ['between:6,12'],
@@ -106,4 +103,5 @@ class UserController extends Controller
     function all(){
         return response()->json(User::all());
     }
+
 }

@@ -22,8 +22,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('account_verified_at')->nullable();
             $table->string('password');
             $table->integer('point');
+            $table->integer('bad_record');
             $table->string('api_token');
-            $table->string('phone')->nullable();
             $table->timestamps();
         });
     }
