@@ -152,14 +152,6 @@ class RestaurantController extends Controller
         }, $filted);
 
 
-//        $filted = array_filter($filted, function ($restaurant) use ($conditions) {
-//            if ($conditions['start_time'] < $restaurant['start_time'] && $conditions['end_time'] > $restaurant['start_time']) {
-//                return true;
-//            } elseif ($conditions['start_time'] < $restaurant['end_time']) {
-//                return true;
-//            }
-//        });
-
         $filted = array_filter($filted, function ($restaurant) use ($conditions) {
             if ($conditions['start_time'] < $restaurant['start_time']) {
                 return ($conditions['end_time'] > $restaurant['start_time']);

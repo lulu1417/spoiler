@@ -22,6 +22,7 @@ Route::group(['prefix' => 'user'], function(){
     Route::put('update/{id}', 'UserController@update');
     //facebook login
     Route::post('facebook/login', 'FBController@login');
+    Route::get('facebook/call-back', 'FBController@fbCallback');
     Route::get('look/{id}', 'UserController@look');
     Route::get('subscript', 'UserController@getSubscription');
     Route::get('', 'UserController@all');
