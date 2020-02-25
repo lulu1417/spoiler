@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\DeprivateList;
 use App\Food;
 use App\Order;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,24 +21,28 @@ class OrderController extends Controller
                 'user_id' => ['required', 'exists:users,id'],
                 'food_id' => ['required', 'exists:foods,id'],
                 'food_number' => ['required', 'lte:' . $food->remaining],
-                'phone' => 'required'|'digits'
+                'phone' => ['required','digits:10']
             ]);
 
-            $create = Order::create([
-                'user_id' => $request->user_id,
-                'phone' => $request->phone,
-                'food_id' => $request->food_id,
-                'order_number' => strval(rand(1000000000000, 9999999999999)),
-                'food_number' => $request->food_number,
-                'complete' => false,
-                'send' => true,
-            ]);
-            $food->update([
-                'remaining' => $food->remaining - $request->food_number,
-            ]);
+            if(count(DeprivateList::where($request->user_id)) > 0 && DeprivateList::find($request->user_id)->is_free){
+                $create = Order::create([
+                    'user_id' => $request->user_id,
+                    'phone' => $request->phone,
+                    'food_id' => $request->food_id,
+                    'order_number' => strval(rand(1000000000000, 9999999999999)),
+                    'food_number' => $request->food_number,
+                    'complete' => false,
+                    'send' => true,
+                ]);
+                $food->update([
+                    'remaining' => $food->remaining - $request->food_number,
+                ]);
+                DB::commit();
+                return response()->json($create);
+            }else{
+                return response()->json('the user has been banned since he/she has more than three bad records.', 400);
+            }
 
-            DB::commit();
-            return response()->json($create);
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json($e, 400);

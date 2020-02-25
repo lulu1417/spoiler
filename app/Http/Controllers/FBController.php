@@ -12,7 +12,7 @@ class FBController extends Controller
 
     public function fbCallback()
     {
-        session_start();
+        session_start(); //to deal with CSRF
         $fb = new Facebook([
             'app_id' => env('FB_CLIENT_ID'),
             'app_secret' => env('FB_CLIENT_SECRET'),
@@ -65,6 +65,7 @@ class FBController extends Controller
         if (count(User::where('account', $resource['id'])->get()->toArray()) == 0) {
             $create = User::create([
                 'name' => $resource['name'],
+                'access_token' => $token,
                 'account' => $resource['id'],
                 'password' => 'facebook',
                 'api_token' => Str::random(20),
@@ -83,6 +84,4 @@ class FBController extends Controller
         }
 
     }
-
-
 }

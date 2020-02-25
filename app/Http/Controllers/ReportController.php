@@ -32,7 +32,7 @@ class ReportController
         $create = Report::create([
             'content' => $request['content'],
             'object_id' => $request->object_id,
-            'reporter_is_user' => $request->complainer_is_user,
+            'reporter_is_user' => $request->reporter_is_user,
             'reporter_id' => $request->reporter_id,
         ]);
 
