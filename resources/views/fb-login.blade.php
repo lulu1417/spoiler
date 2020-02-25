@@ -18,8 +18,8 @@ $fb = new Facebook([
 $helper = $fb->getRedirectLoginHelper();
 
 $permissions = ['email']; // Optional permissions
-$loginUrl = $helper->getLoginUrl('http://localhost:8000/api/user/facebook/call-back', $permissions);
-//$loginUrl = $helper->getLoginUrl('https://wasteless.bboa14171205.nctu.me/api/user/facebook/call-back', $permissions);
+//$loginUrl = $helper->getLoginUrl('http://localhost:8000/api/user/facebook/call-back', $permissions);
+$loginUrl = $helper->getLoginUrl('https://wasteless.bboa14171205.nctu.me/api/user/facebook/call-back', $permissions);
 
 echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
 ?>
