@@ -7,6 +7,7 @@ use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use View;
 
 class FBController extends Controller
 {
@@ -46,7 +47,8 @@ class FBController extends Controller
             }
         }
         $login = $this->login($accessToken);
-        return redirect("https://89f6a870.ngrok.io/",302,["api_token" => $login->api_token]);
+        return View::make('layout.loginSuccess')->with('token',$login->api_token);
+//        return redirect("https://89f6a870.ngrok.io/",302,["api_token" => $login->api_token]);
     }
 
     public static function login($token)

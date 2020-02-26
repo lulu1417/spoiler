@@ -1,7 +1,8 @@
 <?php
 session_start(); //to deal with CSRF
+use App\Http\Controllers\FBController;
 ?>
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
 <head>
     <title>Facebook Login</title>

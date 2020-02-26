@@ -15,8 +15,6 @@ class OrderController extends Controller
     {
 
         try {
-
-
             DB::beginTransaction();
             if(Food::where('id', $request->food_id)->count() > 0){
                 $food = Food::find($request->food_id);
