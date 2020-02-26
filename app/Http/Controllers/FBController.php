@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class FBController extends Controller
@@ -13,6 +14,7 @@ class FBController extends Controller
     public function fbCallback()
     {
         session_start(); //to deal with CSRF
+
         $fb = new Facebook([
             'app_id' => env('FB_CLIENT_ID'),
             'app_secret' => env('FB_CLIENT_SECRET'),
@@ -44,8 +46,7 @@ class FBController extends Controller
             }
         }
         $login = $this->login($accessToken);
-        return response()->json($login);
-
+        return redirect("https://89f6a870.ngrok.io/",302,["api_token" => $login->api_token]);
     }
 
     public static function login($token)
@@ -82,6 +83,7 @@ class FBController extends Controller
                 'access_token' => $token->getValue(),
                 'image' => $resource['picture']['url'],
             ]);
+//            var_dump($resource);
             return $user;
         }
 
@@ -97,8 +99,8 @@ class FBController extends Controller
         ]);
         $helper = $fb->getRedirectLoginHelper();
         $permissions = ['email']; // Optional permissions
-        $loginUrl = $helper->getLoginUrl(env('FB_REDIRECT'), $permissions);
 
-        return $loginUrl;
+        $loginUrl = $helper->getLoginUrl(env('FB_REDIRECT'), $permissions);
+        return redirect($loginUrl);
     }
 }
