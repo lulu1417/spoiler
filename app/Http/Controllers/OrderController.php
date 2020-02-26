@@ -15,8 +15,6 @@ class OrderController extends Controller
     {
 
         try {
-            DB::beginTransaction();
-            $food = Food::find($request->food_id);
             $request->validate([
                 'user_id' => ['required', 'exists:users,id'],
                 'food_id' => ['required', 'exists:foods,id'],
@@ -24,6 +22,11 @@ class OrderController extends Controller
                 'phone' => ['required','digits:10']
             ]);
 
+            DB::beginTransaction();
+//            if(Food::where('id', $request->food_id)->count() > 0){
+//                $food = Food::find($request->food_id);
+//            }
+//
             if(count(DeprivateList::where($request->user_id)) > 0 && DeprivateList::find($request->user_id)->is_free){
                 $create = Order::create([
                     'user_id' => $request->user_id,
