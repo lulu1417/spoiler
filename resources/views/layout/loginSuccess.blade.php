@@ -9,7 +9,7 @@ use App\Http\Controllers\FBController;
 </head>
 <body>
 <script>
-    window.opener.postMessage({{$token}});
+    window.opener.postMessage('{{$token}}');
 </script>
 </body>
 
