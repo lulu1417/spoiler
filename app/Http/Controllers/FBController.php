@@ -23,20 +23,20 @@ class FBController extends Controller
 
         try {
             $accessToken = $helper->getAccessToken();
-        } catch(FacebookResponseException $e) {
+        } catch (FacebookResponseException $e) {
             // When Graph returns an error
             return response()->json('Graph returned an error: ' . $e->getMessage(), 400);
-        } catch(FacebookSDKException $e) {
+        } catch (FacebookSDKException $e) {
             // When validation fails or other local issues
             return response()->json('Facebook SDK returned an error: ' . $e->getMessage(), 400);
         }
 
-        if (! isset($accessToken)) {
+        if (!isset($accessToken)) {
             if ($helper->getError()) {
                 return response()->json(
-                    "Error: " . $helper->getError() . "\n".
-                    "Error Code: " . $helper->getErrorCode() . "\n".
-                    "Error Reason: " . $helper->getErrorReason() . "\n".
+                    "Error: " . $helper->getError() . "\n" .
+                    "Error Code: " . $helper->getErrorCode() . "\n" .
+                    "Error Reason: " . $helper->getErrorReason() . "\n" .
                     "Error Description: " . $helper->getErrorDescription() . "\n"
                     , 401);
             } else {
@@ -87,7 +87,8 @@ class FBController extends Controller
 
     }
 
-    function redirect(){
+    function redirect()
+    {
         session_start();
         $fb = new Facebook([
             'app_id' => env('FB_CLIENT_ID'),
@@ -97,6 +98,13 @@ class FBController extends Controller
         $helper = $fb->getRedirectLoginHelper();
         $permissions = ['email']; // Optional permissions
         $loginUrl = $helper->getLoginUrl(env('FB_REDIRECT'), $permissions);
-        return redirect($loginUrl, 302, header("Access-Control-Allow-Origin: *"));
+        $header = [
+            "Access-Control-Allow-Origin" => "*",
+            "Access-Control-Allow-Methods" => "*",
+            "Access-Control-Allow-Headers" => "Origin, Methods, Accept, Content-Type, Authorization"
+
+        ];
+
+        return redirect($loginUrl, 302, $header);
     }
 }
