@@ -94,13 +94,11 @@ class FBController extends Controller
             'app_secret' => env('FB_CLIENT_SECRET'),
             'default_graph_version' => 'v3.2',
         ]);
-//
+
         $helper = $fb->getRedirectLoginHelper();
-        $helper->getPersistentDataHandler()->set('state', 'test');
-//
-//        $permissions = ['email']; // Optional permissions
-//        $loginUrl = $helper->getLoginUrl(env('FB_REDIRECT'), $permissions);
-        return redirect("https://www.facebook.com/v6.0/dialog/oauth");
+        $permissions = ['email']; // Optional permissions
+        $loginUrl = $helper->getLoginUrl(env('FB_REDIRECT'), $permissions);
+        return redirect($loginUrl);
 
     }
 }
