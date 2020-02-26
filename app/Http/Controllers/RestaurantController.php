@@ -182,15 +182,15 @@ class RestaurantController extends Controller
 
     function score($id)
     {
-        if ($restaurant = Restaurant::where('id', $id)->count() > 0) {
-            $restaurant = Restaurant::find($id);
-            $restaurant->update([
-                'assessment' => $restaurant->assessment + 1,
-            ]);
-            return response()->json($restaurant, 200);
-        } else {
-            return response()->json('the given restaurant id not found', 400);
-        }
+//        if ($restaurant = Restaurant::where('id', $id)->count() > 0) {
+//            $restaurant = Restaurant::find($id);
+//            $restaurant->update([
+//                'assessment' => $restaurant->assessment + 1,
+//            ]);
+//            return response()->json($restaurant, 200);
+//        } else {
+//            return response()->json('the given restaurant id not found', 400);
+//        }
 
     }
 

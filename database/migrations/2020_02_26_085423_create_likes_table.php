@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBusinessHoursTable extends Migration
+class CreateLikesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateBusinessHoursTable extends Migration
      */
     public function up()
     {
-        Schema::create('business_hours', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('user_id');
+            $table->integer('send');
             $table->integer('restaurant_id');
-            $table->integer('week_day');
-            $table->string('period')->nullable();
-            $table->time('start_time');
-            $table->time('end_time');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateBusinessHoursTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('business_hours');
+        Schema::dropIfExists('likes');
     }
 }
