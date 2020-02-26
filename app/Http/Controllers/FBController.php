@@ -86,4 +86,8 @@ class FBController extends Controller
         }
 
     }
+
+    function redirect(){
+
+    }
 }

@@ -74,11 +74,13 @@ Route::group(['prefix' => 'subscript'], function(){
 });
 
 Route::post('search', 'FoodController@search');
+Route::get('redirect', 'FBController@redirect');
 
 Route::group(['prefix' => 'report'], function(){
     Route::post('', 'ReportController@report');
 
 });
+
 
 //broadcast
 Route::get('ship', function (Request $request)

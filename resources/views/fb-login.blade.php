@@ -20,7 +20,6 @@ $helper = $fb->getRedirectLoginHelper();
 
 $permissions = ['email']; // Optional permissions
 $loginUrl = $helper->getLoginUrl(env('FB_REDIRECT'), $permissions);
-
 echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
 ?>
 </body>

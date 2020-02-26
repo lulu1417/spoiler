@@ -22,10 +22,10 @@ class FoodAdded implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Food $food)
-    {
-        $this->restaurant = $food->restaurant_id;
-    }
+//    public function __construct(Food $food)
+//    {
+////        $this->restaurant = $food->restaurant_id;
+//    }
 
     /**
      * Get the channels the event should broadcast on.
