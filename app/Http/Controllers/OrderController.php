@@ -17,6 +17,7 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
             if(Food::where('id', $request->food_id)->count() > 0){
+              var_dump(Food::where('id', $request->food_id)->count());
                 $food = Food::find($request->food_id);
                 $request->validate([
                     'user_id' => ['required', 'exists:users,id'],
