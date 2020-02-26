@@ -97,6 +97,6 @@ class FBController extends Controller
         $helper = $fb->getRedirectLoginHelper();
         $permissions = ['email']; // Optional permissions
         $loginUrl = $helper->getLoginUrl(env('FB_REDIRECT'), $permissions);
-        return redirect($loginUrl);
+        return redirect($loginUrl, 302, header("Access-Control-Allow-Origin: *"));
     }
 }
