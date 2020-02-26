@@ -24,7 +24,6 @@ class CreateRestaurantsTable extends Migration
             $table->string('north_latitude');
             $table->string('address');
             $table->string('link');
-            $table->integer('assessment');
             $table->string('phone');
             $table->integer('owner_id');
             $table->timestamps();

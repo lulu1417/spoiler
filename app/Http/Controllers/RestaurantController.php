@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Food;
+use App\Like;
 use App\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,8 +34,8 @@ class RestaurantController extends Controller
         try {
             DB::beginTransaction();
             $request->validate([
-                'name' => ['required', 'string' ,'unique:restaurants'],
-                'class' => ['required','string'],
+                'name' => ['required', 'string', 'unique:restaurants'],
+                'class' => ['required', 'string'],
                 'east_longitude' => ['required', 'numeric'],
                 'north_latitude' => ['required', 'numeric'],
                 'start_time' => ['required', 'digits:4'],
@@ -63,7 +64,6 @@ class RestaurantController extends Controller
                 'image' => $parameters['image'],
                 'start_time' => $request->start_time,
                 'end_time' => $request->end_time,
-                'assessment' => 0,
                 'phone' => $request->phone,
                 'owner_id' => Auth::user()->id,
             ]);
@@ -105,7 +105,7 @@ class RestaurantController extends Controller
 //        }
 
         $conditions = [
-            "start_time" => 00000,
+            "start_time" => 0000,
             "end_time" => 2400,
             "only_remaining" => false,
             "user_north_latitude" => 23,
@@ -120,7 +120,7 @@ class RestaurantController extends Controller
             }
         }
 
-        if($conditions['only_remaining']){
+        if ($conditions['only_remaining']) {
             $filted = Restaurant::
             with('foods')
                 ->whereHas('foods', function ($query) use ($conditions) {
@@ -133,7 +133,7 @@ class RestaurantController extends Controller
                 })
                 ->get()
                 ->toArray();
-        }else{
+        } else {
             $filted = Restaurant::
             with('foods')
                 ->when(!empty($conditions['class']), function ($query) use ($conditions) {
@@ -161,7 +161,7 @@ class RestaurantController extends Controller
         $filted = array_filter($filted, function ($restaurant) use ($conditions) {
             if ($conditions['start_time'] < $restaurant['start_time']) {
                 return ($conditions['end_time'] > $restaurant['start_time']);
-            } else  {
+            } else {
                 return ($conditions['start_time'] < $restaurant['end_time']);
             }
         });
@@ -180,7 +180,7 @@ class RestaurantController extends Controller
         return response()->json(Restaurant::with('foods')->find($id));
     }
 
-    function score($id)
+    function score(Request $request)
     {
 //        if ($restaurant = Restaurant::where('id', $id)->count() > 0) {
 //            $restaurant = Restaurant::find($id);
@@ -191,6 +191,31 @@ class RestaurantController extends Controller
 //        } else {
 //            return response()->json('the given restaurant id not found', 400);
 //        }
+
+        $request->validate([
+            'restaurant_id' => ['required', 'exists:restaurants,id'],
+            'send' => ['required', 'boolean'],
+        ]);
+
+        if ($like = Like::where('user_id', Auth::user()->id)->where('restaurant_id', $request->restaurant_id)->count()) {
+
+            $like = Like::where('user_id', Auth::user()->id)->where('restaurant_id', $request->restaurant_id)->first();
+            $like->update([
+                'send' => $request->send,
+            ]);
+//            $like['update'] = true;
+            return response()->json($like);
+
+        } else {
+            $create = Like::create([
+                'user_id' => Auth::user()->id,
+                'restaurant_id' => $request->restaurant_id,
+                'send' => $request->send,
+
+            ]);
+            return response()->json($create);
+        }
+
 
     }
 

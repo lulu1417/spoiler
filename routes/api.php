@@ -43,7 +43,7 @@ Route::group(['prefix' => 'restaurant'], function(){
     Route::post('filter', 'RestaurantController@filter');
     Route::get('', 'RestaurantController@index');
     Route::get('look/{id}', 'RestaurantController@look');
-    Route::middleware('auth:api')->put('score/{id}', 'RestaurantController@score');
+    Route::middleware('auth:api')->post('score', 'RestaurantController@score');
     Route::get('subscript', 'RestaurantController@getSubscriptUsers');
     Route::post('time', 'RestaurantController@calculateOverlappedTime');
     Route::post('class', 'RestaurantController@filtClass');
