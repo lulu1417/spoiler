@@ -28,4 +28,9 @@ class Restaurant extends Model
         return $this->belongsToMany(User::class, 'subscriptions', 'restaurant_id', 'user_id');
     }
 
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
 }

@@ -16,8 +16,7 @@ class RestaurantController extends Controller
     function index()
     {
 
-
-        $restaurants = Restaurant::with('foods')->withCount('foods')->get();
+        $restaurants = Restaurant::with('foods')->withCount('foods')->withCount('likes')->get();
         return response()->json($restaurants);
 
     }
@@ -122,7 +121,8 @@ class RestaurantController extends Controller
 
         if ($conditions['only_remaining']) {
             $filted = Restaurant::
-            with('foods')
+            withCount('likes')
+                ->with('foods')
                 ->whereHas('foods', function ($query) use ($conditions) {
                     $minimal = $conditions['only_remaining'] ? 1 : 0;
                     $query->where('remaining', '>=', $minimal);
@@ -135,7 +135,8 @@ class RestaurantController extends Controller
                 ->toArray();
         } else {
             $filted = Restaurant::
-            with('foods')
+            withCount('likes')
+                ->with('foods')
                 ->when(!empty($conditions['class']), function ($query) use ($conditions) {
                     $classes = $conditions['class'];
                     $query->whereIn('class', $classes);
@@ -182,22 +183,12 @@ class RestaurantController extends Controller
 
     function score(Request $request)
     {
-//        if ($restaurant = Restaurant::where('id', $id)->count() > 0) {
-//            $restaurant = Restaurant::find($id);
-//            $restaurant->update([
-//                'assessment' => $restaurant->assessment + 1,
-//            ]);
-//            return response()->json($restaurant, 200);
-//        } else {
-//            return response()->json('the given restaurant id not found', 400);
-//        }
-
         $request->validate([
             'restaurant_id' => ['required', 'exists:restaurants,id'],
             'send' => ['required', 'boolean'],
         ]);
 
-        if ($like = Like::where('user_id', Auth::user()->id)->where('restaurant_id', $request->restaurant_id)->count()) {
+        if (Like::where('user_id', Auth::user()->id)->where('restaurant_id', $request->restaurant_id)->count()) {
 
             $like = Like::where('user_id', Auth::user()->id)->where('restaurant_id', $request->restaurant_id)->first();
             $like->update([
