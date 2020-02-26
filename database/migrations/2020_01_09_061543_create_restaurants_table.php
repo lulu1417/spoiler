@@ -26,7 +26,7 @@ class CreateRestaurantsTable extends Migration
             $table->string('link');
             $table->integer('assessment');
             $table->string('phone');
-            $table->string('owner_id');
+            $table->integer('owner_id');
             $table->timestamps();
         });
     }

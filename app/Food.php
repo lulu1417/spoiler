@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\FoodAdded;
 use App\Events\TestEvent;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,8 +25,8 @@ class Food extends Model
         return $this->belongsToMany(User::class, 'orders', 'food_id', 'user_id');
     }
 
-//    protected $dispatchesEvents = [
-//        'saving' => TestEvent::class,
-//    ];
+    protected $dispatchesEvents = [
+        'saved' => FoodAdded::class,
+    ];
 
 }

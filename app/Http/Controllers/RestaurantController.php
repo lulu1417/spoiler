@@ -33,8 +33,8 @@ class RestaurantController extends Controller
         try {
             DB::beginTransaction();
             $request->validate([
-                'name' => ['required', 'unique:restaurants'],
-                'class' => 'required',
+                'name' => ['required', 'string' ,'unique:restaurants'],
+                'class' => ['required','string'],
                 'east_longitude' => ['required', 'numeric'],
                 'north_latitude' => ['required', 'numeric'],
                 'start_time' => ['required', 'digits:6'],
@@ -53,7 +53,6 @@ class RestaurantController extends Controller
             } else {
                 $parameters['image'] = null;
             }
-
             $create = Restaurant::create([
                 'name' => $request->name,
                 'class' => $request->class,
@@ -91,7 +90,6 @@ class RestaurantController extends Controller
             'user_east_longitude' => 'numeric',
             'search_range' => 'numeric',
             'class' => 'array',
-            //TODO check array is valid
         ]);
 
         if (isset($request['class'])) {
@@ -122,19 +120,32 @@ class RestaurantController extends Controller
             }
         }
 
+        if($conditions['only_remaining']){
+            $filted = Restaurant::
+            with('foods')
+                ->whereHas('foods', function ($query) use ($conditions) {
+                    $minimal = $conditions['only_remaining'] ? 1 : 0;
+                    $query->where('remaining', '>=', $minimal);
+                })
+                ->when(!empty($conditions['class']), function ($query) use ($conditions) {
+                    $classes = $conditions['class'];
+                    $query->whereIn('class', $classes);
+                })
+                ->get()
+                ->toArray();
+        }else{
+            $filted = Restaurant::
+            with('foods')
+                ->when(!empty($conditions['class']), function ($query) use ($conditions) {
+                    $classes = $conditions['class'];
+                    $query->whereIn('class', $classes);
+                })
+                ->get()
+                ->toArray();
+        }
 
-        $filted = Restaurant::
-        with('foods')
-            ->whereHas('foods', function ($query) use ($conditions) {
-                $minimal = $conditions['only_remaining'] ? 1 : 0;
-                $query->where('remaining', '>=', $minimal);
-            })
-            ->when(!empty($conditions['class']), function ($query) use ($conditions) {
-                $classes = $conditions['class'];
-                $query->whereIn('class', $classes);
-            })
-            ->get()
-            ->toArray();
+
+
 
 
         $filted = array_map(function ($restaurant) use ($conditions) {
