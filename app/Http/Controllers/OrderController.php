@@ -15,18 +15,22 @@ class OrderController extends Controller
     {
 
         try {
-            $request->validate([
-                'user_id' => ['required', 'exists:users,id'],
-                'food_id' => ['required', 'exists:foods,id'],
-                'food_number' => ['required', 'lte:' . $food->remaining],
-                'phone' => ['required','digits:10']
-            ]);
+
 
             DB::beginTransaction();
-//            if(Food::where('id', $request->food_id)->count() > 0){
-//                $food = Food::find($request->food_id);
-//            }
-//
+            if(Food::where('id', $request->food_id)->count() > 0){
+                $food = Food::find($request->food_id);
+                $request->validate([
+                    'user_id' => ['required', 'exists:users,id'],
+                    'food_id' => ['required', 'exists:foods,id'],
+                    'food_number' => ['required', 'lte:' . $food->remaining],
+                    'phone' => ['required','digits:10']
+                ]);
+
+            }else{
+                return response()->json('the food id not found', 400);
+            }
+
             if(count(DeprivateList::where($request->user_id)) > 0 && DeprivateList::find($request->user_id)->is_free){
                 $create = Order::create([
                     'user_id' => $request->user_id,
