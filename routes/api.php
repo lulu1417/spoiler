@@ -74,7 +74,7 @@ Route::group(['prefix' => 'subscript'], function(){
 });
 
 Route::post('search', 'FoodController@search');
-Route::middleware('cors')->get('redirect', 'FBController@redirect');
+Route::get('redirect', 'FBController@redirect');
 
 Route::group(['prefix' => 'report'], function(){
     Route::post('', 'ReportController@report');
