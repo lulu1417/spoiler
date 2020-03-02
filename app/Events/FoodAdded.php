@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Food;
 use App\Restaurant;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -16,16 +17,17 @@ class FoodAdded implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $restaurant;
+    public $food;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-//    public function __construct(Food $food)
-//    {
-////        $this->restaurant = $food->restaurant_id;
-//    }
+    public function __construct(Food $food)
+    {
+        $this->restaurant = $food->restaurant_id;
+    }
 
     /**
      * Get the channels the event should broadcast on.

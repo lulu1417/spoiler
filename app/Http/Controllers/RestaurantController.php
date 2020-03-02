@@ -26,6 +26,9 @@ class RestaurantController extends Controller
         $subUser = Restaurant::with('subscriptUser')->get();
         return response()->json($subUser);
     }
+    function update($id, Request $request){
+
+    }
 
     function store(Request $request)
     {
@@ -120,7 +123,7 @@ class RestaurantController extends Controller
         }
 
         if ($conditions['only_remaining']) {
-            $filted = Restaurant::
+            $result = Restaurant::
             withCount('likes')
                 ->with('foods')
                 ->whereHas('foods', function ($query) use ($conditions) {
@@ -134,7 +137,7 @@ class RestaurantController extends Controller
                 ->get()
                 ->toArray();
         } else {
-            $filted = Restaurant::
+            $result = Restaurant::
             withCount('likes')
                 ->with('foods')
                 ->when(!empty($conditions['class']), function ($query) use ($conditions) {
@@ -145,8 +148,7 @@ class RestaurantController extends Controller
                 ->toArray();
         }
 
-
-        $filted = array_map(function ($restaurant) use ($conditions) {
+        $resultWithDistance = array_map(function ($restaurant) use ($conditions) {
             $calculateDistance = new calculateDistance();
             $restaurant['distance'] =
                 $calculateDistance->getDistance(
@@ -155,9 +157,14 @@ class RestaurantController extends Controller
                     $restaurant['north_latitude'],
                     $restaurant['east_longitude']
                 );
-            if ($restaurant['distance'] < $conditions['search_range'])
-                return $restaurant;
-        }, $filted);
+            return $restaurant;
+        }, $result);
+
+
+        $filted = array_filter($resultWithDistance, function ($restaurant) use ($conditions) {
+            return ($restaurant['distance'] <= $conditions['search_range']);
+        });
+
 
         $filted = array_filter($filted, function ($restaurant) use ($conditions) {
             if ($conditions['start_time'] < $restaurant['start_time']) {
@@ -168,7 +175,7 @@ class RestaurantController extends Controller
         });
 
         if (!empty($filted)) {
-            return response()->json($filted);
+            return response()->json(array_values($filted));
         } else {
             return response()->json('no restaurant found within the specified conditions', 400);
         }
@@ -194,7 +201,6 @@ class RestaurantController extends Controller
             $like->update([
                 'send' => $request->send,
             ]);
-//            $like['update'] = true;
             return response()->json($like);
 
         } else {

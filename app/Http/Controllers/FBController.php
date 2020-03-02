@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\User;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use View;
 
@@ -85,7 +84,6 @@ class FBController extends Controller
                 'access_token' => $token->getValue(),
                 'image' => $resource['picture']['url'],
             ]);
-//            var_dump($resource);
             return $user;
         }
 

@@ -29,4 +29,5 @@ class Food extends Model
         'saved' => FoodAdded::class,
     ];
 
+
 }
