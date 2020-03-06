@@ -47,6 +47,7 @@ class FBController extends Controller
             }
         }
         try{
+            return view('layout.loginFailed');
             $login = $this->login($accessToken);
             return View::make('layout.loginSuccess')->with('token', $login->api_token);
 
