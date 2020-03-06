@@ -7,8 +7,7 @@
 <body>
 <script>
         window.opener.postMessage('{{$token}}', '*');
-        window.opener.login('{{$token}}');
-        // window.close();
+        window.close();
 
 </script>
 </body>
