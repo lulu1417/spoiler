@@ -18,3 +18,7 @@ Route::get('/', function () {
 Route::get('fb-login', function(){
     return view('fb-login');
 });
+
+Route::get('addFood', function(){
+    return view('food');
+});

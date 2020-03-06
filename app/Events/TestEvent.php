@@ -14,31 +14,22 @@ use Illuminate\Queue\SerializesModels;
 
 class TestEvent implements ShouldBroadcast
 {
-    public $food;
-    public $restaurantId;
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct(Food $food)
+    public $food;
+
+    public function __construct($food)
     {
         $this->food = $food;
-        $this->restaurantId = $food->restaurant_id;
-
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
     public function broadcastOn()
     {
-//       return new PrivateChannel('channel-name');
-        return new PrivateChannel('subscript.'.$this->restaurantId);
+        return ['my-channel'];
     }
 
+    public function broadcastAs()
+    {
+        return 'my-event';
+    }
 }

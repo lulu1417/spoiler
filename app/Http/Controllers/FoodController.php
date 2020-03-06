@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TestEvent;
 use App\Food;
 use App\Restaurant;
 use Illuminate\Http\Request;
@@ -45,7 +46,9 @@ class FoodController extends Controller
                 'image' => $parameters['image'],
                 'restaurant_id' => $request->restaurant_id,
             ]);
+            event(new TestEvent($food));
 
+            return view('pusher');
             DB::commit();
             return response()->json($food, 200);
         }catch (Exception $e){
