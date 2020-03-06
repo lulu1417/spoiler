@@ -6,8 +6,11 @@
 </head>
 <body>
 <script>
-    window.opener.postMessage('{{$token}}', '*');
-    window.close();
+    function loginSuccess (){
+        window.opener.postMessage('{{$token}}', '*');
+        setTimeout(window.close(),1000)
+    }
+    loginSuccess()
 </script>
 </body>
 
