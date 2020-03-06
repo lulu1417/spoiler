@@ -7,14 +7,14 @@
 <body>
 <script>
 
-    token = '{{$token}}';
-    function loginSuccess (token){
+    // function loginSuccess (){
+    //
+        window.opener.postMessage('{{$token}}', '*');
+        window.close();
+        // setTimeout(window.close(),1000)
 
-        window.opener.postMessage('token', '*');
-        setTimeout(window.close(),1000)
-
-    }
-    loginSuccess(token)
+    // }
+    // loginSuccess()
 
 </script>
 </body>
