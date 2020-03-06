@@ -45,6 +45,7 @@ class FBController extends Controller
                 return response()->json('Bad request', 400);
             }
         }
+        $login = $this->login($accessToken);
 //        return response()->json($this->login($accessToken));
         return View::make('layout.loginSuccess')->with('token', $login->api_token);
 //        return redirect("https://89f6a870.ngrok.io/",302,["api_token" => $login->api_token]);

@@ -7,6 +7,7 @@
 <body>
 <script>
     window.opener.postMessage('{{$token}}', '*');
+    window.close();
 </script>
 </body>
 
