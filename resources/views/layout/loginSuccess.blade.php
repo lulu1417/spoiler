@@ -13,7 +13,7 @@
         setTimeout(window.close(),1000)
 
     }
-
+    loginSuccess(token)
 
 </script>
 </body>
