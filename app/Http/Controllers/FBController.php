@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
+use http\Exception;
 use Illuminate\Support\Str;
 use View;
 
@@ -45,10 +46,17 @@ class FBController extends Controller
                 return response()->json('Bad request', 400);
             }
         }
-        $login = $this->login($accessToken);
+        try{
+            return response()->json('Bad request', 400);
+//            $login = $this->login($accessToken);
+//            return View::make('layout.loginSuccess')->with('token', $login->api_token);
+        }catch (Exception $e){
+            return response()->json('Bad request', 400);
+        }
+
 //        return response()->json($this->login($accessToken));
-        return View::make('layout.loginSuccess')->with('token', $login->api_token);
 //        return redirect("https://89f6a870.ngrok.io/",302,["api_token" => $login->api_token]);
+
     }
 
     public function login($token)
