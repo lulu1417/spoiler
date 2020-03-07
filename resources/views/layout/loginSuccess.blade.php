@@ -8,7 +8,7 @@
 <script>
     var message = new Object();
     message.status = 'success';
-    message.content = '{{$token}}'
+    message.content = '{{$user}}'
 
     window.opener.postMessage(message, '*');
     window.close();
