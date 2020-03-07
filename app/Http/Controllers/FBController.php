@@ -47,7 +47,7 @@ class FBController extends Controller
             }
         }
         try{
-            $login = $this->login($accessToken)->toArray();
+            $login = $this->login($accessToken);
             return View::make('layout.loginSuccess')->with('user', $login);
 
         }catch (Exception $e){
