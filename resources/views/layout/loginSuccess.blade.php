@@ -7,7 +7,7 @@
 <body>
 <script>
     var message = new Object();
-    console.log('{{$user['token']}}');
+    console.log('{{$user['name']}}');
     message.status = 'success';
     message.content = '{{$user}}'
 
