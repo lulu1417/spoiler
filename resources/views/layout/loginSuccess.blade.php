@@ -7,6 +7,7 @@
 <body>
 <script>
     var message = new Object();
+    console.log('{{$user}}');
     message.status = 'success';
     message.content = '{{$user}}'
 
