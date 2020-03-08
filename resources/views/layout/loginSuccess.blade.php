@@ -9,14 +9,14 @@
     var message = new Object();
 
     message.status = 'success';
-    message.content.id = '{{$user['id']}}'
-    message.content.name = '{{$user['name']}}'
-    message.content.account = '{{$user['account']}}'
-    message.content.api_token = '{{$user['api_token']}}'
-    message.content.image = '{{$user['image']}}'
-    message.content.email = '{{$user['email']}}'
-    message.content.point = '{{$user['point']}}'
-    message.content.phone = '{{$user['phone']}}'
+    message.id = '{{$user['id']}}'
+    message.name = '{{$user['name']}}'
+    message.account = '{{$user['account']}}'
+    message.api_token = '{{$user['api_token']}}'
+    message.image = '{{$user['image']}}'
+    message.email = '{{$user['email']}}'
+    message.point = '{{$user['point']}}'
+    message.phone = '{{$user['phone']}}'
 
     console.log(message)
 
