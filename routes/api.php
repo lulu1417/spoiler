@@ -62,8 +62,10 @@ Route::group(['prefix' => 'order'], function(){
     Route::middleware('auth:api')->post('', 'OrderController@store');
     Route::middleware('auth:api')->put('{id}', 'OrderController@complete');
     Route::middleware('auth:api')->delete('{id}', 'OrderController@cancel');
-    Route::get('{id}', 'OrderController@look');
+    Route::get('look/{id}', 'OrderController@look');
     Route::get('', 'OrderController@index');
+    Route::get('inform', 'OrderController@inform');
+
 });
 
 Route::group(['prefix' => 'subscript'], function(){
@@ -89,6 +91,8 @@ Route::get('ship', function (Request $request)
     event(new FoodAdded($id));
     return response()->json('Shipped!');
 });
+
+
 
 
 

@@ -18,8 +18,6 @@
     message.point = '{{$user['point']}}'
     message.phone = '{{$user['phone']}}'
 
-    console.log(message)
-
     window.opener.postMessage(message, '*');
     window.close();
 

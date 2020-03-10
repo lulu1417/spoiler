@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DeprivateList;
+use App\Events\MyEvent;
+use App\Events\NewOrder;
 use App\Food;
 use App\Order;
 use Illuminate\Http\Request;
@@ -42,6 +44,7 @@ class OrderController extends Controller
                     'remaining' => $food->remaining - $request->food_number,
                 ]);
                 DB::commit();
+                $this->inform($create->id);
                 return response()->json($create);
             }else{
                 return response()->json('the user has been banned since he/she has more than three bad records.', 400);
@@ -109,4 +112,12 @@ class OrderController extends Controller
     {
         return response()->json(Order::all());
     }
+
+    public function inform()
+    {
+        event(new NewOrder(1));
+        return view('pusher');
+    }
+
+
 }
