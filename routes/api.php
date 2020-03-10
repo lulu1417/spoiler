@@ -85,15 +85,6 @@ Route::group(['prefix' => 'report'], function(){
 });
 
 
-//broadcast
-Route::get('ship', function (Request $request)
-{
-    $id = $request->input('id');
-    event(new FoodAdded($id));
-    return response()->json('Shipped!');
-});
-
-
 
 
 

@@ -19,10 +19,10 @@ class NewOrder implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $order;
+    public $class = 'new order';
 
     public function __construct($order)
     {
-//        $this->order = Order::find($order);
         $this->order = $order;
     }
 
@@ -33,6 +33,6 @@ class NewOrder implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'my-event';
+        return 'order-event';
     }
 }

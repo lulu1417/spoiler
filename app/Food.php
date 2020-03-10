@@ -25,9 +25,9 @@ class Food extends Model
         return $this->belongsToMany(User::class, 'orders', 'food_id', 'user_id');
     }
 
-    protected $dispatchesEvents = [
-        'saved' => FoodAdded::class,
-    ];
+//    protected $dispatchesEvents = [
+//        'saved' => FoodAdded::class,
+//    ];
 
 
 }

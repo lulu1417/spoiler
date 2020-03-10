@@ -8,6 +8,7 @@ use App\Events\NewOrder;
 use App\Food;
 use App\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -20,7 +21,7 @@ class OrderController extends Controller
             if(Food::where('id', $request->food_id)->count() > 0){
                 $food = Food::find($request->food_id);
                 $request->validate([
-                    'user_id' => ['required', 'exists:users,id'],
+
                     'food_id' => ['required', 'exists:foods,id'],
                     'food_number' => ['required', 'lte:' . $food->remaining],
                     'phone' => ['required','digits:10']
@@ -30,9 +31,9 @@ class OrderController extends Controller
                 return response()->json('the food id not found', 400);
             }
 
-            if(count(DeprivateList::where($request->user_id)) > 0 && DeprivateList::find($request->user_id)->is_free){
+            if(count(DeprivateList::where('user_id', Auth::user()->id)->get()) < 3 || DeprivateList::find($request->user_id)->is_free){
                 $create = Order::create([
-                    'user_id' => $request->user_id,
+                    'user_id' => Auth::user()->id,
                     'phone' => $request->phone,
                     'food_id' => $request->food_id,
                     'order_number' => strval(rand(1000000000000, 9999999999999)),
@@ -115,8 +116,8 @@ class OrderController extends Controller
 
     public function inform()
     {
-        $order = 'order';
-        event(new NewOrder($order));
+//        $order = 'order';
+//        event(new NewOrder($order));
         return view('order');
     }
 

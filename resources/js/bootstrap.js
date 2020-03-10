@@ -30,9 +30,3 @@ window.Echo = new Echo({
     broadcaster: 'socket.io',
     host: window.location.hostname + ':8001'
 });
-
-
-Echo.private(`foodStatus.${restaurantId}`)
-    .listen('FoodAdded', (e) => {
-        console.log(e);
-    });

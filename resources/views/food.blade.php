@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>Pusher Test</title>
+    <title>New Food Pusher Test</title>
     <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
     <script>
 
@@ -14,12 +14,12 @@
 
         var channel = pusher.subscribe('food-channel');
         channel.bind('food-event', function(data) {
-            alert(JSON.stringify(data));
+            console.log(data);
         });
     </script>
 </head>
 <body>
-<h1>Pusher Test</h1>
+<h1>New Food Pusher Test</h1>
 <p>
     Try publishing an event to channel <code>my-channel</code>
     with event name <code>my-event</code>.
