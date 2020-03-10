@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\TestEvent;
+use App\Events\FoodAdded;
 use App\Food;
 use App\Restaurant;
 use Illuminate\Http\Request;
@@ -11,12 +11,14 @@ use Illuminate\Validation\Rule;
 
 class FoodController extends Controller
 {
-    function index(){
+    function index()
+    {
         $foods = Food::with('restaurant')->get();
         return $foods;
     }
 
-    function store(Request $request){
+    function store(Request $request)
+    {
         try {
             DB::beginTransaction();
             $request->validate([
@@ -46,25 +48,39 @@ class FoodController extends Controller
                 'image' => $parameters['image'],
                 'restaurant_id' => $request->restaurant_id,
             ]);
-            event(new TestEvent($food));
+            event(new FoodAdded($food));
 
-            return view('pusher');
             DB::commit();
             return response()->json($food, 200);
-        }catch (Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
         }
 
     }
+
     function search(Request $request)
     {
         if ($request->search) {
-            $result['restaurant'] = Restaurant::where('name', "like", "%".$request->search."%")->get();
-            $result['food'] = Food::where('name', "like", "%".$request->search."%")->get();
+            $result['restaurant'] = Restaurant::where('name', "like", "%" . $request->search . "%")->get();
+            $result['food'] = Food::where('name', "like", "%" . $request->search . "%")->get();
             return response()->json($result);
-        }else{
-            return response()->json(["message" =>'You must provide an keyword for searching'], 400);
+        } else {
+            return response()->json(["message" => 'You must provide an keyword for searching'], 400);
         }
 
+    }
+
+    public function inform()
+    {
+        $food = Food::create([
+            'name' => 'milk',
+            'remaining' => 10,
+            'original_price' => 50,
+            'discounted_price' => 20,
+            'image' => 'http://milk.jpg',
+            'restaurant_id' => 1,
+        ]);
+        event(new FoodAdded($food));
+        return view('food');
     }
 }

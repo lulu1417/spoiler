@@ -55,6 +55,7 @@ Route::group(['prefix' => 'food'], function(){
     Route::get('', 'FoodController@index');
     Route::get('look/{id}', 'FoodController@look');
     Route::post('', 'FoodController@store')->name('food');
+    Route::get('inform', 'FoodController@inform');
 
 });
 

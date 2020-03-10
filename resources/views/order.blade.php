@@ -12,7 +12,7 @@
             forceTLS: true
         });
 
-        var channel = pusher.subscribe('my-channel');
+        var channel = pusher.subscribe('order-channel');
         channel.bind('my-event', function(data) {
             alert(JSON.stringify(data));
         });

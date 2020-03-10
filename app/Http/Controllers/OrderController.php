@@ -44,7 +44,7 @@ class OrderController extends Controller
                     'remaining' => $food->remaining - $request->food_number,
                 ]);
                 DB::commit();
-                $this->inform($create->id);
+                event(new NewOrder($create));
                 return response()->json($create);
             }else{
                 return response()->json('the user has been banned since he/she has more than three bad records.', 400);
@@ -115,8 +115,9 @@ class OrderController extends Controller
 
     public function inform()
     {
-        event(new NewOrder(1));
-        return view('pusher');
+        $order = 'order';
+        event(new NewOrder($order));
+        return view('order');
     }
 
 

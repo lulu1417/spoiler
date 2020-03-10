@@ -26,7 +26,8 @@ class FoodAdded implements ShouldBroadcast
      */
     public function __construct(Food $food)
     {
-        $this->restaurant = $food->restaurant_id;
+        $this->food = $food;
+        $this->restaurant = Restaurant::find($food->restaurant_id);
     }
 
     /**
@@ -36,10 +37,11 @@ class FoodAdded implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('foodStatus'.$this->restaurant);
+//        return new PrivateChannel('food-channel'.$this->restaurant);
+        return ['food-channel'];
     }
     public function broadcastAs()
     {
-        return 'newFood';
+        return 'food-event';
     }
 }

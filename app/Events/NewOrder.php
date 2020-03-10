@@ -18,19 +18,17 @@ class NewOrder implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $food;
-    public $restaurant;
-    public $user;
     public $order;
 
     public function __construct($order)
     {
-        $this->order = Order::find($order);
+//        $this->order = Order::find($order);
+        $this->order = $order;
     }
 
     public function broadcastOn()
     {
-        return ['my-channel'];
+        return ['order-channel'];
     }
 
     public function broadcastAs()
