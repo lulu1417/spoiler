@@ -17,16 +17,16 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * allows your team to easily build robust real-time web applications.
  */
 
-// window.Pusher = require('pusher-js');
-//
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
+window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
-    broadcaster: 'socket.io',
-    host: window.location.hostname + ':8001'
+    broadcaster: 'pusher',
+    key: '56b374c6b8f507a3b6fd',
+    cluster: 'ap3',
+    forceTLS: true
 });
+
+// window.Echo = new Echo({
+//     broadcaster: 'socket.io',
+//     host: window.location.hostname + ':8001'
+// });

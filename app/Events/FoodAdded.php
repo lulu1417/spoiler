@@ -18,7 +18,7 @@ class FoodAdded implements ShouldBroadcast
 
     public $restaurant;
     public $food;
-    public $class = 'new food';
+    public $class = 'food added';
 
     /**
      * Create a new event instance.

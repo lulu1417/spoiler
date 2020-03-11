@@ -58,6 +58,51 @@ class FoodController extends Controller
 
     }
 
+    function update(Request $request, Food $id)
+    {
+        try {
+            $food = $id;
+            DB::beginTransaction();
+            $request->validate([
+                'name' => Rule::unique('foods')->where(function ($query) use ($food, $request) {
+                    if($food->name != $request->name){
+                        return ($query->where('restaurant_id', $food->restaurant_id));
+                    }else{
+                        return ($query->where('restaurant_id', '<', 0));
+                    }
+                }),
+
+                'remaining' => ['integer'],
+                'original_price' => ['integer'],
+                'discounted_price' => ['integer'],
+                'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
+                'restaurant_id' => ['exists:restaurants,id'],
+            ]);
+
+            if (request()->hasFile('image')) {
+                $upload = new UploadImage();
+                $parameters['image'] = $upload->trim($request->all());
+
+            } else {
+                $parameters['image'] = null;
+            }
+            $originalNumber = $food->remaining;
+
+            $food->update($request->all());
+
+
+            if ($food->remaining > $originalNumber) {
+                event(new FoodAdded($food));
+            }
+
+            DB::commit();
+            return response()->json($food, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+
+    }
+
     function search(Request $request)
     {
         if ($request->search) {

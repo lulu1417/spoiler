@@ -2,11 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\FoodAdded;
+use App\Events\NewOrder;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
-class FoodListener
+class NewOrderListener
 {
     /**
      * Create the event listener.
@@ -21,11 +22,11 @@ class FoodListener
     /**
      * Handle the event.
      *
-     * @param  FoodAdded  $event
+     * @param  TestEvent  $event
      * @return void
      */
-    public function handle(FoodAdded $event)
+    public function handle(NewOrder $event)
     {
-        //
+        info($event);
     }
 }

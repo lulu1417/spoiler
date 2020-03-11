@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <title>New Order Pusher Test</title>
+    <script src="{{ asset('/js/app.js') }}"></script>
     <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
     <script>
 
@@ -12,10 +13,20 @@
             forceTLS: true
         });
 
-        var channel = pusher.subscribe('order-channel');
-        channel.bind('order-event', function(data) {
-            console.log(JSON.stringify(data));
+        var channelPusher = pusher.subscribe('order-channel');
+        channelPusher.bind('order-event', function (data) {
+            console.log('Js');
+            console.log(data);
         });
+
+
+        var channelEcho = window.Echo.channel('order-channel');
+        channelEcho.listen('.order-event', function (data) {
+            console.log('Echo');
+            console.log(data);
+        });
+
+
     </script>
 </head>
 <body>

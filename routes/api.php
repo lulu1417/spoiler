@@ -39,7 +39,7 @@ Route::group(['prefix' => 'owner'], function(){
 
 Route::group(['prefix' => 'restaurant'], function(){
     Route::middleware('auth:owner_api')->post('', 'RestaurantController@store');
-    Route::middleware('auth:owner_api')->put('/{id}', 'RestaurantController@update');
+    Route::middleware('auth:owner_api')->put('{id}', 'RestaurantController@update');
     Route::post('filter', 'RestaurantController@filter');
     Route::get('', 'RestaurantController@index');
     Route::get('look/{id}', 'RestaurantController@look');
