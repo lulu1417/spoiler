@@ -14,8 +14,17 @@
 
         var channel = pusher.subscribe('food-channel');
         channel.bind('food-event', function(data) {
+            console.log('Pusher');
+            console.log(data);
+            alert(data);
+        });
+
+        var channelEcho = window.Echo.channel('food-channel');
+        channelEcho.listen('.food-event', function (data) {
+            console.log('Echo');
             console.log(data);
         });
+
     </script>
 </head>
 <body>
