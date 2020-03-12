@@ -64,14 +64,9 @@ class FoodController extends Controller
             $food = $id;
             DB::beginTransaction();
             $request->validate([
-                'name' => Rule::unique('foods')->where(function ($query) use ($food, $request) {
-                    if($food->name != $request->name){
-                        return ($query->where('restaurant_id', $food->restaurant_id));
-                    }else{
-                        return ($query->where('restaurant_id', '<', 0));
-                    }
+                'name' => Rule::unique('foods')->ignore($food->id)->where(function ($query) use ($food, $request) {
+                    return ($query->where('restaurant_id', $food->restaurant_id));
                 }),
-
                 'remaining' => ['integer'],
                 'original_price' => ['integer'],
                 'discounted_price' => ['integer'],

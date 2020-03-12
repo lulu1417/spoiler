@@ -8,6 +8,8 @@ use App\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 
 class RestaurantController extends Controller
@@ -26,7 +28,40 @@ class RestaurantController extends Controller
         $subUser = Restaurant::with('subscriptUser')->get();
         return response()->json($subUser);
     }
-    function update($id, Request $request){
+
+    function update(Restaurant $id, Request $request)
+    {
+        try {
+            $restaurant = $id;
+            DB::beginTransaction();
+            $request->validate([
+                'name' => ['string', Rule::unique('restaurants')->ignore($restaurant->id)],
+                'class' => ['string'],
+                'east_longitude' => ['numeric'],
+                'north_latitude' => ['numeric'],
+                'start_time' => ['digits:4', 'lt:' . $restaurant->end_time],
+                'end_time' => ['digits:4', 'gt:' . $restaurant->start_time],
+                'link' => [Rule::unique('restaurants')->ignore($restaurant->id)],
+                'address' => ['string ', Rule::unique('restaurants')->ignore($restaurant->id)],
+                'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
+                'phone' => ['digits:9', 'unique:restaurants'],
+            ]);
+            if (request()->hasFile('image')) {
+                $upload = new UploadImage();
+                $parameters['image'] = $upload->trim($request->all());
+
+            } else {
+                $parameters['image'] = null;
+            }
+
+            $restaurant->update($request->all());
+
+
+            DB::commit();
+            return response()->json($restaurant, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
 
     }
 
@@ -41,7 +76,7 @@ class RestaurantController extends Controller
                 'east_longitude' => ['required', 'numeric'],
                 'north_latitude' => ['required', 'numeric'],
                 'start_time' => ['required', 'digits:4'],
-                'end_time' => ['required', 'digits:4', 'gte:' . $request->start_time],
+                'end_time' => ['required', 'digits:4', 'gt:' . $request->start_time],
                 'link' => ['required', 'unique:restaurants'],
                 'address' => ['required', 'unique:restaurants'],
                 'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
@@ -84,15 +119,24 @@ class RestaurantController extends Controller
 
     function filter(Request $request)
     {
-        $request->validate([
-            'start_time' => 'digits:4',
-            'end_time' => ['digits:4', 'gte:' . $request->start_time],
-            'only_remaining' => 'boolean',
-            'user_north_latitude' => 'numeric',
-            'user_east_longitude' => 'numeric',
-            'search_range' => 'numeric',
-            'class' => 'array',
-        ]);
+
+        $validator = Validator::make($request->toArray(),
+            [
+                'start_time' => 'digits:4',
+                'only_remaining' => 'boolean',
+                'user_north_latitude' => 'numeric',
+                'user_east_longitude' => 'numeric',
+                'search_range' => 'numeric' | 'required_with',
+                'class' => 'array',
+                'class.*' => 'required_with:class',
+            ]);
+
+        $validator->validate();
+
+        $validator->sometimes('end_time', 'digits:4', function ($request) {
+            return $request->end_time >= $request->start_time;
+        });
+
 
         if (isset($request['class'])) {
             foreach ($request['class'] as $class) {
@@ -215,5 +259,6 @@ class RestaurantController extends Controller
 
 
     }
+
 
 }
