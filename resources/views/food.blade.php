@@ -17,7 +17,7 @@
         channel.bind('food-event', function(data) {
             console.log('Pusher');
             console.log(data);
-            alert(data);
+            alert(JSON.stringify(data));
         });
 
         var channelEcho = window.Echo.channel('food-channel');

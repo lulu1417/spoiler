@@ -17,6 +17,7 @@
         channelPusher.bind('order-event', function (data) {
             console.log('Js');
             console.log(data);
+            alert(JSON.stringify(data));
         });
 
 
