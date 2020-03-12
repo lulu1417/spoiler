@@ -2,6 +2,7 @@
 <head>
     <title>New Food Pusher Test</title>
     <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
+    <script src="{{ asset('/js/app.js') }}"></script>
     <script>
 
         // Enable pusher logging - don't include this in production
