@@ -7,6 +7,7 @@ use App\Food;
 use App\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class FoodController extends Controller
@@ -48,7 +49,7 @@ class FoodController extends Controller
                 'image' => $parameters['image'],
                 'restaurant_id' => $request->restaurant_id,
             ]);
-            event(new FoodAdded($food));
+            Log::info(event(new FoodAdded($food)));
 
             DB::commit();
             return response()->json($food, 200);
@@ -87,7 +88,7 @@ class FoodController extends Controller
 
 
             if ($food->remaining > $originalNumber) {
-                event(new FoodAdded($food));
+                Log::info(event(new FoodAdded($food)));
             }
 
             DB::commit();
