@@ -1,8 +1,11 @@
+<?php
+$restaurant_id = 2;
+?>
 <!DOCTYPE html>
 <head>
     <title>New Food Pusher Test</title>
     <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
-    <script src="{{ asset('/js/app.js') }}"></script>
+{{--    <script src="{{ asset('/js/app.js') }}"></script>--}}
     <script>
 
         // Enable pusher logging - don't include this in production
@@ -13,18 +16,18 @@
             forceTLS: true
         });
 
-        var channel = pusher.subscribe('food-channel');
+        var channel = pusher.subscribe('food-channel{{$restaurant_id}}');
         channel.bind('food-event', function(data) {
             console.log('Pusher');
             console.log(data);
             alert(JSON.stringify(data));
         });
 
-        var channelEcho = window.Echo.channel('food-channel');
-        channelEcho.listen('.food-event', function (data) {
-            console.log('Echo');
-            console.log(data);
-        });
+        // var channelEcho = window.Echo.channel('food-channel');
+        // channelEcho.listen('.food-event', function (data) {
+        //     console.log('Echo');
+        //     console.log(data);
+        // });
 
     </script>
 </head>

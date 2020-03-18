@@ -1,7 +1,10 @@
+<?php
+$restaurant_id = 3;
+?>
 <!DOCTYPE html>
 <head>
     <title>New Order Pusher Test</title>
-    <script src="{{ asset('/js/app.js') }}"></script>
+{{--    <script src="{{ asset('/js/app.js') }}"></script>--}}
     <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
     <script>
 
@@ -13,19 +16,19 @@
             forceTLS: true
         });
 
-        var channelPusher = pusher.subscribe('order-channel');
+        var channelPusher = pusher.subscribe('order-channel{{$restaurant_id}}');
         channelPusher.bind('order-event', function (data) {
             console.log('Js');
             console.log(data);
             alert(JSON.stringify(data));
         });
 
-
-        var channelEcho = window.Echo.channel('order-channel');
-        channelEcho.listen('.order-event', function (data) {
-            console.log('Echo');
-            console.log(data);
-        });
+        //
+        // var channelEcho = window.Echo.channel('order-channel');
+        // channelEcho.listen('.order-event', function (data) {
+        //     console.log('Echo');
+        //     console.log(data);
+        // });
 
 
     </script>

@@ -19,6 +19,10 @@ Route::get('fb-login', function(){
     return view('fb-login');
 });
 
-Route::get('addFood', function(){
+Route::get(' order/inform', function(){
+    return view('order');
+});
+
+Route::get('food/inform', function(){
     return view('food');
 });

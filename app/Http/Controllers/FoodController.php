@@ -111,17 +111,4 @@ class FoodController extends Controller
 
     }
 
-    public function inform()
-    {
-//        $food = Food::create([
-//            'name' => 'milk',
-//            'remaining' => 10,
-//            'original_price' => 50,
-//            'discounted_price' => 20,
-//            'image' => 'http://milk.jpg',
-//            'restaurant_id' => 1,
-//        ]);
-//        event(new FoodAdded($food));
-        return view('food');
-    }
 }

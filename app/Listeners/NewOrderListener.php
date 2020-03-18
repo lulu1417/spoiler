@@ -27,6 +27,6 @@ class NewOrderListener
      */
     public function handle(NewOrder $event)
     {
-        info($event);
+
     }
 }

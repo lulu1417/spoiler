@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\DeprivateList;
-use App\Events\MyEvent;
 use App\Events\NewOrder;
 use App\Food;
 use App\Order;
@@ -32,7 +31,7 @@ class OrderController extends Controller
             }
 
             if(count(DeprivateList::where('user_id', Auth::user()->id)->get()) < 3 || DeprivateList::find($request->user_id)->is_free){
-                $create = Order::create([
+                $order = Order::create([
                     'user_id' => Auth::user()->id,
                     'phone' => $request->phone,
                     'food_id' => $request->food_id,
@@ -45,8 +44,8 @@ class OrderController extends Controller
                     'remaining' => $food->remaining - $request->food_number,
                 ]);
                 DB::commit();
-                event(new NewOrder($create));
-                return response()->json($create);
+                event(new NewOrder($order));
+                return response()->json($order);
             }else{
                 return response()->json('the user has been banned since he/she has more than three bad records.', 400);
             }
@@ -112,13 +111,6 @@ class OrderController extends Controller
     function index()
     {
         return response()->json(Order::all());
-    }
-
-    public function inform()
-    {
-//        $order = 'order';
-//        event(new NewOrder($order));
-        return view('order');
     }
 
 

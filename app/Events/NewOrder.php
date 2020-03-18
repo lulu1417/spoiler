@@ -20,15 +20,17 @@ class NewOrder implements ShouldBroadcast
 
     public $order;
     public $class = 'new order';
+    public $restaurant;
 
     public function __construct($order)
     {
         $this->order = $order;
+        $this->restaurant = Restaurant::find($order->food->restaurant_id);
     }
 
     public function broadcastOn()
     {
-        return ['order-channel'];
+        return ['order-channel'.$this->restaurant->id];
     }
 
     public function broadcastAs()

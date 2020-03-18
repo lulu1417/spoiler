@@ -55,7 +55,6 @@ Route::group(['prefix' => 'food'], function(){
     Route::get('', 'FoodController@index');
     Route::get('look/{id}', 'FoodController@look');
     Route::post('', 'FoodController@store')->name('food');
-    Route::get('inform', 'FoodController@inform');
 
 });
 
@@ -65,7 +64,6 @@ Route::group(['prefix' => 'order'], function(){
     Route::middleware('auth:api')->delete('{id}', 'OrderController@cancel');
     Route::get('look/{id}', 'OrderController@look');
     Route::get('', 'OrderController@index');
-    Route::get('inform', 'OrderController@inform');
 
 });
 
