@@ -38,7 +38,7 @@ class FoodAdded implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['food-channel'.$this->restaurant->id];
+        return ['food-channel.'.$this->restaurant->id];
 
     }
     public function broadcastAs()

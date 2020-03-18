@@ -30,7 +30,7 @@ class NewOrder implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return ['order-channel'.$this->restaurant->id];
+        return ['order-channel.'.$this->restaurant->id];
     }
 
     public function broadcastAs()

@@ -1,12 +1,11 @@
-<?php
-$restaurant_id = 3;
-?>
+
 <!DOCTYPE html>
 <head>
     <title>New Order Pusher Test</title>
-{{--    <script src="{{ asset('/js/app.js') }}"></script>--}}
     <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
     <script>
+
+        var restaurant_id = 2;
 
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
@@ -16,28 +15,19 @@ $restaurant_id = 3;
             forceTLS: true
         });
 
-        var channelPusher = pusher.subscribe('order-channel{{$restaurant_id}}');
+        var channelPusher = pusher.subscribe('order-channel.'+restaurant_id);
         channelPusher.bind('order-event', function (data) {
-            console.log('Js');
             console.log(data);
             alert(JSON.stringify(data));
         });
-
-        //
-        // var channelEcho = window.Echo.channel('order-channel');
-        // channelEcho.listen('.order-event', function (data) {
-        //     console.log('Echo');
-        //     console.log(data);
-        // });
-
 
     </script>
 </head>
 <body>
 <h1>New Order Pusher Test</h1>
 <p>
-    Try publishing an event to channel <code>my-channel</code>
-    with event name <code>my-event</code>.
+    Try publishing an event to channel <code>order-channel+restaurant_id</code>
+    with event name <code>order-event</code>.
     <script>
 
     </script>
