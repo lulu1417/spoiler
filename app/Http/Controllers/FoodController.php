@@ -107,14 +107,18 @@ class FoodController extends Controller
     {
         if ($request->search) {
             $result['restaurant'] = Restaurant::where('name', "like", "%" . $request->search . "%")
-                ->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8"))
-                ->orwhere('name', "like", "%" . mb_substr($request->search, -1, 1, "utf-8"))
+                ->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8"). "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, -1, 1, "utf-8"). "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 2, "utf-8"). "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 1, "utf-8"). "%")
                 ->get();
             $result['food'] = Food::where('name', "like", "%" . $request->search . "%")
-                ->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8"))
-                ->orwhere('name', "like", "%" . mb_substr($request->search, -1, 1, "utf-8"))
+                ->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8"). "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, -1, 1, "utf-8"). "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 2, "utf-8"). "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 1, "utf-8"). "%")
                 ->with('restaurant')->get();
-
+//            $result = Restaurant::where('name', "like", "%" . mb_substr($request->search, 0, 2, "utf-8") . "%")->get();
             return response()->json($result);
         } else {
             return response()->json(["message" => 'You must provide an keyword for searching'], 400);
