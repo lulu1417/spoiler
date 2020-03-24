@@ -15,7 +15,3 @@ use App\Food;
 use App\Restaurant;
 use Illuminate\Support\Facades\Broadcast;
 
-
-Broadcast::channel('foodStatus.{restaurantId}', function ($user, $restaurantId) {
-    return $user->id === Restaurant::with('subscriptUser')->find($restaurantId)->user_id;
-});

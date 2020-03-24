@@ -25,7 +25,7 @@ class OwnerController extends Controller
             'name' => $request->name,
             'account' => $request->account,
             'password' => Hash::make($request->password),
-            'api_token' => 'logout',
+            'api_token' => Str::random(20),
             'phone' => $request->phone,
 
         ]);
