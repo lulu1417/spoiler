@@ -96,7 +96,7 @@ class FoodController extends Controller
             }
 
             DB::commit();
-            return response()->json(Food::find(2), 200);
+            return response()->json($food, 200);
         } catch (Exception $e) {
             DB::rollBack();
         }
@@ -118,7 +118,6 @@ class FoodController extends Controller
                 ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 2, "utf-8"). "%")
                 ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 1, "utf-8"). "%")
                 ->with('restaurant')->get();
-//            $result = Restaurant::where('name', "like", "%" . mb_substr($request->search, 0, 2, "utf-8") . "%")->get();
             return response()->json($result);
         } else {
             return response()->json(["message" => 'You must provide an keyword for searching'], 400);
