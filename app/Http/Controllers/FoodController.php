@@ -103,26 +103,47 @@ class FoodController extends Controller
 
     }
 
-    function search(Request $request)
+    function like(Request $request)
     {
         if ($request->search) {
             $result['restaurant'] = Restaurant::where('name', "like", "%" . $request->search . "%")
-                ->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8"). "%")
-                ->orwhere('name', "like", "%" . mb_substr($request->search, -1, 1, "utf-8"). "%")
-                ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 2, "utf-8"). "%")
-                ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 1, "utf-8"). "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8") . "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, -1, 1, "utf-8") . "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 2, "utf-8") . "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 1, "utf-8") . "%")
                 ->get();
             $result['food'] = Food::where('name', "like", "%" . $request->search . "%")
-                ->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8"). "%")
-                ->orwhere('name', "like", "%" . mb_substr($request->search, -1, 1, "utf-8"). "%")
-                ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 2, "utf-8"). "%")
-                ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 1, "utf-8"). "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8") . "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, -1, 1, "utf-8") . "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 2, "utf-8") . "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, 0, 1, "utf-8") . "%")
                 ->with('restaurant')->get();
             return response()->json($result);
         } else {
             return response()->json(["message" => 'You must provide an keyword for searching'], 400);
         }
 
+    }
+
+    function search(Request $request)
+    {
+        $result['restaurant'] = Restaurant::all()->toArray();
+        $result['food'] = Food::all()->toArray();
+
+        if ($request->search) {
+            $result['restaurant'] = array_filter($result['restaurant'], function ($item) use ($request) {
+
+//                var_dump(strtolower($item['name']).' '.similar_text(strtolower($item['name']), $request->search) / strlen($request->search) );
+                return (similar_text(strtolower($item['name']), $request->search) / strlen($request->search)) >= 0.4;
+            });
+            $result['food'] = array_filter($result['food'], function ($item) use ($request) {
+//                var_dump(strtolower($item['name']).' '.similar_text(strtolower($item['name']), $request->search)/ strlen($request->search) );
+                return (similar_text(strtolower($item['name']), $request->search) / strlen($request->search)) >= 0.4;
+            });
+        }
+        $result['restaurant'] = array_values($result['restaurant']);
+        $result['food'] = array_values($result['food']);
+        return response()->json($result);
     }
 
 }
