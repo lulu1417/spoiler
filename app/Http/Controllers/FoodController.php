@@ -35,11 +35,13 @@ class FoodController extends Controller
 
             if (request()->hasFile('image')) {
                 $upload = new UploadImage();
-                $parameters['image'] = $upload->trim($request->all());
+                $imageURL = request()->file('image')->store('public');
+                $parameters['image'] = $upload->trim($imageURL);
 
             } else {
                 $parameters['image'] = null;
             }
+  
 
             $food = Food::create([
                 'name' => $request->name,
