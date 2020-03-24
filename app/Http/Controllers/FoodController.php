@@ -106,8 +106,14 @@ class FoodController extends Controller
     function search(Request $request)
     {
         if ($request->search) {
-            $result['restaurant'] = Restaurant::where('name', "like", "%" . $request->search . "%")->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8"))->get();
-            $result['food'] = Food::where('name', "like", "%" . $request->search . "%")->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8"))->with('restaurant')->get();
+            $result['restaurant'] = Restaurant::where('name', "like", "%" . $request->search . "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8"))
+                ->orwhere('name', "like", "%" . mb_substr($request->search, -1, 1, "utf-8"))
+                ->get();
+            $result['food'] = Food::where('name', "like", "%" . $request->search . "%")
+                ->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8"))
+                ->orwhere('name', "like", "%" . mb_substr($request->search, -1, 1, "utf-8"))
+                ->with('restaurant')->get();
 
             return response()->json($result);
         } else {
