@@ -41,7 +41,7 @@ class FoodController extends Controller
             } else {
                 $parameters['image'] = null;
             }
-  
+
 
             $food = Food::create([
                 'name' => $request->name,
@@ -73,28 +73,29 @@ class FoodController extends Controller
                 'remaining' => ['integer'],
                 'original_price' => ['integer'],
                 'discounted_price' => ['integer'],
-                'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
+                'image' => ['sometimes', 'mimes:png,jpg,jpeg,bmp'],
                 'restaurant_id' => ['exists:restaurants,id'],
             ]);
 
             if (request()->hasFile('image')) {
                 $upload = new UploadImage();
-                $parameters['image'] = $upload->trim($request->all());
+                $imageURL = request()->file('image')->store('public');
+                $parameter['image'] = $upload->trim($imageURL);
+                $food->update([
+                    'image' => $parameter['image']
+                ]);
 
-            } else {
-                $parameters['image'] = null;
             }
             $originalNumber = $food->remaining;
 
-            $food->update($request->all());
-
+            $food->update($request->except(['image']));
 
             if ($food->remaining > $originalNumber) {
                 Log::info(event(new FoodAdded($food)));
             }
 
             DB::commit();
-            return response()->json($food, 200);
+            return response()->json(Food::find(2), 200);
         } catch (Exception $e) {
             DB::rollBack();
         }
