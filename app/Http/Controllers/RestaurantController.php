@@ -43,7 +43,7 @@ class RestaurantController extends Controller
                 'end_time' => ['digits:4', 'gt:' . $restaurant->start_time],
                 'link' => [Rule::unique('restaurants')->ignore($restaurant->id)],
                 'address' => ['string ', Rule::unique('restaurants')->ignore($restaurant->id)],
-                'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
+                'image' => ['sometimes', 'mimes:png,jpg,jpeg,bmp'],
                 'phone' => ['digits:9', 'unique:restaurants'],
             ]);
             if (request()->hasFile('image')) {

@@ -29,7 +29,7 @@ class FoodController extends Controller
                 'remaining' => ['required', 'integer'],
                 'original_price' => ['required', 'integer'],
                 'discounted_price' => ['required', 'integer'],
-                'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
+                'image' => ['sometimes', 'mimes:png,jpg,jpeg,bmp'],
                 'restaurant_id' => ['required', 'exists:restaurants,id'],
             ]);
 
