@@ -79,7 +79,7 @@ class RestaurantController extends Controller
                 'end_time' => ['required', 'digits:4', 'gt:' . $request->start_time],
                 'link' => ['required', 'unique:restaurants'],
                 'address' => ['required', 'unique:restaurants'],
-                'image' => ['sometimes', 'mimes:png, jpg, jpeg, bmp'],
+                'image' => ['sometimes', 'mimes:png,jpg,jpeg,bmp'],
                 'phone' => ['required', 'digits:9', 'unique:restaurants'],
             ]);
 
