@@ -134,11 +134,11 @@ class FoodController extends Controller
             $result['restaurant'] = array_filter($result['restaurant'], function ($item) use ($request) {
 
 //                var_dump(strtolower($item['name']).' '.similar_text(strtolower($item['name']), $request->search) / strlen($request->search) );
-                return (similar_text(strtolower($item['name']), $request->search) / strlen($request->search)) >= 0.4;
+                return (similar_text(strtolower($item['name']), $request->search) / strlen($request->search)) > 0.5;
             });
             $result['food'] = array_filter($result['food'], function ($item) use ($request) {
 //                var_dump(strtolower($item['name']).' '.similar_text(strtolower($item['name']), $request->search)/ strlen($request->search) );
-                return (similar_text(strtolower($item['name']), $request->search) / strlen($request->search)) >= 0.4;
+                return (similar_text(strtolower($item['name']), $request->search) / strlen($request->search)) > 0.5;
             });
         }
         $result['restaurant'] = array_values($result['restaurant']);
