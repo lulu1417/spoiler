@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\FoodAdded;
 use App\Food;
 use App\Restaurant;
+use ArrayObject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -105,8 +106,9 @@ class FoodController extends Controller
     function search(Request $request)
     {
         if ($request->search) {
-            $result['restaurant'] = Restaurant::where('name', "like", "%" . $request->search . "%")->get();
-            $result['food'] = Food::where('name', "like", "%" . $request->search . "%")->get();
+            $result['restaurant'] = Restaurant::where('name', "like", "%" . $request->search . "%")->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8"))->get();
+            $result['food'] = Food::where('name', "like", "%" . $request->search . "%")->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8"))->with('restaurant')->get();
+
             return response()->json($result);
         } else {
             return response()->json(["message" => 'You must provide an keyword for searching'], 400);
