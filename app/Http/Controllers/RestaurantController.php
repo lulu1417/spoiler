@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Fluent;
 
 
 class RestaurantController extends Controller
@@ -36,19 +37,21 @@ class RestaurantController extends Controller
 
         try {
             DB::beginTransaction();
-            $request->validate([
-                'name' => ['required', 'string', 'unique:restaurants'],
-                'class' => ['required', 'string'],
-                'east_longitude' => ['required', 'numeric'],
-                'north_latitude' => ['required', 'numeric'],
-                'start_time' => ['required', 'digits:6'],
-                'end_time' => ['required', 'digits:6', 'gt:' . $request->start_time],
-                'link' => ['required', 'unique:restaurants'],
-                'address' => ['required', 'unique:restaurants'],
-                'image' => ['sometimes', 'mimes:png,jpg,jpeg,bmp'],
-                'phone' => ['required', 'digits:9', 'unique:restaurants'],
-            ]);
 
+            $validator = Validator::make($request->toArray(),
+                [
+                    'name' => ['required', 'string', 'unique:restaurants'],
+                    'class' => ['required', 'string'],
+                    'east_longitude' => ['required', 'numeric'],
+                    'north_latitude' => ['required', 'numeric'],
+                    'start_time' => ['required', 'digits:6'],
+                    'end_time' => ['required', 'digits:6', 'gt:' . $request->start_time],
+                    'link' => ['required', 'unique:restaurants'],
+                    'address' => ['required', 'unique:restaurants'],
+                    'image' => ['sometimes', 'mimes:png,jpg,jpeg,bmp'],
+                    'phone' => ['required', 'digits:9', 'unique:restaurants'],
+                ]);
+            $validator->validate();
             if (request()->hasFile('image')) {
                 $upload = new UploadImage();
                 $imageURL = request()->file('image')->store('public');
@@ -86,18 +89,23 @@ class RestaurantController extends Controller
         try {
             $restaurant = $id;
             DB::beginTransaction();
-            $request->validate([
-                'name' => ['string', Rule::unique('restaurants')->ignore($restaurant->id)],
-                'class' => ['string'],
-                'east_longitude' => ['numeric'],
-                'north_latitude' => ['numeric'],
-                'start_time' => ['digits:6', 'lt:' . $restaurant->end_time],
-                'end_time' => ['digits:6', 'gt:' . $restaurant->start_time],
-                'link' => [Rule::unique('restaurants')->ignore($restaurant->id)],
-                'address' => ['string ', Rule::unique('restaurants')->ignore($restaurant->id)],
-                'image' => ['sometimes', 'mimes:png,jpg,jpeg,bmp'],
-                'phone' => ['digits:9', 'unique:restaurants'],
-            ]);
+            $validator = Validator::make($request->toArray(),
+                [
+                    'name' => ['string', Rule::unique('restaurants')->ignore($restaurant->id)],
+                    'class' => ['string'],
+                    'east_longitude' => ['numeric'],
+                    'north_latitude' => ['numeric'],
+                    'start_time' => ['digits:6'],
+                    'end_time' => ['digits:6'],
+                    'link' => [Rule::unique('restaurants')->ignore($restaurant->id)],
+                    'address' => ['string ', Rule::unique('restaurants')->ignore($restaurant->id)],
+                    'image' => ['sometimes', 'mimes:png,jpg,jpeg,bmp'],
+                    'phone' => ['digits:9', 'unique:restaurants'],
+                ]);
+            $validator->validate();
+            $validator->sometimes('end_time', ['digits:6','gt:' . $request->start_time], function ($request) {
+                return $request->start_time;
+            });
             if (request()->hasFile('image')) {
                 $upload = new UploadImage();
                 $parameters['image'] = $upload->trim($request->all());
@@ -120,19 +128,20 @@ class RestaurantController extends Controller
     {
         $validator = Validator::make($request->toArray(),
             [
-                'start_time' => 'digits:4',
+                'start_time' => 'digits:6',
+                'end_time' => 'digits:6',
                 'only_remaining' => 'boolean',
-                'user_north_latitude' => 'numeric',
-                'user_east_longitude' => 'numeric',
-                'search_range' => 'numeric' | 'required_with',
+                'user_north_latitude' => ['numeric', 'required_with:search_range'],
+                'user_east_longitude' => ['numeric', 'required_with:search_range'],
+                'search_range' => ['numeric'],
                 'class' => 'array',
                 'class.*' => 'required_with:class',
             ]);
 
         $validator->validate();
 
-        $validator->sometimes('end_time', 'digits:4', function ($request) {
-            return $request->end_time >= $request->start_time;
+        $validator->sometimes('end_time', 'digits:6'|'gt:' . $request->start_time, function ($input) {
+            return isset($input->start_time);
         });
 
 

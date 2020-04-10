@@ -38,15 +38,14 @@ Route::group(['prefix' => 'owner'], function(){
 });
 
 Route::group(['prefix' => 'restaurant'], function(){
+
     Route::middleware('auth:owner_api')->post('', 'RestaurantController@store');
-    Route::middleware('auth:owner_api')->post('{id}', 'RestaurantController@update');
-    Route::post('filter', 'RestaurantController@filter');
+    Route::middleware('auth:owner_api')->put('{id}', 'RestaurantController@update');
     Route::get('', 'RestaurantController@index');
+    Route::post('filter', 'RestaurantController@filter');
     Route::get('look/{id}', 'RestaurantController@look');
     Route::middleware('auth:api')->post('score', 'RestaurantController@score');
     Route::get('subscript', 'RestaurantController@getSubscriptUsers');
-    Route::post('time', 'RestaurantController@calculateOverlappedTime');
-    Route::post('class', 'RestaurantController@filtClass');
 
 });
 
@@ -69,7 +68,7 @@ Route::group(['prefix' => 'order'], function(){
 
 Route::group(['prefix' => 'subscript'], function(){
     Route::post('', 'SubscriptController@store');
-    Route::post('search', 'SunscriptController@search');
+    Route::post('search', 'SubscriptController@search');
     Route::get('notice', 'SubscriptController@notice');
     Route::delete('{id}', 'SubscriptController@cancel');
 });
