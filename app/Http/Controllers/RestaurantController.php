@@ -108,13 +108,11 @@ class RestaurantController extends Controller
             });
             if (request()->hasFile('image')) {
                 $upload = new UploadImage();
-                $parameters['image'] = $upload->trim($request->all());
-
-            } else {
-                $parameters['image'] = null;
+                $imageURL = request()->file('image')->store('public');
+                $restaurant->update(['image' => $upload->trim($imageURL)]);
             }
 
-            $restaurant->update($request->all());
+            $restaurant->update($request->except('image'));
 
             DB::commit();
             return response()->json($restaurant, 200);

@@ -40,7 +40,7 @@ Route::group(['prefix' => 'owner'], function(){
 Route::group(['prefix' => 'restaurant'], function(){
 
     Route::middleware('auth:owner_api')->post('', 'RestaurantController@store');
-    Route::middleware('auth:owner_api')->put('{id}', 'RestaurantController@update');
+    Route::middleware('auth:owner_api')->patch('{id}', 'RestaurantController@update');
     Route::get('', 'RestaurantController@index');
     Route::post('filter', 'RestaurantController@filter');
     Route::get('look/{id}', 'RestaurantController@look');
@@ -50,10 +50,10 @@ Route::group(['prefix' => 'restaurant'], function(){
 });
 
 Route::group(['prefix' => 'food'], function(){
-    Route::middleware('auth:owner_api')->post('/{id}', 'FoodController@update');
+    Route::middleware('auth:owner_api')->post('', 'FoodController@store')->name('food');
+    Route::middleware('auth:owner_api')->patch('/{id}', 'FoodController@update');
     Route::get('', 'FoodController@index');
     Route::get('look/{id}', 'FoodController@look');
-    Route::middleware('auth:owner_api')->post('', 'FoodController@store')->name('food');
 
 });
 

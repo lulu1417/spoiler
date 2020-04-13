@@ -81,9 +81,8 @@ class FoodController extends Controller
             if (request()->hasFile('image')) {
                 $upload = new UploadImage();
                 $imageURL = request()->file('image')->store('public');
-                $parameter['image'] = $upload->trim($imageURL);
                 $food->update([
-                    'image' => $parameter['image']
+                    'image' => $upload->trim($imageURL)
                 ]);
 
             }
