@@ -100,7 +100,7 @@ class RestaurantController extends Controller
                     'link' => [Rule::unique('restaurants')->ignore($restaurant->id)],
                     'address' => ['string ', Rule::unique('restaurants')->ignore($restaurant->id)],
                     'image' => ['sometimes', 'mimes:png,jpg,jpeg,bmp'],
-                    'phone' => ['digits:9', 'unique:restaurants'],
+                    'phone' => ['digits:9', Rule::unique('restaurants')->ignore($restaurant->id)],
                 ]);
             $validator->sometimes('end_time', ['digits:6','gt:' . $request->start_time], function ($request) {
                 return $request->start_time;
