@@ -102,10 +102,10 @@ class RestaurantController extends Controller
                     'image' => ['sometimes', 'mimes:png,jpg,jpeg,bmp'],
                     'phone' => ['digits:9', 'unique:restaurants'],
                 ]);
-            $validator->validate();
             $validator->sometimes('end_time', ['digits:6','gt:' . $request->start_time], function ($request) {
                 return $request->start_time;
             });
+            $validator->validate();
             if (request()->hasFile('image')) {
                 $upload = new UploadImage();
                 $imageURL = request()->file('image')->store('public');
@@ -136,12 +136,11 @@ class RestaurantController extends Controller
                 'class.*' => 'required_with:class',
             ]);
 
-        $validator->validate();
-
-        $validator->sometimes('end_time', 'digits:6'|'gt:' . $request->start_time, function ($input) {
+        $validator->sometimes('end_time', 'digits:6|gt:' . $request->start_time, function ($input) {
             return isset($input->start_time);
         });
 
+        $validator->validate();
 
         if (isset($request['class'])) {
             foreach ($request['class'] as $class) {
