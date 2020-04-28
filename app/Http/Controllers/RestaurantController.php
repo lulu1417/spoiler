@@ -8,6 +8,7 @@ use App\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Fluent;
@@ -18,7 +19,7 @@ class RestaurantController extends Controller
 
     function index()
     {
-
+        Log::info('查看所有餐廳');
         $restaurants = Restaurant::with('foods')->withCount('foods')->withCount('likes')->get();
         return response()->json($restaurants);
 
@@ -36,6 +37,7 @@ class RestaurantController extends Controller
     {
 
         try {
+            Log::info('新增餐廳');
             DB::beginTransaction();
 
             $validator = Validator::make($request->toArray(),
@@ -124,6 +126,7 @@ class RestaurantController extends Controller
 
     function filter(Request $request)
     {
+        Log::info('篩選餐廳');
         $validator = Validator::make($request->toArray(),
             [
                 'start_time' => 'digits:6',
@@ -234,6 +237,7 @@ class RestaurantController extends Controller
 
     function look($id)
     {
+        Log::info('查看指定餐廳');
         return response()->json(Restaurant::with('foods')->find($id));
     }
 
