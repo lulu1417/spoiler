@@ -15,6 +15,7 @@ class FoodController extends Controller
 {
     function index()
     {
+        Log::info('查看所有食物');
         $foods = Food::with('restaurant')->get();
         return $foods;
     }
@@ -22,6 +23,7 @@ class FoodController extends Controller
     function store(Request $request)
     {
         try {
+            Log::info('新增食物');
             DB::beginTransaction();
             $request->validate([
                 'name' => Rule::unique('foods')->where(function ($query) use ($request) {
@@ -104,6 +106,7 @@ class FoodController extends Controller
 
     function like(Request $request)
     {
+        Log::info('查詢食物/餐廳');
         if ($request->search) {
             $result['restaurant'] = Restaurant::where('name', "like", "%" . $request->search . "%")
                 ->orwhere('name', "like", "%" . mb_substr($request->search, -2, 2, "utf-8") . "%")
@@ -126,6 +129,7 @@ class FoodController extends Controller
 
     function search(Request $request)
     {
+        Log::info('查詢食物/餐廳');
         $result['restaurant'] = Restaurant::all()->toArray();
         $result['food'] = Food::all()->toArray();
 
