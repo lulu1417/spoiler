@@ -28,8 +28,11 @@ class UserController extends Controller
             'account' => $request->account,
             'email' => $request->account,
             'password' => Hash::make($request->password),
-            'api_token' => 'logout',
+            'api_token' => Str::random(20),
             'point' => 0,
+            'bad_record' => 0,
+            'access_token' => 0
+
         ]);
 
         if($create){

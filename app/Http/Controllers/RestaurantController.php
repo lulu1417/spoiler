@@ -32,7 +32,6 @@ class RestaurantController extends Controller
     }
 
 
-
     function store(Request $request)
     {
 
@@ -86,6 +85,7 @@ class RestaurantController extends Controller
         }
 
     }
+
     function update(Restaurant $id, Request $request)
     {
         try {
@@ -104,7 +104,7 @@ class RestaurantController extends Controller
                     'image' => ['sometimes', 'mimes:png,jpg,jpeg,bmp'],
                     'phone' => ['digits:9', Rule::unique('restaurants')->ignore($restaurant->id)],
                 ]);
-            $validator->sometimes('end_time', ['digits:6','gt:' . $request->start_time], function ($request) {
+            $validator->sometimes('end_time', ['digits:6', 'gt:' . $request->start_time], function ($request) {
                 return $request->start_time;
             });
             $validator->validate();
