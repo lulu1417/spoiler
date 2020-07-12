@@ -41,9 +41,9 @@ Route::group(['prefix' => 'restaurant'], function(){
 
     Route::middleware('auth:owner_api')->post('', 'RestaurantController@store');
     Route::middleware('auth:owner_api')->patch('{id}', 'RestaurantController@update');
-    Route::get('', 'RestaurantController@index');
+    Route::get('', 'RestaurantController@all');
     Route::post('filter', 'RestaurantController@filter');
-    Route::get('look/{id}', 'RestaurantController@look');
+    Route::get('{id}', 'RestaurantController@look');
     Route::middleware('auth:api')->post('score', 'RestaurantController@score');
     Route::get('subscript', 'RestaurantController@getSubscriptUsers');
 
@@ -53,7 +53,7 @@ Route::group(['prefix' => 'food'], function(){
     Route::middleware('auth:owner_api')->post('', 'FoodController@store')->name('food');
     Route::middleware('auth:owner_api')->patch('/{id}', 'FoodController@update');
     Route::get('', 'FoodController@index');
-    Route::get('look/{id}', 'FoodController@look');
+    Route::get('{id}', 'FoodController@look');
 
 });
 

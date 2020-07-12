@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Food;
 use App\Like;
 use App\Restaurant;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,7 @@ use Illuminate\Support\Fluent;
 class RestaurantController extends Controller
 {
 
-    function index()
+    function all()
     {
         Log::info('查看所有餐廳');
         $restaurants = Restaurant::with('foods')->withCount('foods')->withCount('likes')->get();
@@ -237,7 +238,11 @@ class RestaurantController extends Controller
     function look($id)
     {
         Log::info('查看指定餐廳');
-        return response()->json(Restaurant::with('foods')->find($id));
+        if(Restaurant::with('foods')->find($id)){
+            return response()->json(Restaurant::with('foods')->find($id));
+        }else{
+            return response()->json('the restaurant id not found', 400);
+        }
     }
 
     function score(Request $request)
