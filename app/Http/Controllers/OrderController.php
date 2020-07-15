@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class OrderController extends Controller
+class OrderController extends BaseController
 {
     function store(Request $request)
     {
@@ -20,14 +20,13 @@ class OrderController extends Controller
             if(Food::where('id', $request->food_id)->count() > 0){
                 $food = Food::find($request->food_id);
                 $request->validate([
-
                     'food_id' => ['required', 'exists:foods,id'],
                     'food_number' => ['required', 'lte:' . $food->remaining],
                     'phone' => ['required','digits:10']
                 ]);
 
             }else{
-                return response()->json('the food id not found', 400);
+                return $this->sendError('the food id not found', 400);
             }
 
             if(count(DeprivateList::where('user_id', Auth::user()->id)->get()) < 3 || DeprivateList::find($request->user_id)->is_free){
@@ -47,7 +46,7 @@ class OrderController extends Controller
                 event(new NewOrder($order));
                 return response()->json($order);
             }else{
-                return response()->json('the user has been banned since he/she has more than three bad records.', 400);
+                return $this->sendError('the user has been banned since he/she has more than three bad records.', 400);
             }
 
         } catch (Exception $e) {
@@ -59,11 +58,10 @@ class OrderController extends Controller
 
     function complete($id)
     {
-
         if (count(Order::where('id', $id)->get()) > 0) {
             $order = Order::find($id);
         } else {
-            return response()->json('order not found', 400);
+            return $this->sendError('order not found', 400);
         }
         if ($order->send) {
             $order->update([
@@ -71,7 +69,7 @@ class OrderController extends Controller
             ]);
             return response()->json($order);
         } else {
-            return response()->json('the order has been canceled', 400);
+            return $this->sendError('the order has been canceled', 400);
         }
 
     }

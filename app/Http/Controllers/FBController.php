@@ -9,7 +9,7 @@ use http\Exception;
 use Illuminate\Support\Str;
 use View;
 
-class FBController extends Controller
+class FBController extends BaseController
 {
 
     public function fbCallback()

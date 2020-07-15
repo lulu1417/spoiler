@@ -8,7 +8,7 @@ use App\Http\Controllers\uploadImage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class OwnerController extends Controller
+class OwnerController extends BaseController
 {
     function store(Request $request)
     {
@@ -33,7 +33,7 @@ class OwnerController extends Controller
         if ($create) {
             return response()->json($create, 200);
         } else {
-            return response()->json(['message' => 'register failed'], 400);
+            return $this->sendError('register failed', 400);
         }
 
     }
@@ -48,12 +48,11 @@ class OwnerController extends Controller
                 ]);
                 return response()->json($owner, 200);
             } else {
-                return response()->json(['message' => 'wrong password'], 400);
+                return $this->sendError('wrong password', 400);
             }
         } else {
-            return response()->json(['message' => 'account not found'], 400);
+            return $this->sendError('account not found', 400);
         }
-
     }
 
     function all(){

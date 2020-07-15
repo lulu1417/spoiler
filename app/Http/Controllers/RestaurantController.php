@@ -15,7 +15,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Fluent;
 
 
-class RestaurantController extends Controller
+class RestaurantController extends BaseController
 {
 
     function all()
@@ -80,9 +80,8 @@ class RestaurantController extends Controller
             return response()->json($create, 200);
 
         } catch (Exception $error) {
-
             DB::rollback();
-            return response()->json("create restaurant failed", 400);
+            return $this->sendError('create restaurant failed', 400);
         }
 
     }
@@ -229,19 +228,17 @@ class RestaurantController extends Controller
         if (!empty($filted)) {
             return response()->json(array_values($filted));
         } else {
-            return response()->json('no restaurant found within the specified conditions', 400);
+            return $this->sendError('no restaurant found within the specified conditions', 400);
         }
-
-
     }
 
     function look($id)
     {
         Log::info('查看指定餐廳');
-        if(Restaurant::with('foods')->find($id)){
+        if (Restaurant::with('foods')->find($id)) {
             return response()->json(Restaurant::with('foods')->find($id));
-        }else{
-            return response()->json('the restaurant id not found', 400);
+        } else {
+            return $this->sendError('the restaurant id not found', 400);
         }
     }
 
@@ -269,9 +266,6 @@ class RestaurantController extends Controller
             ]);
             return response()->json($create);
         }
-
-
     }
-
 
 }

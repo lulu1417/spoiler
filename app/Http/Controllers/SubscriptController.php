@@ -7,7 +7,7 @@ use App\Order;
 use App\Subscription;
 use Illuminate\Http\Request;
 
-class SubscriptController extends Controller
+class SubscriptController extends BaseController
 {
     function store(Request $request){
 

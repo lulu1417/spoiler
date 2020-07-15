@@ -54,7 +54,6 @@ Route::group(['prefix' => 'food'], function(){
     Route::middleware('auth:owner_api')->patch('/{id}', 'FoodController@update');
     Route::get('', 'FoodController@index');
     Route::get('{id}', 'FoodController@look');
-
 });
 
 Route::group(['prefix' => 'order'], function(){

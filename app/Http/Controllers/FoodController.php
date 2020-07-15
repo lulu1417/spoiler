@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
-class FoodController extends Controller
+class FoodController extends BaseController
 {
     function index()
     {
@@ -122,7 +122,7 @@ class FoodController extends Controller
                 ->with('restaurant')->get();
             return response()->json($result);
         } else {
-            return response()->json(["message" => 'You must provide an keyword for searching'], 400);
+            return $this->sendError('You must provide an keyword for searching', 400);
         }
 
     }
