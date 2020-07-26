@@ -31,7 +31,7 @@ FB_CLIENT_ID=
 FB_CLIENT_SECRET=
 
 //domain要記得改
-FB_REDIRECT=https://yourDomain.com/api/user/facebook/call-back
+FB_REDIRECT=https://wasteless.bboa14171205.nctu.me/api/user/facebook/call-back
 FBEndpoint=me?fields=id,name,picture
 ```
 ### 需要的套件
