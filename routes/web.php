@@ -19,7 +19,7 @@ Route::get('fb-login', function(){
     return view('fb-login');
 });
 
-Route::get(' order/inform', function(){
+Route::get('order/inform', function(){
     return view('order');
 });
 

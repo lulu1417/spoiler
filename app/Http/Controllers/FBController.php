@@ -43,18 +43,18 @@ class FBController extends BaseController
                     "Error Description: " . $helper->getErrorDescription() . "\n"
                     , 401);
             } else {
-                return response()->json('Bad request', 400);
+                return $this->sendError('Bad request', 400);
             }
         }
-        try{
-            $login = $this->login($accessToken);
-            return View::make('layout.loginSuccess')->with('user', $login);
+//        try{
+//            $login = $this->login($accessToken);
+//            return View::make('layout.loginSuccess')->with('user', $login);
+//
+//        }catch (Exception $e){
+//            return view('layout.loginFailed');
+//        }
 
-        }catch (Exception $e){
-            return view('layout.loginFailed');
-        }
-
-//        return response()->json($this->login($accessToken));
+        return response()->json($this->login($accessToken));
 //        return redirect("https://89f6a870.ngrok.io/",302,["api_token" => $login->api_token]);
 
     }
