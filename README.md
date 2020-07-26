@@ -65,7 +65,7 @@ npm
 ```
 sudo apt get npm
 ```
-好像需要在專案目錄下這個
+在專案目錄下用npm安裝所需套件
 ```
 npm install
 ```
